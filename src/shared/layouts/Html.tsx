@@ -1,6 +1,6 @@
 import React from 'react';
-import '@/assets/css/tailwind.css';
 import { Poppins } from 'next/font/google';
+import '@/assets/css/tailwind.css';
 import { THasChildren } from '@/types';
 import { cn } from '@/utils';
 
@@ -17,9 +17,7 @@ type HtmlProps = THasChildren & {
 export default function Html({ children, className }: HtmlProps) {
   return (
     <html className={poppins.variable} lang="en">
-      <body className={cn('relative pb-4 font-sans antialiased', className)}>
-        {children}
-      </body>
+      <body className={cn('relative pb-4 font-sans antialiased', className)}>{children}</body>
     </html>
   );
 }
