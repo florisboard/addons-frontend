@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import ReactQueryProvider from '@/components/providers/ReactQueryProvider';
 import Html from '@/shared/layouts/Html';
 
 export const metadata: Metadata = {
@@ -9,7 +10,9 @@ export const metadata: Metadata = {
 export default function RootLayout() {
   return (
     <Html>
-      <p>Hi</p>
+      <ReactQueryProvider>
+        <p>Hi</p>
+      </ReactQueryProvider>
     </Html>
   );
 }
