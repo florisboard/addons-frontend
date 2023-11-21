@@ -3,6 +3,7 @@
 import React from 'react';
 import { Poppins } from 'next/font/google';
 import '@/assets/css/tailwind.css';
+import { useStore } from '@/hooks';
 import useThemeState from '@/states/themeState';
 import { THasChildren } from '@/types';
 import { cn } from '@/utils';
@@ -18,7 +19,7 @@ type HtmlProps = THasChildren & {
 };
 
 export default function Html({ children, className }: HtmlProps) {
-  const theme = useThemeState((state) => state.theme);
+  const theme = useStore(useThemeState, (state) => state.theme);
 
   return (
     <html data-theme={theme} className={poppins.variable} lang="en">
