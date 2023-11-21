@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Footer from '@/components/footer/Footer';
 import Navbar from '@/components/navbar/Navbar';
 import ReactQueryProvider from '@/components/providers/ReactQueryProvider';
 import Html from '@/shared/layouts/Html';
@@ -17,6 +18,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <ReactQueryProvider>
         <Navbar />
         {children}
+        <Footer />
       </ReactQueryProvider>
     </Html>
   );

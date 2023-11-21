@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { ChevronRightIcon } from '@heroicons/react/24/outline';
+import { HiChevronRight } from 'react-icons/hi2';
 import Button from '@/shared/Button';
 import { cn } from '@/utils';
 
@@ -23,7 +23,7 @@ export default function Search({ className }: SearchProps) {
       />
       {search && (
         <Button className="btn btn-circle btn-sm absolute right-2 top-2">
-          <ChevronRightIcon className="h-6 w-6" />
+          <HiChevronRight className="h-6 w-6" />
         </Button>
       )}
     </div>

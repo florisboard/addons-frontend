@@ -1,7 +1,7 @@
-import { SunIcon } from '@heroicons/react/24/outline';
+import { HiSun } from 'react-icons/hi2';
 
 export type THasChildren = {
   children: React.ReactNode;
 };
 
-export type TIcon = typeof SunIcon;
+export type TIcon = typeof HiSun;

@@ -1,6 +1,6 @@
 import React from 'react';
+import { HiOutlineComputerDesktop, HiOutlineMoon, HiOutlineSun } from 'react-icons/hi2';
 import { useStore } from 'zustand';
-import { ComputerDesktopIcon, MoonIcon, SunIcon } from '@heroicons/react/24/outline';
 import Button from '@/shared/Button';
 import useThemeState, { TAvailableTheme } from '@/states/themeState';
 import { TIcon } from '@/types';
@@ -13,9 +13,9 @@ type TTheme = {
 };
 
 const themes: TTheme[] = [
-  { name: 'Light', Icon: SunIcon, theme: 'light' },
-  { name: 'Dark', Icon: MoonIcon, theme: 'dark' },
-  { name: 'System', Icon: ComputerDesktopIcon, theme: 'system' },
+  { name: 'Light', Icon: HiOutlineSun, theme: 'light' },
+  { name: 'Dark', Icon: HiOutlineMoon, theme: 'dark' },
+  { name: 'System', Icon: HiOutlineComputerDesktop, theme: 'system' },
 ];
 
 export default function ThemeSwitcher() {

@@ -12,7 +12,6 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "@heroicons/react": "^2.0.18",
     "@tanstack/react-query": "^5.8.4",
     "@tanstack/react-query-devtools": "^5.8.4",
     "axios": "^1.6.2",
@@ -22,6 +21,7 @@
     "react": "^18",
     "react-avatar": "^5.0.3",
     "react-dom": "^18",
+    "react-icons": "^4.12.0",
     "tailwind-merge": "^2.0.0",
     "zustand": "^4.4.6"
   },
