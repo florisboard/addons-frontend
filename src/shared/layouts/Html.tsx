@@ -8,9 +8,9 @@ import useThemeState from '@/states/themeState';
 import { THasChildren } from '@/types';
 import { cn } from '@/utils';
 
-const poppins = Poppins({
+const font = Poppins({
   variable: '--custom-font',
-  weight: ['400'],
+  weight: ['400', '500', '700'],
   subsets: ['latin'],
 });
 
@@ -19,10 +19,18 @@ type HtmlProps = THasChildren & {
 };
 
 export default function Html({ children, className }: HtmlProps) {
-  const theme = useStore(useThemeState, (state) => state.theme);
+  const currentTheme = useStore(useThemeState, (state) => state.theme);
+  const systemColor =
+    typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches
+      ? 'dark'
+      : 'light';
 
   return (
-    <html data-theme={theme} className={poppins.variable} lang="en">
+    <html
+      data-theme={currentTheme === 'system' ? systemColor : currentTheme}
+      className={font.variable}
+      lang="en"
+    >
       <body className={cn('relative pb-4 font-sans antialiased', className)}>{children}</body>
     </html>
   );

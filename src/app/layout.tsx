@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Navbar from '@/components/navbar/Navbar';
 import ReactQueryProvider from '@/components/providers/ReactQueryProvider';
 import Html from '@/shared/layouts/Html';
 import { THasChildren } from '@/types';
@@ -13,7 +14,10 @@ type RootLayoutProps = THasChildren;
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <Html>
-      <ReactQueryProvider>{children}</ReactQueryProvider>
+      <ReactQueryProvider>
+        <Navbar />
+        {children}
+      </ReactQueryProvider>
     </Html>
   );
 }

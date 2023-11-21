@@ -5,7 +5,7 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['var(--font-custom)', 'sans-serif'],
+        sans: ['var(--custom-font)', 'sans-serif'],
       },
     },
   },
