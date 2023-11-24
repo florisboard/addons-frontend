@@ -5,7 +5,7 @@ import { footerLinks, footerSocialMedias } from '@/fixtures/footer';
 
 export default function Footer() {
   return (
-    <footer className="footer bg-base-200 p-10 text-base-content">
+    <footer className="footer mt-4 bg-base-200 p-10 text-base-content">
       <aside>
         <svg
           width="50"

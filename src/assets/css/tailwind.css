@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .px-container {
+    @apply px-2 md:px-6;
+  }
+}

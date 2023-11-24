@@ -17,7 +17,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
     <Html>
       <ReactQueryProvider>
         <Navbar />
-        {children}
+        <main className="space-y-4 md:space-y-8">{children}</main>
         <Footer />
       </ReactQueryProvider>
     </Html>

@@ -1,9 +1,12 @@
 import React from 'react';
+import PicksOfTheDay from '@/home/PicksOfTheDay';
+import TopCategories from '@/home/TopCategories';
 
 export default function Home() {
   return (
-    <main>
-      <h1>Home</h1>
-    </main>
+    <>
+      <TopCategories />
+      <PicksOfTheDay />
+    </>
   );
 }

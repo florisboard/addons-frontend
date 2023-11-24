@@ -1,16 +1,22 @@
 'use client';
 
 import React from 'react';
-import { Poppins } from 'next/font/google';
+import { Poppins, Righteous } from 'next/font/google';
 import '@/assets/css/tailwind.css';
 import { useStore } from '@/hooks';
 import useThemeState from '@/states/themeState';
 import { THasChildren } from '@/types';
 import { cn } from '@/utils';
 
-const font = Poppins({
-  variable: '--custom-font',
+const primaryFont = Poppins({
+  variable: '--primary-font',
   weight: ['400', '500', '700'],
+  subsets: ['latin'],
+});
+
+const displayFont = Righteous({
+  variable: '--display-font',
+  weight: ['400'],
   subsets: ['latin'],
 });
 
@@ -28,7 +34,7 @@ export default function Html({ children, className }: HtmlProps) {
   return (
     <html
       data-theme={currentTheme === 'system' ? systemColor : currentTheme}
-      className={font.variable}
+      className={cn(primaryFont.variable, displayFont.variable)}
       lang="en"
     >
       <body className={cn('relative pb-4 font-sans antialiased', className)}>{children}</body>
