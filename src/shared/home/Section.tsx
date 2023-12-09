@@ -3,7 +3,7 @@ import { HiChevronRight } from 'react-icons/hi2';
 import Link from 'next/link';
 import { THasChildren, TIcon } from '@/types';
 
-type SectionProps = THasChildren & {
+export type SectionProps = THasChildren & {
   Icon: TIcon;
   name: string;
   viewMore?: { text: string; href: string };

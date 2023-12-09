@@ -4,6 +4,7 @@ import React, { useEffect } from 'react';
 import { HiXMark } from 'react-icons/hi2';
 import config from '@/fixtures/config';
 import { useDialogModal, useSearchParams } from '@/hooks';
+import useMe from '@/services/users/me';
 import Button from '@/shared/Button';
 import DialogModal from '@/shared/modals/DialogModal';
 import ForgotPassword from './ForgotPassword';
@@ -17,6 +18,7 @@ const routes = [
 ];
 
 export default function AuthModal() {
+  const { data: user } = useMe();
   const { modalRef, handleCloseModal, handleOpenModal } = useDialogModal();
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -33,7 +35,8 @@ export default function AuthModal() {
 
   useEffect(() => {
     if (route) handleOpenModal();
-  }, [route]);
+    if (user) handleCloseAuthModal();
+  }, [route, handleOpenModal, user]);
 
   return (
     <DialogModal

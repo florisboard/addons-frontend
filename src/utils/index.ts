@@ -1,3 +1,4 @@
+import axios, { AxiosError } from 'axios';
 import { ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
@@ -16,3 +17,10 @@ export function calculateTimeLeft(targetDate: Date | number) {
 }
 
 export const humanReadableFormatter = Intl.NumberFormat('en', { notation: 'compact' });
+
+export function isAxiosError<ResponseType>(
+  error: unknown,
+  statusCode?: number,
+): error is AxiosError<ResponseType> {
+  return axios.isAxiosError(error) && statusCode ? error.response?.status === statusCode : true;
+}

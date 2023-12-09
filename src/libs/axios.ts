@@ -10,6 +10,7 @@ const axios = mainAxios.create({
     },
   },
   withCredentials: true,
+  withXSRFToken: true,
 });
 
 export default axios;

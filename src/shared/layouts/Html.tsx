@@ -4,6 +4,7 @@ import React from 'react';
 import { Poppins, Righteous } from 'next/font/google';
 import '@/assets/css/tailwind.css';
 import { useStore } from '@/hooks';
+import useMe from '@/services/users/me';
 import useThemeState from '@/states/themeState';
 import { THasChildren } from '@/types';
 import { cn } from '@/utils';
