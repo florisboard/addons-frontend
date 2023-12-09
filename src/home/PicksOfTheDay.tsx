@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { HiCalendar } from 'react-icons/hi2';
-import { Scrollbar } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { picksOfTheDay } from '@/data/home';
 import Section from '@/shared/home/Section';
@@ -19,7 +18,6 @@ export default function PicksOfTheDay() {
       name="Picks of the Day"
     >
       <Swiper
-        modules={[Scrollbar]}
         spaceBetween={15}
         slidesPerView="auto"
         scrollbar={{ draggable: true, enabled: false }}

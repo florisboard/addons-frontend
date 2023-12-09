@@ -37,7 +37,7 @@ export default function Html({ children, className }: HtmlProps) {
       className={cn(primaryFont.variable, displayFont.variable)}
       lang="en"
     >
-      <body className={cn('relative pb-4 font-sans antialiased', className)}>{children}</body>
+      <body className={cn('relative font-sans antialiased', className)}>{children}</body>
     </html>
   );
 }

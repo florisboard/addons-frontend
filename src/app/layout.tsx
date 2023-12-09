@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import 'swiper/css';
 import 'swiper/css/a11y';
 import 'swiper/css/navigation';
-import 'swiper/css/scrollbar';
 import Footer from '@/components/footer/Footer';
 import Navbar from '@/components/navbar/Navbar';
 import ReactQueryProvider from '@/components/providers/ReactQueryProvider';

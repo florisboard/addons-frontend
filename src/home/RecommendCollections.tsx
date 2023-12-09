@@ -8,7 +8,7 @@ export default function RecommendCollections() {
         <h2 className="text-4xl font-bold">Checkout the Public Collections</h2>
         <p className="text-gray-600">
           Users can create public collection to group their favorite projects and share it to
-          everyone!{' '}
+          everyone!
         </p>
         <Link className="btn btn-secondary" href="/">
           Let&apos;s go
