@@ -18,7 +18,7 @@ export default function Search({ className }: SearchProps) {
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         type="text"
-        placeholder="Search"
+        placeholder="Search ..."
         className="input input-bordered w-full pr-12 md:w-auto"
       />
       {search && (

@@ -1,4 +1,7 @@
 import type { Metadata } from 'next';
+import 'swiper/css';
+import 'swiper/css/a11y';
+import 'swiper/css/navigation';
 import Footer from '@/components/footer/Footer';
 import Navbar from '@/components/navbar/Navbar';
 import ReactQueryProvider from '@/components/providers/ReactQueryProvider';
@@ -17,7 +20,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
     <Html>
       <ReactQueryProvider>
         <Navbar />
-        {children}
+        <main className="space-y-4 md:space-y-8">{children}</main>
         <Footer />
       </ReactQueryProvider>
     </Html>
