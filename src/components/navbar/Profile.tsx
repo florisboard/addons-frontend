@@ -3,14 +3,17 @@
 import React from 'react';
 import Avatar from 'react-avatar';
 import Link from 'next/link';
+import { useAuthRoutes } from '@/hooks';
 import ThemeSwitcher from './ThemeSwitcher';
 
-const guestLinks = [
-  { name: 'Login', href: '/' },
-  { name: 'Register', href: '/' },
-];
-
 export default function Profile() {
+  const { login, register } = useAuthRoutes();
+
+  const guestLinks = [
+    { name: 'Login', href: login },
+    { name: 'Register', href: register },
+  ];
+
   return (
     <div className="dropdown dropdown-end">
       <label tabIndex={0} className="avatar btn btn-circle btn-ghost">

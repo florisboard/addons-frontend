@@ -7,6 +7,7 @@ import { useStore } from '@/hooks';
 import useThemeState from '@/states/themeState';
 import { THasChildren } from '@/types';
 import { cn } from '@/utils';
+import { MODAL_ROOT_ID } from '../modals/Modal';
 
 const primaryFont = Poppins({
   variable: '--primary-font',
@@ -37,7 +38,10 @@ export default function Html({ children, className }: HtmlProps) {
       className={cn(primaryFont.variable, displayFont.variable)}
       lang="en"
     >
-      <body className={cn('relative font-sans antialiased', className)}>{children}</body>
+      <body className={cn('relative font-sans antialiased', className)}>
+        <div id={MODAL_ROOT_ID} />
+        {children}
+      </body>
     </html>
   );
 }

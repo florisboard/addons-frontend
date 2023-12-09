@@ -21,7 +21,7 @@ export default function Section({ Icon, name, viewMore, children, headingChildre
         {viewMore && (
           <Link
             href={viewMore.href}
-            className="btn btn-link no-underline transition-transform delay-75 hover:translate-x-2"
+            className="btn btn-link p-0 no-underline transition-transform delay-75 hover:translate-x-2"
           >
             <span>{viewMore.text}</span>
             <HiChevronRight className="h-6 w-6" />

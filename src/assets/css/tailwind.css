@@ -6,4 +6,12 @@
   .px-container {
     @apply px-2 md:px-6;
   }
+
+  .btn-submit-auth {
+    @apply btn btn-primary btn-block text-base;
+  }
+
+  .btn-link-auth {
+    @apply btn btn-link btn-sm p-0 text-base font-medium text-gray-500 no-underline;
+  }
 }

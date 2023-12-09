@@ -20,6 +20,7 @@ const themes: TTheme[] = [
 
 export default function ThemeSwitcher() {
   const currentTheme = useStore(useThemeState, (state) => state.theme);
+  console.log(currentTheme);
   const setTheme = useThemeState((state) => state.setTheme);
 
   return (
