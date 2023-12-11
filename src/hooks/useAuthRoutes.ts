@@ -12,5 +12,7 @@ export default function useAuthRoutes() {
     login: generateAuthUrl('login'),
     register: generateAuthUrl('register'),
     forgotPassword: generateAuthUrl('forgotPassword'),
+    resetPassword: generateAuthUrl('resetPassword'),
+    emailVerification: generateAuthUrl('emailVerification'),
   } as const;
 }

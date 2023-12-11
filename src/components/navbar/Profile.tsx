@@ -3,6 +3,7 @@
 import React from 'react';
 import Avatar from 'react-avatar';
 import Link from 'next/link';
+import compact from 'lodash/compact';
 import { useAuthRoutes } from '@/hooks';
 import useLogout from '@/services/auth/logout';
 import useMe from '@/services/users/me';
@@ -10,7 +11,7 @@ import Button from '@/shared/Button';
 import ThemeSwitcher from './ThemeSwitcher';
 
 export default function Profile() {
-  const { login, register } = useAuthRoutes();
+  const { login, register, emailVerification } = useAuthRoutes();
   const { mutate: logout } = useLogout();
   const { data: user } = useMe();
 
@@ -18,7 +19,10 @@ export default function Profile() {
     { name: 'Login', href: login },
     { name: 'Register', href: register },
   ];
-  const authLinks = [{ name: 'Profile', href: '/' }];
+  const authLinks = compact([
+    { name: 'Profile', href: '/' },
+    !user?.email_verified_at && { name: 'Verify your Email', href: emailVerification },
+  ]);
   const links = user ? authLinks : guestLinks;
 
   return (

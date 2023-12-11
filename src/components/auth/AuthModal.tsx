@@ -7,14 +7,49 @@ import { useDialogModal, useSearchParams } from '@/hooks';
 import useMe from '@/services/users/me';
 import Button from '@/shared/Button';
 import DialogModal from '@/shared/modals/DialogModal';
+import { cn } from '@/utils';
+import EmailVerification from './EmailVerification';
 import ForgotPassword from './ForgotPassword';
 import Login from './Login';
 import Register from './Register';
+import ResetPassword from './ResetPassword';
 
 const routes = [
-  { name: 'login', title: 'Welcome Back', component: <Login /> },
-  { name: 'register', title: 'Create your Account', component: <Register /> },
-  { name: 'forgotPassword', title: 'Reset your Password', component: <ForgotPassword /> },
+  {
+    name: 'login',
+    title: 'Welcome Back',
+    component: <Login />,
+    canOpenWhenAuthenticated: false,
+    isFullOnMobile: true,
+  },
+  {
+    name: 'register',
+    title: 'Create your Account',
+    component: <Register />,
+    canOpenWhenAuthenticated: false,
+    isFullOnMobile: true,
+  },
+  {
+    name: 'forgotPassword',
+    title: 'Forgot your Password',
+    component: <ForgotPassword />,
+    canOpenWhenAuthenticated: false,
+    isFullOnMobile: true,
+  },
+  {
+    name: 'resetPassword',
+    title: 'Reset your Password',
+    component: <ResetPassword />,
+    canOpenWhenAuthenticated: false,
+    isFullOnMobile: true,
+  },
+  {
+    name: 'emailVerification',
+    title: 'Verify your Email',
+    component: <EmailVerification />,
+    canOpenWhenAuthenticated: true,
+    isFullOnMobile: false,
+  },
 ];
 
 export default function AuthModal() {
@@ -35,19 +70,24 @@ export default function AuthModal() {
 
   useEffect(() => {
     if (route) handleOpenModal();
-    if (user) handleCloseAuthModal();
+    if (user && !route?.canOpenWhenAuthenticated) handleCloseAuthModal();
   }, [route, handleOpenModal, user]);
 
   return (
     <DialogModal
-      dialogClassName="modal-bottom md:modal-middle"
-      parentClassName="max-h-screen h-full md:h-auto"
+      dialogClassName={cn(route?.isFullOnMobile && 'modal-bottom md:modal-middle')}
+      parentClassName={cn(route?.isFullOnMobile && 'h-full max-h-screen md:h-auto')}
       parentElement="div"
       modalRef={modalRef}
       id={config.authParamName}
     >
       <div className="flex items-center justify-between">
-        <h2 className="text-3xl font-bold">
+        <h2
+          className={cn('font-bold', {
+            'text-3xl': route?.isFullOnMobile,
+            'text-2xl md:text-3xl': !route?.isFullOnMobile,
+          })}
+        >
           {route?.title} <span className="text-5xl text-primary">.</span>
         </h2>
         <Button
