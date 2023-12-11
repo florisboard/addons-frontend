@@ -1,8 +1,6 @@
 import React from 'react';
-import Lottie from 'react-lottie-player';
 import Link from 'next/link';
 import { Field, Form, Formik } from 'formik';
-import emailSent from '@/assets/animations/emailSent.json';
 import validations from '@/fixtures/validations';
 import { useAuthRoutes } from '@/hooks';
 import { IUnprocessableEntity } from '@/interfaces';
@@ -11,6 +9,7 @@ import useForgotPassword from '@/services/auth/forgotPassword';
 import Button from '@/shared/Button';
 import FieldWrapper from '@/shared/forms/FieldWrapper';
 import { cn, isAxiosError } from '@/utils';
+import EmailSent from './EmailSent';
 
 const validationSchema = yup.object({
   email: validations.email,
@@ -20,20 +19,7 @@ export default function ForgotPassword() {
   const { login } = useAuthRoutes();
   const { mutate: forgotPassword, isPending, isSuccess } = useForgotPassword();
 
-  if (isSuccess) {
-    return (
-      <>
-        <p>We send you an instruction to recover your account. Check your email.</p>
-        <Lottie
-          className="mx-auto"
-          animationData={emailSent}
-          play
-          loop={false}
-          style={{ width: 150, height: 150 }}
-        />
-      </>
-    );
-  }
+  if (isSuccess) return <EmailSent actionText="reset your password" />;
 
   return (
     <Formik

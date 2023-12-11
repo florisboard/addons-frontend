@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { IAuthUser } from '@/interfaces';
 import axios from '@/libs/axios';
+import { TToast } from '@/types';
 import sanctum from './sanctum';
 
 export interface IRegisterDto {
@@ -21,6 +22,9 @@ export default function useRegister() {
 
   return useMutation({
     mutationFn: register,
+    meta: {
+      toast: { content: "You've registered successfully." } satisfies TToast,
+    },
     onSuccess: (data) => {
       queryClient.setQueryData(['users', 'me'], data);
     },

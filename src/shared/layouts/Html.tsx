@@ -1,10 +1,12 @@
 'use client';
 
 import React from 'react';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { Poppins, Righteous } from 'next/font/google';
 import '@/assets/css/tailwind.css';
+import ThemeSwitcher from '@/components/navbar/ThemeSwitcher';
 import { useStore } from '@/hooks';
-import useMe from '@/services/users/me';
 import useThemeState from '@/states/themeState';
 import { THasChildren } from '@/types';
 import { cn } from '@/utils';
@@ -32,15 +34,17 @@ export default function Html({ children, className }: HtmlProps) {
     typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches
       ? 'dark'
       : 'light';
+  const finalTheme = currentTheme === 'system' ? systemColor : currentTheme;
 
   return (
     <html
-      data-theme={currentTheme === 'system' ? systemColor : currentTheme}
+      data-theme={finalTheme}
       className={cn(primaryFont.variable, displayFont.variable)}
       lang="en"
     >
       <body className={cn('relative font-sans antialiased', className)}>
         <div id={MODAL_ROOT_ID} />
+        <ToastContainer toastClassName="font-sans" theme={finalTheme} />
         {children}
       </body>
     </html>

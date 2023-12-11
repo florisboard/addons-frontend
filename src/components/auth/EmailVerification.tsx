@@ -1,12 +1,12 @@
 import React from 'react';
 import useSendEmailVerification from '@/services/auth/emailVerifiaction';
 import Button from '@/shared/Button';
+import EmailSent from './EmailSent';
 
 export default function EmailVerification() {
   const { mutate: sendEmailVerification, isPending, isSuccess } = useSendEmailVerification();
 
-  if (isSuccess) {
-  }
+  if (isSuccess) return <EmailSent actionText="verify your email" />;
 
   return (
     <>
@@ -15,7 +15,7 @@ export default function EmailVerification() {
         haven&apos;t gotten the link, We can send you again.
       </p>
       <Button
-        onSubmit={() => sendEmailVerification()}
+        onClick={() => sendEmailVerification()}
         type="button"
         isLoading={isPending}
         disabled={isPending}
