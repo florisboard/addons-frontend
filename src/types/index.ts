@@ -8,3 +8,16 @@ export type THasChildren = {
 export type TIcon = typeof HiSun;
 
 export type TToast = ToastOptions & { content: React.ReactNode };
+
+export type TSuccessMeta = {
+  toast?: TToast;
+};
+
+export type TErrorMeta = {
+  toast?: TToast;
+};
+
+export type TMeta = {
+  success?: TSuccessMeta;
+  error?: TErrorMeta;
+};

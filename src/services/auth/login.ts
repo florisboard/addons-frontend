@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { IAuthUser } from '@/interfaces';
 import axios from '@/libs/axios';
-import { TToast } from '@/types';
+import { TMeta, TToast } from '@/types';
 import { IRegisterDto } from './register';
 import sanctum from './sanctum';
 
@@ -19,8 +19,10 @@ export default function useLogin() {
   return useMutation({
     mutationFn: login,
     meta: {
-      toast: { content: "You've logged in successfully." } satisfies TToast,
-    },
+      success: {
+        toast: { content: "You've logged in successfully." } satisfies TToast,
+      },
+    } satisfies TMeta,
     onSuccess: (data) => {
       queryClient.setQueryData(['users', 'me'], data);
     },

@@ -20,7 +20,7 @@ export default function Profile() {
     { name: 'Register', href: register },
   ];
   const authLinks = compact([
-    { name: 'Profile', href: '/' },
+    { name: 'Profile', href: `/users/${user?.username}` },
     !user?.email_verified_at && { name: 'Verify your Email', href: emailVerification },
   ]);
   const links = user ? authLinks : guestLinks;
