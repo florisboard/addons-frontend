@@ -11,7 +11,7 @@ type ProjectProps = {
   description: string;
 };
 
-export default function Project({ name, ratings, reviews, description }: ProjectProps) {
+export default function ProjectCard({ name, ratings, reviews, description }: ProjectProps) {
   return (
     <Link href="/" className="card max-h-80 w-80 bg-base-200">
       <div className="card-body">
