@@ -54,7 +54,6 @@ export default function User() {
   const activeTab = tabs.find((tab) => tab.name === searchParams.get(TAB_PARAM_KEY)) ?? tabs[0];
 
   if (isError) return <p>User not found.</p>;
-  if (isLoading) return <p>Loading ...</p>;
   return (
     <div className="px-container space-y-4">
       <div className="space-y-4 rounded-box bg-base-200 p-4">

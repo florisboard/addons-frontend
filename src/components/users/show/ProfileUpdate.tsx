@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Field, Form, Formik } from 'formik';
+import errorMessages from '@/fixtures/errorMessages';
+import validations from '@/fixtures/validations';
 import { useDialogModal } from '@/hooks';
+import yup from '@/libs/yup';
 import useMe from '@/services/users/me';
 import Button from '@/shared/Button';
 import FieldWrapper from '@/shared/forms/FieldWrapper';
@@ -11,6 +14,25 @@ import { cn } from '@/utils';
 export default function ProfileUpdate() {
   const { data: me } = useMe();
   const { modalRef, handleCloseModal, handleOpenModal } = useDialogModal();
+
+  const validationSchema = useMemo(() => {
+    return yup.object({
+      username: validations.username,
+      email: validations.email,
+      current_password: validations.password.notRequired().when(['email', 'new_password'], {
+        is: (email: string, new_password: string) => email !== me?.email || !!new_password,
+        then: (schema) => schema.required(),
+      }),
+      new_password: validations.password.notRequired(),
+      new_password_confirmation: validations.password
+        .notRequired()
+        .when('new_password', {
+          is: true,
+          then: (schema) => schema.required(),
+        })
+        .oneOf([yup.ref('password')], errorMessages.passwordsMatch),
+    });
+  }, [me?.email]);
 
   return (
     <>
@@ -24,38 +46,64 @@ export default function ProfileUpdate() {
         <h3 className="text-2xl font-bold">
           Update your <span className="text-primary">Account</span>
         </h3>
-        <Formik initialValues={{ username: me?.username, email: me?.email }} onSubmit={() => {}}>
-          <Form className="space-y-4">
-            <FieldWrapper label="Username" isRequired name="username">
-              {({ hasError, ...props }) => (
-                <Field
-                  {...props}
-                  className={cn('input input-bordered w-full', { 'input-error': hasError })}
-                />
-              )}
-            </FieldWrapper>
-            <FieldWrapper label="Email" isRequired name="email">
-              {({ hasError, ...props }) => (
-                <Field
-                  {...props}
-                  type="email"
-                  className={cn('input input-bordered w-full', { 'input-error': hasError })}
-                />
-              )}
-            </FieldWrapper>
-            <PasswordField isRequired={false} label="Password" name="password" />
-            <PasswordField
-              isRequired={false}
-              label="Password Confirmation"
-              name="password_confirmation"
-            />
-            <div className="flex gap-4">
-              <Button onClick={handleCloseModal} className="btn">
-                Cancel
-              </Button>
-              <Button className="btn btn-primary">Submit</Button>
-            </div>
-          </Form>
+        <Formik
+          validationSchema={validationSchema}
+          initialValues={{
+            username: me?.username,
+            email: me?.email,
+            current_password: '',
+            new_password: '',
+            new_password_confirmation: '',
+          }}
+          onSubmit={(values) => {
+            console.log(values);
+          }}
+        >
+          {({ values }) => {
+            const hasPassword = !!values.new_password;
+            const showCurrentPassword = values.email !== me?.email || !!values.new_password;
+
+            return (
+              <Form className="space-y-4">
+                <FieldWrapper label="Username" isRequired name="username">
+                  {({ hasError, ...props }) => (
+                    <Field
+                      {...props}
+                      className={cn('input input-bordered w-full', { 'input-error': hasError })}
+                    />
+                  )}
+                </FieldWrapper>
+                <FieldWrapper label="Email" isRequired name="email">
+                  {({ hasError, ...props }) => (
+                    <Field
+                      {...props}
+                      type="email"
+                      className={cn('input input-bordered w-full', { 'input-error': hasError })}
+                    />
+                  )}
+                </FieldWrapper>
+                {showCurrentPassword && (
+                  <PasswordField isRequired label="Current Password" name="current_password" />
+                )}
+                <PasswordField isRequired={hasPassword} label="New Password" name="new_password" />
+                {hasPassword && (
+                  <PasswordField
+                    isRequired
+                    label="New Password Confirmation"
+                    name="new_password_confirmation"
+                  />
+                )}
+                <div className="flex gap-4">
+                  <Button onClick={handleCloseModal} className="btn">
+                    Cancel
+                  </Button>
+                  <Button type="submit" className="btn btn-primary">
+                    Submit
+                  </Button>
+                </div>
+              </Form>
+            );
+          }}
         </Formik>
       </DialogModal>
       <div className="card bg-base-200">

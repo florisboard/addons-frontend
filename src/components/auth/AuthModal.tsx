@@ -71,7 +71,8 @@ export default function AuthModal() {
   useEffect(() => {
     if (route) handleOpenModal();
     if (user && !route?.canOpenWhenAuthenticated) handleCloseAuthModal();
-  }, [route, handleOpenModal, user]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [route, user]);
 
   return (
     <DialogModal
