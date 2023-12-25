@@ -3,7 +3,7 @@
 import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { picksOfTheDay } from '@/data/home';
-import Project from '@/home/Project';
+import ProjectCard from '@/home/ProjectCard';
 import Section, { SectionProps } from '@/shared/home/Section';
 
 type ProjectsListProps = {
@@ -20,7 +20,7 @@ export default function ProjectsList({ section }: ProjectsListProps) {
       >
         {picksOfTheDay.map((project) => (
           <SwiperSlide className="h-auto w-auto" key={project.name}>
-            <Project {...project} />
+            <ProjectCard {...project} />
           </SwiperSlide>
         ))}
       </Swiper>

@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { devtools } from 'zustand/middleware';
 
 export type TAvailableTheme = 'light' | 'dark' | 'system';
 
@@ -13,13 +14,15 @@ export interface IThemeAction {
 }
 
 const useThemeState = create<IThemeState & IThemeAction>()(
-  persist(
-    (set, get) => ({
-      theme: 'light',
-      toggleTheme: () => set({ theme: get().theme === 'dark' ? 'light' : 'dark' }),
-      setTheme: (theme) => set({ theme }),
-    }),
-    { name: 'theme' },
+  devtools(
+    persist(
+      (set, get) => ({
+        theme: 'light',
+        toggleTheme: () => set({ theme: get().theme === 'dark' ? 'light' : 'dark' }),
+        setTheme: (theme) => set({ theme }),
+      }),
+      { name: 'theme' },
+    ),
   ),
 );
 

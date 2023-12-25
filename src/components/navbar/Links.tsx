@@ -8,7 +8,9 @@ export default function Links() {
       <ul className="menu menu-horizontal px-1">
         {navbarLinks.map((link) => (
           <li key={link.name}>
-            <Link href={link.href}>{link.name}</Link>
+            <Link target={link.target} href={link.href}>
+              {link.name}
+            </Link>
           </li>
         ))}
       </ul>

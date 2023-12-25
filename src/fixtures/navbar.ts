@@ -1,6 +1,6 @@
 export const navbarLinks = [
-  { name: 'Themes', href: '/' },
-  { name: 'About us', href: '/' },
-  { name: 'Contact us', href: '/' },
-  { name: 'Github', href: '/' },
+  { name: 'Projects', href: '/projects' },
+  { name: 'About us', href: '/about' },
+  { name: 'Contact us', href: '/contact' },
+  { name: 'Github', href: 'https://github.com/florisboard', target: '_blank' },
 ];
