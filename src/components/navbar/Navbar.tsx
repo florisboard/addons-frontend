@@ -3,10 +3,10 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { cn } from '@/utils';
+import Search from '../../shared/Search';
 import Links from './Links';
 import MobileDropdown from './MobileDropdown';
 import Profile from './Profile';
-import Search from './Search';
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);

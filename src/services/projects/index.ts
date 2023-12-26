@@ -4,7 +4,7 @@ import axios from '@/libs/axios';
 
 interface IProjectsParams {
   filter?: {
-    name?: 'string';
+    name?: string;
     category_id?: number;
     user_id?: number;
     package_name?: string;

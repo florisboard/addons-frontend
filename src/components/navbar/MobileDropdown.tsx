@@ -2,7 +2,7 @@ import React from 'react';
 import { HiBars3BottomLeft } from 'react-icons/hi2';
 import Link from 'next/link';
 import { navbarLinks } from '@/fixtures/navbar';
-import Search from './Search';
+import Search from '../../shared/Search';
 
 export default function MobileDropdown() {
   return (

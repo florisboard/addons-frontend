@@ -44,18 +44,55 @@ export interface IAuthUser extends IModelWithTimestamps {
   username_changed_at: string;
 }
 
+export interface IRelease extends IModelWithTimestamps {
+  version: string;
+}
+
+export interface IReleaseFull extends IRelease {
+  project_id: number;
+  user_id: number;
+  description: string;
+  downloads_count: number;
+  user?: IUser;
+  project?: IProject;
+}
+
 export interface IProject extends IModelWithTimestamps {
   category_id: number;
+  short_description: string;
   user_id: number;
   name: string;
   slug: string;
   package_name: string;
+  is_recommended: boolean;
+  reviews_count: number;
+  reviews_avg_score: number;
+  releases_sum_downloads_count: number;
+  latest_release: IRelease;
+}
+
+export interface IProjectFull extends IProject {
   description: string | null;
   home_page: string | null;
   support_site: string | null;
   support_email: string | null;
   donate_site: string | null;
-  is_recommended: boolean;
+}
+
+export interface ICategory extends IModel {
+  name: string;
+  slug: string;
+  is_top: boolean;
+  circle_bg: string;
+  circle_fg: string;
+}
+
+export interface IHome {
+  top_categories: ICategory[];
+  picks_of_the_day: IProject[];
+  latest_releases: IProject[];
+  latest_projects: IProject[];
+  recommended: IProject[];
 }
 
 export interface IUnprocessableEntity {

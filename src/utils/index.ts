@@ -16,6 +16,27 @@ export function calculateTimeLeft(targetDate: Date | number) {
   };
 }
 
+export function daysAgoFormatter(date: Date): string {
+  const now = new Date();
+  const diffInMilliseconds = now.getTime() - date.getTime();
+  const diffInDays = Math.floor(diffInMilliseconds / (1000 * 60 * 60 * 24));
+
+  if (diffInDays === 0) {
+    return 'today';
+  } else if (diffInDays === 1) {
+    return 'yesterday';
+  } else {
+    return `${diffInDays} days ago`;
+  }
+}
+
+export function isBetweenDate(date: Date, days: number) {
+  const now = new Date();
+  const fourteenDaysAgo = new Date().setDate(now.getDate() - days);
+
+  return date.getTime() >= fourteenDaysAgo && date <= now;
+}
+
 export const humanReadableFormatter = Intl.NumberFormat('en', { notation: 'compact' });
 
 export function isAxiosError<ResponseType>(

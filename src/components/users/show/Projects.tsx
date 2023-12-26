@@ -23,17 +23,11 @@ export default function Projects({ userId }: ProjectsProps) {
 
   return (
     <>
-      <div className="flex flex-wrap gap-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {projects?.pages.map((page) => (
           <Fragment key={page.meta.current_page}>
             {page.data.map((project) => (
-              <ProjectCard
-                key={project.id}
-                bodyClassName="bg-base-300"
-                reviews={1}
-                ratings={1}
-                {...project}
-              />
+              <ProjectCard key={project.id} bodyClassName="bg-base-300 w-auto" {...project} />
             ))}
           </Fragment>
         ))}

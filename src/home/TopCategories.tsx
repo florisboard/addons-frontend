@@ -4,10 +4,12 @@ import React from 'react';
 import { HiFire, HiMiniRectangleStack } from 'react-icons/hi2';
 import Link from 'next/link';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { topCategories } from '@/data/home';
+import useHome from '@/services/home';
 import Section from '@/shared/home/Section';
 
 export default function TopCategories() {
+  const { data } = useHome();
+
   return (
     <Section
       Icon={HiMiniRectangleStack}
@@ -19,12 +21,12 @@ export default function TopCategories() {
         slidesPerView="auto"
         scrollbar={{ draggable: true, enabled: false, snapOnRelease: true }}
       >
-        {topCategories.map((category) => (
+        {data?.top_categories.map((category) => (
           <SwiperSlide className="h-auto w-auto" key={category.name}>
             <Link href="/" className="btn btn-lg delay-75 hover:scale-105 md:gap-8">
               <h3 className="text-xl">{category.name}</h3>
               <HiFire
-                style={{ backgroundColor: category.circleColor }}
+                style={{ backgroundColor: category.circle_bg, color: category.circle_fg }}
                 className="h-12 w-12 rounded-full p-2 text-neutral"
               />
             </Link>

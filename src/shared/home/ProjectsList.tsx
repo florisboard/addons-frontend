@@ -2,15 +2,16 @@
 
 import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { picksOfTheDay } from '@/data/home';
 import ProjectCard from '@/home/ProjectCard';
+import { IProject } from '@/interfaces';
 import Section, { SectionProps } from '@/shared/home/Section';
 
 type ProjectsListProps = {
   section: Omit<SectionProps, 'children'>;
+  projects: IProject[] | undefined;
 };
 
-export default function ProjectsList({ section }: ProjectsListProps) {
+export default function ProjectsList({ section, projects }: ProjectsListProps) {
   return (
     <Section {...section}>
       <Swiper
@@ -18,7 +19,7 @@ export default function ProjectsList({ section }: ProjectsListProps) {
         slidesPerView="auto"
         scrollbar={{ draggable: true, enabled: false }}
       >
-        {picksOfTheDay.map((project) => (
+        {projects?.map((project) => (
           <SwiperSlide className="h-auto w-auto" key={project.name}>
             <ProjectCard {...project} />
           </SwiperSlide>

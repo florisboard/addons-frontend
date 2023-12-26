@@ -2,8 +2,9 @@ import { FaGithub } from 'react-icons/fa';
 
 export const footerLinks = [
   { name: 'Projects', href: '/projects' },
-  { name: 'About us', href: '/about' },
-  { name: 'Contact us', href: '/contact' },
+  { name: 'Collections', href: '/collections' },
+  { name: 'About', href: '/about' },
+  { name: 'Contact', href: '/contact' },
 ];
 
 export const footerSocialMedias = [

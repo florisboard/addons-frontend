@@ -5,8 +5,21 @@ export default function useSearchParams() {
   const pathname = usePathname();
   const searchParams = useNextSearchParams();
 
-  const setSearchParams = (callback: (params: URLSearchParams) => URLSearchParams) => {
-    router.replace(pathname + '?' + callback(new URLSearchParams(searchParams)).toString());
+  const setSearchParams = (
+    callback: (
+      params: URLSearchParams,
+    ) => { params: URLSearchParams; pathname: string } | URLSearchParams,
+  ) => {
+    const result = callback(new URLSearchParams(searchParams));
+    let to = pathname;
+    let params = new URLSearchParams();
+
+    if (typeof result === 'object' && 'pathname' in result) {
+      to = result.pathname;
+      params = result.params;
+    }
+
+    router.replace(to + '?' + params.toString());
   };
 
   return [searchParams, setSearchParams] as const;
