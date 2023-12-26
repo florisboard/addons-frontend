@@ -5,7 +5,6 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Poppins, Righteous } from 'next/font/google';
 import '@/assets/css/tailwind.css';
-import ThemeSwitcher from '@/components/navbar/ThemeSwitcher';
 import { useStore } from '@/hooks';
 import useThemeState from '@/states/themeState';
 import { THasChildren } from '@/types';

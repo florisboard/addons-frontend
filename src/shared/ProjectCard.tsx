@@ -47,14 +47,15 @@ export default function ProjectCard({
   ]);
 
   return (
-    <Link href={`/projects/${slug}`} className={cn('card h-auto w-80 bg-base-200', bodyClassName)}>
+    <Link
+      href={`/projects/${slug}`}
+      className={cn('card h-[23rem] w-80 bg-base-200', bodyClassName)}
+    >
       <div className="card-body gap-2">
         <figure className="relative h-36 w-full rounded">
           <Image fill src="https://picsum.photos/200/100" alt="Shoes" />
         </figure>
-        <h3 className={cn('card-title line-clamp-1', { 'line-clamp-2': !short_description })}>
-          {name}
-        </h3>
+        <h3 className="card-title line-clamp-1">{name}</h3>
         <div className="flex flex-wrap gap-2">
           {badges.map((badge) => (
             <div

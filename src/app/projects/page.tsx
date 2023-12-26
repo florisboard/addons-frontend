@@ -1,10 +1,10 @@
 'use client';
 
 import React, { Fragment } from 'react';
-import ProjectCard from '@/home/ProjectCard';
 import { useSearchParams } from '@/hooks';
 import useProjects from '@/services/projects';
 import LoadMore from '@/shared/LoadMore';
+import ProjectCard from '@/shared/ProjectCard';
 
 export default function Projects() {
   const [searchParams] = useSearchParams();

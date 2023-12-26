@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
-import ProjectCard from '@/home/ProjectCard';
 import useProjects from '@/services/projects';
 import LoadMore from '@/shared/LoadMore';
+import ProjectCard from '@/shared/ProjectCard';
 import EmptyList from './EmptyList';
 
 type ProjectsProps = {
@@ -23,7 +23,7 @@ export default function Projects({ userId }: ProjectsProps) {
 
   return (
     <>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
         {projects?.pages.map((page) => (
           <Fragment key={page.meta.current_page}>
             {page.data.map((project) => (

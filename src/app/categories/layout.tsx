@@ -3,8 +3,8 @@ import { Metadata } from 'next';
 import { THasChildren } from '@/types';
 
 export const metadata: Metadata = {
-  title: 'Contact',
-  description: 'Contact',
+  title: 'Categories',
+  description: 'Categories',
 };
 
 export default function Layout({ children }: THasChildren) {

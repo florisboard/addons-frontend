@@ -14,7 +14,7 @@ export default function TopCategories() {
     <Section
       Icon={HiMiniRectangleStack}
       name="Top Categories"
-      viewMore={{ text: 'All', href: '/' }}
+      viewMore={{ text: 'All', href: '/categories' }}
     >
       <Swiper
         spaceBetween={15}

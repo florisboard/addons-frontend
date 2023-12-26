@@ -2,8 +2,8 @@
 
 import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import ProjectCard from '@/home/ProjectCard';
 import { IProject } from '@/interfaces';
+import ProjectCard from '@/shared/ProjectCard';
 import Section, { SectionProps } from '@/shared/home/Section';
 
 type ProjectsListProps = {

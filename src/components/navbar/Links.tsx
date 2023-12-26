@@ -8,7 +8,7 @@ export default function Links() {
   const pathname = usePathname();
 
   return (
-    <div className="navbar-center hidden lg:flex">
+    <nav className="navbar-center hidden lg:flex">
       <ul className="menu menu-horizontal px-1">
         {navbarLinks.map((link) => (
           <li
@@ -21,6 +21,6 @@ export default function Links() {
           </li>
         ))}
       </ul>
-    </div>
+    </nav>
   );
 }
