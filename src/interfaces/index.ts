@@ -77,6 +77,14 @@ export interface IProjectFull extends IProject {
   support_site: string | null;
   support_email: string | null;
   donate_site: string | null;
+  user: IUser;
+  category: ICategory;
+  maintainers: IUser[];
+  one_reviews_count: number;
+  two_reviews_count: number;
+  three_reviews_count: number;
+  four_reviews_count: number;
+  five_reviews_count: number;
 }
 
 export interface ICategory extends IModel {

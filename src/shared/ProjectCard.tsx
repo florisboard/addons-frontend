@@ -2,9 +2,10 @@ import React, { Fragment } from 'react';
 import { HiArrowDownCircle, HiChatBubbleBottomCenter, HiStar } from 'react-icons/hi2';
 import Image from 'next/image';
 import Link from 'next/link';
+import { formatDistanceToNow } from 'date-fns';
 import compact from 'lodash/compact';
 import { IProject } from '@/interfaces';
-import { cn, daysAgoFormatter, humanReadableFormatter, isBetweenDate } from '@/utils';
+import { cn, humanReadableFormatter, isBetweenDate } from '@/utils';
 
 type ProjectCardProps = IProject & {
   bodyClassName?: string;
@@ -40,7 +41,9 @@ export default function ProjectCard({
     },
     latest_release &&
       isBetweenDate(new Date(latest_release.created_at), 14) && {
-        tooltip: `Last release : ${daysAgoFormatter(new Date(latest_release?.created_at))}`,
+        tooltip: `Last release : ${formatDistanceToNow(latest_release?.created_at, {
+          addSuffix: true,
+        })}`,
         text: 'New',
         className: 'badge-accent',
       },
