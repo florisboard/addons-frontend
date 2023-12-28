@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import type { Metadata } from 'next';
 import 'swiper/css';
 import 'swiper/css/a11y';
@@ -24,7 +25,9 @@ export default function RootLayout({ children }: RootLayoutProps) {
     <Html>
       <ReactQueryProvider>
         <Navbar />
-        <AuthModal />
+        <Suspense>
+          <AuthModal />
+        </Suspense>
         <main className="space-y-4 md:space-y-8">{children}</main>
         <Footer />
       </ReactQueryProvider>

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { cn } from '@/utils';
 import Search from '../../shared/Search';
@@ -34,7 +34,9 @@ export default function Navbar() {
       </div>
       <Links />
       <div className="navbar-end items-center gap-2">
-        <Search className="hidden md:form-control" />
+        <Suspense>
+          <Search className="hidden md:form-control" />
+        </Suspense>
         <Profile />
       </div>
     </header>

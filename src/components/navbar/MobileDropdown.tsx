@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { HiBars3BottomLeft } from 'react-icons/hi2';
 import Link from 'next/link';
 import { navbarLinks } from '@/fixtures/navbar';
@@ -20,7 +20,9 @@ export default function MobileDropdown() {
               <Link href={link.href}>{link.name}</Link>
             </li>
           ))}
-          <Search className="w-full md:hidden" />
+          <Suspense>
+            <Search className="w-full md:hidden" />
+          </Suspense>
         </ul>
       </div>
     </div>
