@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import useProjects from '@/services/projects';
 import LoadMore from '@/shared/LoadMore';
 import ProjectCard from '@/shared/cards/project/ProjectCard';
+import ProjectCardSkeleton from '@/shared/cards/project/ProjectCardSkeleton';
 import EmptyList from './EmptyList';
 
 type ProjectsProps = {
@@ -31,6 +32,10 @@ export default function Projects({ userId }: ProjectsProps) {
             ))}
           </Fragment>
         ))}
+        {isLoading &&
+          Array.from({ length: 6 }).map((_, i) => (
+            <ProjectCardSkeleton bodyClassName="w-auto" key={i} />
+          ))}
       </div>
       {hasNextPage && <LoadMore onClick={fetchNextPage} isLoading={isFetchingNextPage} />}
     </>

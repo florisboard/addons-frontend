@@ -5,12 +5,14 @@ import { useSearchParams } from '@/hooks';
 import useProjects from '@/services/projects';
 import LoadMore from '@/shared/LoadMore';
 import ProjectCard from '@/shared/cards/project/ProjectCard';
+import ProjectCardSkeleton from '@/shared/cards/project/ProjectCardSkeleton';
 
 export default function Projects() {
   const [searchParams] = useSearchParams();
   const query = searchParams.get('query') ?? '';
   const {
     data: projects,
+    isLoading,
     isFetchingNextPage,
     fetchNextPage,
     hasNextPage,
@@ -27,6 +29,10 @@ export default function Projects() {
             ))}
           </Fragment>
         ))}
+        {isLoading &&
+          Array.from({ length: 4 }).map((_, i) => (
+            <ProjectCardSkeleton bodyClassName="w-auto" key={i} />
+          ))}
       </section>
       {hasNextPage && <LoadMore isLoading={isFetchingNextPage} onClick={fetchNextPage} />}
     </div>
