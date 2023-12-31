@@ -23,9 +23,9 @@ import useUser from '@/services/users/show';
 
 export default function User() {
   const { username } = useParams<{ username: string }>();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const { data: me } = useMe();
-  const { data: user, isError, isLoading } = useUser(username);
+  const { data: user, isError } = useUser(username);
   const isCurrentUser = username === me?.username;
 
   const tabs: TTab[] = useMemo(() => {
@@ -34,7 +34,7 @@ export default function User() {
         name: 'projects',
         icon: { base: HiOutlineFire, active: HiFire },
         label: 'Projects',
-        component: <Projects userId={user?.id} />,
+        component: <Projects isCurrentUser={isCurrentUser} userId={user?.id} />,
       },
       {
         name: 'reviews',
@@ -49,7 +49,7 @@ export default function User() {
         component: <Collections />,
       },
     ];
-  }, [user]);
+  }, [user, isCurrentUser]);
 
   const activeTab = tabs.find((tab) => tab.name === searchParams.get(TAB_PARAM_KEY)) ?? tabs[0];
 

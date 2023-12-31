@@ -1,10 +1,8 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { HiChevronRight } from 'react-icons/hi2';
 import { useDebouncedCallback } from 'use-debounce';
 import { useSearchParams } from '@/hooks';
-import Button from '@/shared/Button';
 import { cn } from '@/utils';
 
 type SearchProps = {
@@ -35,15 +33,10 @@ export default function Search({ className }: SearchProps) {
           setSearch(e.target.value);
           debounced(e.target.value);
         }}
-        type="text"
+        type="search"
         placeholder="Search ..."
-        className="input input-bordered w-full pr-12 md:w-auto"
+        className="input input-bordered w-full md:w-auto"
       />
-      {search && (
-        <Button className="btn btn-circle btn-sm absolute right-2 top-2">
-          <HiChevronRight className="h-6 w-6" />
-        </Button>
-      )}
     </div>
   );
 }
