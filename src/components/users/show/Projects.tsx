@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import useProjects from '@/services/projects';
 import LoadMore from '@/shared/LoadMore';
-import ProjectCard from '@/shared/ProjectCard';
+import ProjectCard from '@/shared/cards/project/ProjectCard';
 import EmptyList from './EmptyList';
 
 type ProjectsProps = {

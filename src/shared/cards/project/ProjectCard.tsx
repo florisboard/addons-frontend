@@ -6,6 +6,7 @@ import { formatDistanceToNow } from 'date-fns';
 import compact from 'lodash/compact';
 import { IProject } from '@/interfaces';
 import { cn, humanReadableFormatter, isBetweenDate } from '@/utils';
+import ProjectCardSkeleton from './ProjectCardSkeleton';
 
 type ProjectCardProps = IProject & {
   bodyClassName?: string;

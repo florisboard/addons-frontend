@@ -3,7 +3,8 @@
 import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { IProject } from '@/interfaces';
-import ProjectCard from '@/shared/ProjectCard';
+import ProjectCard from '@/shared/cards/project/ProjectCard';
+import ProjectCardSkeleton from '@/shared/cards/project/ProjectCardSkeleton';
 import Section, { SectionProps } from '@/shared/home/Section';
 
 type ProjectsListProps = {
@@ -15,7 +16,7 @@ export default function ProjectsList({ section, projects }: ProjectsListProps) {
   return (
     <Section {...section}>
       <Swiper
-        spaceBetween={15}
+        spaceBetween={16}
         slidesPerView="auto"
         scrollbar={{ draggable: true, enabled: false }}
       >
@@ -25,6 +26,13 @@ export default function ProjectsList({ section, projects }: ProjectsListProps) {
           </SwiperSlide>
         ))}
       </Swiper>
+      {!projects && (
+        <div className="flex gap-4">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <ProjectCardSkeleton key={i} />
+          ))}
+        </div>
+      )}
     </Section>
   );
 }

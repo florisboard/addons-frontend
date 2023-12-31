@@ -4,7 +4,7 @@ import React, { Fragment } from 'react';
 import { useSearchParams } from '@/hooks';
 import useProjects from '@/services/projects';
 import LoadMore from '@/shared/LoadMore';
-import ProjectCard from '@/shared/ProjectCard';
+import ProjectCard from '@/shared/cards/project/ProjectCard';
 
 export default function Projects() {
   const [searchParams] = useSearchParams();

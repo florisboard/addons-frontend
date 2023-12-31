@@ -13,7 +13,7 @@ import { THasChildren } from '@/types';
 export const metadata: Metadata = {
   title: {
     template: '%s - FlorisBoard Addons',
-    default: 'FlorisBoard', // a default is required when creating a template
+    default: 'FlorisBoard Addons', // a default is required when creating a template
   },
   description: 'FlorisBoard addons',
 };

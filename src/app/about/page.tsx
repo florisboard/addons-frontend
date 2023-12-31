@@ -6,7 +6,12 @@ export const revalidate = 300; // 5 min
 
 export default async function About() {
   const about = await getAbout();
-  return <Markdown>{about.content}</Markdown>;
+
+  return (
+    <section className="px-container prose">
+      <Markdown>{about.content}</Markdown>
+    </section>
+  );
 }
 
 async function getAbout() {
