@@ -4,6 +4,7 @@ import React from 'react';
 import { Field, Form, Formik } from 'formik';
 import VerifyAlert from '@/components/projects/create/VerifyAlert';
 import validations from '@/fixtures/validations';
+import yup from '@/libs/yup';
 import useMe from '@/services/users/me';
 import AuthMiddleware from '@/shared/AuthMiddleware';
 import Button from '@/shared/Button';
@@ -13,6 +14,12 @@ import FileUpload from '@/shared/forms/FileUpload';
 import InputFields from '@/shared/forms/InputFields';
 import MarkdownInput from '@/shared/forms/MarkdownInput';
 import { cn } from '@/utils';
+
+const validationSchema = yup.object({
+  name: yup.string().required().min(3).max(50),
+  slug: validations.slug,
+  package_name: validations.package_name,
+});
 
 export default function CreateProject() {
   const { data: me, isLoading } = useMe();
@@ -24,6 +31,7 @@ export default function CreateProject() {
         {!isLoading && !isVerified && <VerifyAlert />}
         <h1 className="font-display text-3xl font-bold">Create new Project</h1>
         <Formik
+          validationSchema={validationSchema}
           initialValues={{
             name: '',
             slug: '',

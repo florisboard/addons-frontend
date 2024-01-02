@@ -76,6 +76,7 @@ export default function FileUpload({
       files={files as any}
       onupdatefiles={setFiles}
       maxFileSize="512KB"
+      className="input input-bordered h-auto w-auto cursor-pointer"
       allowRevert={true}
       credits={false}
       {...rest}

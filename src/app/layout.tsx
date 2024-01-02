@@ -7,12 +7,13 @@ import AuthModal from '@/components/auth/AuthModal';
 import Footer from '@/components/footer/Footer';
 import Navbar from '@/components/navbar/Navbar';
 import ReactQueryProvider from '@/components/providers/ReactQueryProvider';
+import config from '@/fixtures/config';
 import Html from '@/shared/layouts/Html';
 import { THasChildren } from '@/types';
 
 export const metadata: Metadata = {
   title: {
-    template: '%s - FlorisBoard Addons',
+    template: `%s ${config.titleTemplate}`,
     default: 'FlorisBoard Addons', // a default is required when creating a template
   },
   description: 'FlorisBoard addons',
