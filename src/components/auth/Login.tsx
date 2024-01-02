@@ -1,15 +1,15 @@
 import React from 'react';
 import Link from 'next/link';
-import { Field, Form, Formik } from 'formik';
+import { Form, Formik } from 'formik';
 import validations from '@/fixtures/validations';
 import { useAuthRoutes } from '@/hooks';
 import { IUnprocessableEntity } from '@/interfaces';
 import yup from '@/libs/yup';
 import useLogin from '@/services/auth/login';
 import Button from '@/shared/Button';
-import FieldWrapper from '@/shared/forms/FieldWrapper';
+import InputFields from '@/shared/forms/InputFields';
 import PasswordField from '@/shared/forms/PasswordField';
-import { cn, isAxiosError } from '@/utils';
+import { isAxiosError } from '@/utils';
 import LoginWithGithub from './LoginWithGithub';
 
 const validationSchema = yup.object({
@@ -36,15 +36,9 @@ export default function Login() {
       }}
     >
       <Form className="space-y-4">
-        <FieldWrapper label="Email" isRequired name="email">
-          {({ hasError, ...props }) => (
-            <Field
-              {...props}
-              type="email"
-              className={cn('input input-bordered w-full', { 'input-error': hasError })}
-            />
-          )}
-        </FieldWrapper>
+        <InputFields
+          fields={[{ isRequired: true, name: 'email', label: 'Email', type: 'email' }]}
+        />
         <PasswordField isRequired label="Password" name="password" />
         <div className="item-center flex justify-between">
           <Link href={register} className="btn-link-auth">

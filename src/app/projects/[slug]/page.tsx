@@ -34,7 +34,7 @@ export default function Project() {
               {project.category.name}
             </Link>
             <div className="divider" />
-            <Markdown className="prose-sm">{project?.description}</Markdown>
+            <Markdown className="prose prose-sm">{project?.description}</Markdown>
             <Screenshots />
             <div className="card-actions mt-4">
               <Button className="btn btn-primary">Download</Button>

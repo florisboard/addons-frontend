@@ -18,7 +18,6 @@ export default function Projects({ userId, isCurrentUser }: ProjectsProps) {
     fetchNextPage,
     hasNextPage,
   } = useProjects({ sort: 'id', filter: { user_id: userId } }, { enabled: !!userId });
-  console.log(isLoading, isCurrentUser);
 
   return (
     <>

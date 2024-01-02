@@ -1,17 +1,19 @@
 import React from 'react';
 import Markdown from 'react-markdown';
+import { Metadata } from 'next';
 import axios from '@/libs/axios';
 
 export const revalidate = 300; // 5 min
 
+export const metadata: Metadata = {
+  title: 'About',
+  description: 'About',
+};
+
 export default async function About() {
   const about = await getAbout();
 
-  return (
-    <section className="px-container prose">
-      <Markdown>{about.content}</Markdown>
-    </section>
-  );
+  return <Markdown className="px-container prose">{about.content}</Markdown>;
 }
 
 async function getAbout() {

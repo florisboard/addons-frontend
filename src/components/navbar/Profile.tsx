@@ -16,7 +16,7 @@ export default function Profile() {
   const { data: user } = useMe();
 
   const guestLinks = [
-    { name: 'Login', href: login },
+    { name: 'Login', href: login() },
     { name: 'Register', href: register },
   ];
   const authLinks = compact([

@@ -41,7 +41,7 @@ export default function ResetPassword() {
               }
             },
             onSuccess: () => {
-              router.push(login);
+              router.push(login());
             },
           },
         );
@@ -50,7 +50,7 @@ export default function ResetPassword() {
       <Form className="space-y-4">
         <PasswordField isRequired label="Password" name="password" />
         <PasswordField isRequired label="Password Confirmation" name="password_confirmation" />
-        <Link href={login} className="btn-link-auth">
+        <Link href={login()} className="btn-link-auth">
           Remember your Password?
         </Link>
         <Button

@@ -1,14 +1,14 @@
 import React from 'react';
 import Link from 'next/link';
-import { Field, Form, Formik } from 'formik';
+import { Form, Formik } from 'formik';
 import validations from '@/fixtures/validations';
 import { useAuthRoutes } from '@/hooks';
 import { IUnprocessableEntity } from '@/interfaces';
 import yup from '@/libs/yup';
 import useForgotPassword from '@/services/auth/forgotPassword';
 import Button from '@/shared/Button';
-import FieldWrapper from '@/shared/forms/FieldWrapper';
-import { cn, isAxiosError } from '@/utils';
+import InputFields from '@/shared/forms/InputFields';
+import { isAxiosError } from '@/utils';
 import EmailSent from './EmailSent';
 
 const validationSchema = yup.object({
@@ -36,16 +36,10 @@ export default function ForgotPassword() {
       }}
     >
       <Form className="space-y-4">
-        <FieldWrapper label="Email" isRequired name="email">
-          {({ hasError, ...props }) => (
-            <Field
-              {...props}
-              type="email"
-              className={cn('input input-bordered w-full', { 'input-error': hasError })}
-            />
-          )}
-        </FieldWrapper>
-        <Link href={login} className="btn-link-auth">
+        <InputFields
+          fields={[{ isRequired: true, name: 'email', label: 'Email', type: 'email' }]}
+        />
+        <Link href={login()} className="btn-link-auth">
           Remember your Password?
         </Link>
         <Button

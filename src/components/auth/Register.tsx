@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { Field, Form, Formik } from 'formik';
+import { Form, Formik } from 'formik';
 import errorMessages from '@/fixtures/errorMessages';
 import validations from '@/fixtures/validations';
 import { useAuthRoutes } from '@/hooks';
@@ -8,10 +8,9 @@ import { IUnprocessableEntity } from '@/interfaces';
 import yup from '@/libs/yup';
 import useRegister from '@/services/auth/register';
 import Button from '@/shared/Button';
-import FieldWrapper from '@/shared/forms/FieldWrapper';
 import InputFields from '@/shared/forms/InputFields';
 import PasswordField from '@/shared/forms/PasswordField';
-import { cn, isAxiosError } from '@/utils';
+import { isAxiosError } from '@/utils';
 import LoginWithGithub from './LoginWithGithub';
 
 const validationSchema = yup.object({
@@ -43,19 +42,15 @@ export default function Register() {
       }}
     >
       <Form className="space-y-4">
-        <InputFields fields={[{ isRequired: true, name: 'username', label: 'Username' }]} />
-        <FieldWrapper label="Email" isRequired name="email">
-          {({ hasError, ...props }) => (
-            <Field
-              {...props}
-              type="email"
-              className={cn('input input-bordered w-full', { 'input-error': hasError })}
-            />
-          )}
-        </FieldWrapper>
+        <InputFields
+          fields={[
+            { isRequired: true, name: 'username', label: 'Username' },
+            { isRequired: true, name: 'email', label: 'Email', type: 'email' },
+          ]}
+        />
         <PasswordField isRequired label="Password" name="password" />
         <PasswordField isRequired label="Password Confirmation" name="password_confirmation" />
-        <Link href={login} className="btn-link-auth">
+        <Link href={login()} className="btn-link-auth">
           Have an Account?
         </Link>
         <Button

@@ -4,12 +4,12 @@ import config from '@/fixtures/config';
 export default function useAuthRoutes() {
   const pathname = usePathname();
 
-  const generateAuthUrl = (name: string) => {
-    return `${pathname}?${config.authParamName}=${name}`;
+  const generateAuthUrl = (name: string, path?: string) => {
+    return `${path ?? pathname}?${config.authParamName}=${name}`;
   };
 
   return {
-    login: generateAuthUrl('login'),
+    login: (path?: string) => generateAuthUrl('login', path),
     register: generateAuthUrl('register'),
     forgotPassword: generateAuthUrl('forgotPassword'),
     resetPassword: generateAuthUrl('resetPassword'),
