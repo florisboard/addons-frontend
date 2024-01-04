@@ -4,7 +4,7 @@
 
 @layer components {
   .px-container {
-    @apply px-2 md:px-6;
+    @apply px-3 md:px-6;
   }
 
   .btn-submit-auth {

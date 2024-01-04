@@ -41,7 +41,12 @@ export default function Html({ children, className }: HtmlProps) {
       className={cn(primaryFont.variable, displayFont.variable)}
       lang="en"
     >
-      <body className={cn('relative flex min-h-screen flex-col font-sans antialiased', className)}>
+      <body
+        className={cn(
+          'relative flex min-h-screen flex-col overflow-x-hidden font-sans antialiased',
+          className,
+        )}
+      >
         <div id={MODAL_ROOT_ID} />
         <ToastContainer toastClassName="font-sans" theme={finalTheme} />
         {children}

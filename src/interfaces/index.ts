@@ -103,6 +103,13 @@ export interface IHome {
   recommended: IProject[];
 }
 
+export interface ICollection extends IModelWithTimestamps {
+  name: string;
+  user_id: number;
+  is_public: boolean;
+  projects_count: number;
+}
+
 export interface IUnprocessableEntity {
   errors: Record<string, string[]>;
   message: string;
