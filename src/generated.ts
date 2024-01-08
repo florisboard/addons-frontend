@@ -97,6 +97,7 @@ export interface ProjectFullResource {
   one_reviews_count: number;
   package_name: string;
   releases_sum_downloads_count: number;
+  reviews: ReviewResource[];
   reviews_avg_score: number;
   reviews_count: number;
   screenshots?: ImageResource[];
@@ -190,6 +191,18 @@ export interface ReleaseResource {
   id: number;
   updated_at: string;
   version: string;
+}
+
+/** ReviewResource */
+export interface ReviewResource {
+  created_at: string;
+  description: string;
+  id: number;
+  is_anonymous: boolean;
+  score: number;
+  title: string;
+  updated_at: string;
+  user: UserResource | null;
 }
 
 export interface UploadsProcessPayload {

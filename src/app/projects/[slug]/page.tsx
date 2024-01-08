@@ -61,7 +61,7 @@ export default function Project() {
         <Information project={project} />
         <Maintainers user={project.user} maintainers={project.maintainers} />
         <Links project={project} />
-        <Reviews />
+        <Reviews reviews={project.reviews} />
       </div>
     </div>
   );

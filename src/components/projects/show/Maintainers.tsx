@@ -23,7 +23,7 @@ export default function Maintainers({ maintainers, user }: MaintainersProps) {
                 className="flex flex-col items-center justify-center gap-2"
                 href={`/users/${user.username}`}
               >
-                <Avatar round size="40px" name={user.username} />
+                <Avatar round size="40" name={user.username} />
                 <span className="block text-sm">
                   {user.username} {i === 0 && ' 👑'}
                 </span>

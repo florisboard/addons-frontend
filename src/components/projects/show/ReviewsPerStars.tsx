@@ -33,7 +33,7 @@ export default function ReviewsPerStars({
             >
               {Array.from({ length: 5 }).map((_, j) => (
                 <HiStar
-                  className={cn('h-5 w-5 text-primary', { 'text-base-content': 5 - i <= j })}
+                  className={cn('h-5 w-5 text-primary', { 'text-base-content/70': 5 - i <= j })}
                   key={j}
                 />
               ))}

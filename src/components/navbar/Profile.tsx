@@ -29,7 +29,7 @@ export default function Profile() {
   return (
     <div className="dropdown dropdown-end">
       <label tabIndex={0} className="avatar btn btn-circle btn-ghost">
-        <Avatar round size="40px" name={user?.username ?? '?'} />
+        <Avatar round size="40" name={user?.username ?? '?'} />
       </label>
       <ul
         tabIndex={0}
