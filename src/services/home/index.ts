@@ -1,9 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
-import { IHome } from '@/interfaces';
-import axios from '@/libs/axios';
+import api from '@/libs/api';
 
 async function home() {
-  const resp = await axios.get<IHome>('/api/home');
+  const resp = await api.home.home();
   return resp.data;
 }
 

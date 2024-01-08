@@ -1,9 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
-import { ICategory } from '@/interfaces';
-import axios from '@/libs/axios';
+import api from '@/libs/api';
 
 async function category(slug: string) {
-  const resp = await axios.get<ICategory>(`/api/categories/${slug}`);
+  const resp = await api.categories.categoriesShow(slug);
   return resp.data;
 }
 

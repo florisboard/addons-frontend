@@ -1,10 +1,10 @@
 import React from 'react';
 import Link from 'next/link';
 import compact from 'lodash/compact';
-import { IProjectFull } from '@/interfaces';
+import { ProjectFullResource } from '@/generated';
 
 type LinksProps = {
-  project: IProjectFull;
+  project: ProjectFullResource;
 };
 
 type TLink = {

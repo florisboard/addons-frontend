@@ -1,9 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
-import { IProjectFull } from '@/interfaces';
-import axios from '@/libs/axios';
+import api from '@/libs/api';
 
 async function collection(id: number) {
-  const resp = await axios.get<IProjectFull>(`/api/collections/${id}`);
+  const resp = await api.collections.collectionsShow(id);
   return resp.data;
 }
 

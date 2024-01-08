@@ -4,11 +4,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { formatDistanceToNow } from 'date-fns';
 import compact from 'lodash/compact';
-import { IProject } from '@/interfaces';
+import { ProjectResource } from '@/generated';
 import { cn, humanReadableFormatter, isBetweenDate } from '@/utils';
-import ProjectCardSkeleton from './ProjectCardSkeleton';
 
-type ProjectCardProps = IProject & {
+type ProjectCardProps = ProjectResource & {
   bodyClassName?: string;
 };
 
@@ -42,7 +41,7 @@ export default function ProjectCard({
     },
     latest_release &&
       isBetweenDate(new Date(latest_release.created_at), 14) && {
-        tooltip: `Last release : ${formatDistanceToNow(latest_release?.created_at, {
+        tooltip: `Last release : ${formatDistanceToNow(latest_release.created_at, {
           addSuffix: true,
         })}`,
         text: 'New',

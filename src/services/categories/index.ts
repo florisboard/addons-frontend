@@ -1,19 +1,13 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { ICategory, IPaginate } from '@/interfaces';
-import axios from '@/libs/axios';
+import { CategoriesIndexParams } from '@/generated';
+import api from '@/libs/api';
 
-interface ICategoriesParams {
-  filter?: {
-    name?: string;
-  };
-}
-
-async function categories(params?: ICategoriesParams) {
-  const resp = await axios.get<IPaginate<ICategory>>('/api/categories', { params });
+async function categories(params?: CategoriesIndexParams) {
+  const resp = await api.categories.categoriesIndex({ ...params });
   return resp.data;
 }
 
-export default function useCategories(params?: ICategoriesParams) {
+export default function useCategories(params?: CategoriesIndexParams) {
   return useInfiniteQuery({
     queryKey: ['categories', params],
     queryFn: () => categories(params),

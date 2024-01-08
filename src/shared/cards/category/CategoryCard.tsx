@@ -1,9 +1,9 @@
 import React from 'react';
 import { HiFire } from 'react-icons/hi2';
 import Link from 'next/link';
-import { ICategory } from '@/interfaces';
+import { CategoryResource } from '@/generated';
 
-export default function CategoryCard({ name, slug, circle_bg, circle_fg }: ICategory) {
+export default function CategoryCard({ name, slug, circle_bg, circle_fg }: CategoryResource) {
   return (
     <Link href={`/categories/${slug}`} className="btn btn-lg delay-75 hover:scale-105 md:gap-8">
       <h3 className="text-xl">{name}</h3>

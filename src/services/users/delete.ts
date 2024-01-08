@@ -1,13 +1,10 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import axios from '@/libs/axios';
+import { UsersMeDestroyPayload } from '@/generated';
+import api from '@/libs/api';
 import { TMeta } from '@/types';
 
-export interface IDeleteAccountDto {
-  password: string;
-}
-
-async function deleteAccount(data: IDeleteAccountDto) {
-  const resp = await axios.post('api/users/me/delete', data);
+async function deleteAccount(data: UsersMeDestroyPayload) {
+  const resp = await api.users.usersMeDestroy(data);
   return resp.data;
 }
 

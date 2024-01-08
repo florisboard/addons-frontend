@@ -2,14 +2,14 @@
 
 import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { IProject } from '@/interfaces';
+import { ProjectResource } from '@/generated';
 import ProjectCard from '@/shared/cards/project/ProjectCard';
 import ProjectCardSkeleton from '@/shared/cards/project/ProjectCardSkeleton';
 import Section, { SectionProps } from '@/shared/home/Section';
 
 type ProjectsListProps = {
   section: Omit<SectionProps, 'children'>;
-  projects: IProject[] | undefined;
+  projects: ProjectResource[] | undefined;
 };
 
 export default function ProjectsList({ section, projects }: ProjectsListProps) {

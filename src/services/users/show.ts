@@ -1,9 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
-import { IUser } from '@/interfaces';
-import axios from '@/libs/axios';
+import api from '@/libs/api';
 
 async function show(username: string) {
-  const resp = await axios.get<IUser>(`/api/users/${username}`);
+  const resp = await api.users.usersShow(username);
   return resp.data;
 }
 

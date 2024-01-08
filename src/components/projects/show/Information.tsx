@@ -1,10 +1,10 @@
 import React from 'react';
 import { formatDistanceToNow } from 'date-fns';
 import compact from 'lodash/compact';
-import { IProjectFull } from '@/interfaces';
+import { ProjectFullResource } from '@/generated';
 
 type InformationProps = {
-  project: IProjectFull;
+  project: ProjectFullResource;
 };
 
 type TInfoList = {

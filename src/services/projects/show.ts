@@ -1,9 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
-import { IProjectFull } from '@/interfaces';
-import axios from '@/libs/axios';
+import api from '@/libs/api';
 
 async function project(slug: string) {
-  const resp = await axios.get<IProjectFull>(`/api/projects/${slug}`);
+  const resp = await api.projects.projectsShow(slug);
   return resp.data;
 }
 

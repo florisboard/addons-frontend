@@ -1,11 +1,11 @@
 import React from 'react';
 import Avatar from 'react-avatar';
 import Link from 'next/link';
-import { IUser } from '@/interfaces';
+import { UserResource } from '@/generated';
 
 type MaintainersProps = {
-  maintainers: IUser[];
-  user: IUser;
+  maintainers: UserResource[];
+  user: UserResource;
 };
 
 export default function Maintainers({ maintainers, user }: MaintainersProps) {

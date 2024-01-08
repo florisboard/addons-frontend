@@ -1,20 +1,13 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { ICollection, IPaginate } from '@/interfaces';
-import axios from '@/libs/axios';
+import { CollectionsIndexParams } from '@/generated';
+import api from '@/libs/api';
 
-interface ICollectionsParams {
-  filter?: {
-    name?: string;
-    user_id?: number;
-  };
-}
-
-async function collections(params?: ICollectionsParams) {
-  const resp = await axios.get<IPaginate<ICollection>>('/api/collections', { params });
+async function collections(params?: CollectionsIndexParams) {
+  const resp = await api.collections.collectionsIndex({ ...params });
   return resp.data;
 }
 
-export default function useCollections(params?: ICollectionsParams) {
+export default function useCollections(params?: CollectionsIndexParams) {
   return useInfiniteQuery({
     queryKey: ['collections', params],
     queryFn: () => collections(params),
