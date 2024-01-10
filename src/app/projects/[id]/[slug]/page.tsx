@@ -3,7 +3,7 @@
 import React from 'react';
 import Markdown from 'react-markdown';
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import Breadcrumb from '@/components/projects/show/Breadcrumb';
 import Information from '@/components/projects/show/Information';
 import Links from '@/components/projects/show/Links';
@@ -16,13 +16,22 @@ import useProject from '@/services/projects/show';
 import Button from '@/shared/Button';
 
 export default function Project() {
-  const { slug } = useParams<{ slug: string }>();
-  const { data: project } = useProject(slug);
+  const { id, slug } = useParams<{ id: string; slug: string }>();
+  const router = useRouter();
+  const { data: project, isLoading } = useProject(id);
 
+  if (isLoading) {
+    return (
+      <div className="flex h-[60svh] w-full items-center justify-center">
+        <span className="loading loading-spinner loading-lg text-primary" />
+      </div>
+    );
+  }
   if (!project) return null;
+  if (project.slug !== slug) router.replace(`/projects/${project.id}/${project.slug}`);
   return (
     <div className="px-container space-y-4">
-      <Breadcrumb slug={slug} />
+      <Breadcrumb slug={project.slug} />
       <div className="grid grid-cols-1 gap-4 md:grid-cols-6">
         <div className="card bg-base-200 md:col-span-4">
           <div className="card-body">

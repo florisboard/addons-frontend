@@ -12,7 +12,7 @@ export default function Collapse({
   title,
   contentClassName,
   children,
-  isOpenByDefault = false,
+  isOpenByDefault = true,
 }: CollapseProps) {
   const [isOpen, setIsOpen] = useState(isOpenByDefault);
 

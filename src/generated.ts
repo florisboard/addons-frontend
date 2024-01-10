@@ -136,7 +136,7 @@ export interface ProjectResource {
 
 /** ProjectTypeEnum */
 export enum ProjectTypeEnum {
-  Value1 = 1,
+  EXTENSION = 'EXTENSION',
 }
 
 export type ProjectsDestroyPayload = object;
@@ -162,7 +162,6 @@ export interface ProjectsStorePayload {
   name: string;
   package_name: string;
   short_description: string;
-  slug: string;
   /** @format email */
   support_email?: string | null;
   support_site?: string | null;
@@ -178,7 +177,6 @@ export interface ProjectsUpdatePayload {
   name: string;
   package_name: string;
   short_description: string;
-  slug: string;
   /** @format email */
   support_email?: string | null;
   support_site?: string | null;
@@ -689,7 +687,7 @@ export class Api<SecurityDataType extends unknown> {
      * @name ProjectsDestroy
      * @request DELETE:/projects/{project}
      */
-    projectsDestroy: (project: string, data: ProjectsDestroyPayload, params: RequestParams = {}) =>
+    projectsDestroy: (project: number, data: ProjectsDestroyPayload, params: RequestParams = {}) =>
       this.http.request<
         {
           /** @example "Project has been deleted successfully." */
@@ -770,7 +768,7 @@ export class Api<SecurityDataType extends unknown> {
      * @name ProjectsShow
      * @request GET:/projects/{project}
      */
-    projectsShow: (project: string, params: RequestParams = {}) =>
+    projectsShow: (project: number, params: RequestParams = {}) =>
       this.http.request<
         ProjectFullResource,
         {
@@ -820,7 +818,7 @@ export class Api<SecurityDataType extends unknown> {
      * @name ProjectsUpdate
      * @request PUT:/projects/{project}
      */
-    projectsUpdate: (project: string, data: ProjectsUpdatePayload, params: RequestParams = {}) =>
+    projectsUpdate: (project: number, data: ProjectsUpdatePayload, params: RequestParams = {}) =>
       this.http.request<
         ProjectFullResource,
         | {

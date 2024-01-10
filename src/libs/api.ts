@@ -1,11 +1,10 @@
+import axios from 'axios';
 import config from '@/fixtures/config';
 import { Api, HttpClient } from '@/generated';
-import axios from './axios';
+import { defaultAxiosProperties } from './axios';
 
 const client = new HttpClient();
-
-const apiAxios = axios;
-apiAxios.defaults.baseURL = config.backendUrl + '/api';
+const apiAxios = axios.create({ ...defaultAxiosProperties, baseURL: config.backendUrl + '/api' });
 
 client.instance = apiAxios;
 

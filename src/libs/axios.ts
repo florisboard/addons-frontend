@@ -1,7 +1,7 @@
-import mainAxios from 'axios';
+import mainAxios, { CreateAxiosDefaults } from 'axios';
 import config from '@/fixtures/config';
 
-const axios = mainAxios.create({
+export const defaultAxiosProperties: CreateAxiosDefaults = {
   baseURL: config.backendUrl,
   headers: {
     common: {
@@ -11,6 +11,8 @@ const axios = mainAxios.create({
   },
   withCredentials: true,
   withXSRFToken: true,
-});
+};
+
+const axios = mainAxios.create(defaultAxiosProperties);
 
 export default axios;

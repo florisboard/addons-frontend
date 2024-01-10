@@ -12,6 +12,7 @@ type ProjectCardProps = ProjectResource & {
 };
 
 export default function ProjectCard({
+  id,
   name,
   slug,
   short_description,
@@ -51,7 +52,7 @@ export default function ProjectCard({
 
   return (
     <Link
-      href={`/projects/${slug}`}
+      href={`/projects/${id}/${slug}`}
       className={cn('card h-[23rem] w-80 bg-base-200', bodyClassName)}
     >
       <div className="card-body gap-2">
