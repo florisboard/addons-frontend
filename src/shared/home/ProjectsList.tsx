@@ -28,7 +28,7 @@ export default function ProjectsList({ section, projects }: ProjectsListProps) {
       </Swiper>
       {!projects && (
         <div className="flex gap-4">
-          {Array.from({ length: 4 }).map((_, i) => (
+          {Array.from({ length: 5 }).map((_, i) => (
             <ProjectCardSkeleton key={i} />
           ))}
         </div>

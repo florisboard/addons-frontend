@@ -7,7 +7,7 @@ type ProjectCardSkeletonProps = {
 
 export default function ProjectCardSkeleton({ bodyClassName }: ProjectCardSkeletonProps) {
   return (
-    <div className={cn('card h-[23rem] w-80 bg-base-200', bodyClassName)}>
+    <div className={cn('card h-[23rem] min-w-[20rem] bg-base-200', bodyClassName)}>
       <div className="card-body gap-2">
         <div className="skeleton relative h-36 w-full rounded" />
         <div className="skeleton h-7" />

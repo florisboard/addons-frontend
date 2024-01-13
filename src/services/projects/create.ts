@@ -1,6 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { ProjectsStorePayload } from '@/generated';
 import api from '@/libs/api';
+import { TMeta } from '@/types';
 
 export async function create(data: ProjectsStorePayload) {
   const resp = await api.projects.projectsStore(data);
@@ -8,5 +9,10 @@ export async function create(data: ProjectsStorePayload) {
 }
 
 export default function useCreateProject() {
-  return useMutation({ mutationFn: create });
+  return useMutation({
+    mutationFn: create,
+    meta: {
+      success: { toast: { content: 'Project created successfully.' } },
+    } satisfies TMeta,
+  });
 }

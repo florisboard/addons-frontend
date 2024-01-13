@@ -20,6 +20,7 @@ export default function ProjectCard({
   reviews_count,
   releases_sum_downloads_count,
   is_recommended,
+  is_active,
   latest_release,
   bodyClassName,
 }: ProjectCardProps) {
@@ -39,6 +40,11 @@ export default function ProjectCard({
       tooltip: 'Recommended By FlorisBoard',
       text: 'Recommended',
       className: 'badge-primary',
+    },
+    !is_active && {
+      tooltip: 'Not Approved By the Admins',
+      text: 'Not Approved',
+      className: 'badge-warning',
     },
     latest_release &&
       isBetweenDate(new Date(latest_release.created_at), 14) && {

@@ -14,9 +14,10 @@ export default function ReactSelect({ className, menuClassName, ...props }: Reac
       unstyled
       classNames={{
         container: () => cn(className, 'font-sans'),
-        control: ({ isFocused }) =>
+        control: ({ isFocused, hasValue }) =>
           cn('select select-bordered', {
             'border-2 border-primary': isFocused,
+            'h-auto': props.isMulti && hasValue,
           }),
         placeholder: () => cn('text-gray-600'),
         indicatorsContainer: () => cn('gap-1'),
@@ -28,8 +29,8 @@ export default function ReactSelect({ className, menuClassName, ...props }: Reac
             'mt-1 min-h-[2rem] rounded-btn border border-base-300 bg-base-200 px-2 shadow',
             menuClassName,
           ),
-        multiValue: () => cn('m-1 rounded-btn bg-base-200 p-2'),
-        multiValueRemove: () => cn('ml-2 rounded-full hover:btn-error'),
+        multiValue: () => cn('m-1 rounded-btn bg-base-200 p-1 px-2 hover:bg-base-300'),
+        multiValueRemove: () => cn('btn btn-circle btn-ghost btn-xs ml-1'),
         option: ({ isFocused, isSelected }) =>
           cn('my-2 rounded-btn px-2 py-3 text-base hover:cursor-pointer', {
             'bg-primary text-primary-content': isSelected,

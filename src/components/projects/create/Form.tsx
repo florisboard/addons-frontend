@@ -13,6 +13,7 @@ import InputFields from '@/shared/forms/InputFields';
 import MarkdownInput from '@/shared/forms/MarkdownInput';
 import { cn } from '@/utils';
 import CategoriesSelect from './CategoriesSelect';
+import MaintainersSelect from './MaintainersSelect';
 
 const validationSchema = yup.object<ProjectsStorePayload>({
   category_id: yup.number().required().min(1),
@@ -53,6 +54,7 @@ export default function Form({ submit, onSubmit }: FormProps) {
       <FormikForm className="space-y-4">
         <Collapse title="Main" contentClassName="grid grid-cols-1 gap-4 md:grid-cols-2">
           <CategoriesSelect />
+          <MaintainersSelect />
           <InputFields
             fields={[
               { isRequired: true, name: 'name', label: 'Name' },

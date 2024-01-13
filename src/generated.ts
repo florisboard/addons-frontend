@@ -24,7 +24,7 @@ export interface AuthResource {
   created_at: string;
   email: string;
   email_verified_at: string;
-  id: string;
+  id: number;
   updated_at: string;
   username: string;
   username_changed_at: string;
@@ -211,6 +211,12 @@ export interface UploadsProcessPayload {
 export interface UserResource {
   id: number;
   username: string;
+}
+
+export interface UsersIndexParams {
+  filter?: {
+    username?: string | null;
+  };
 }
 
 export interface UsersMeDestroyPayload {
@@ -841,6 +847,57 @@ export class Api<SecurityDataType extends unknown> {
       }),
   };
   users = {
+    /**
+     * No description
+     *
+     * @tags User
+     * @name UsersIndex
+     * @request GET:/users
+     */
+    usersIndex: (query: UsersIndexParams, params: RequestParams = {}) =>
+      this.http.request<
+        {
+          data: UserResource[];
+          links: {
+            first: string | null;
+            last: string | null;
+            next: string | null;
+            prev: string | null;
+          };
+          meta: {
+            current_page: number;
+            from: number | null;
+            last_page: number;
+            /** Generated paginator links. */
+            links: {
+              active: boolean;
+              label: string;
+              url: string | null;
+            }[];
+            /** Base path for paginator generated URLs. */
+            path: string | null;
+            /** Number of items shown per page. */
+            per_page: number;
+            /** Number of the last item in the slice. */
+            to: number | null;
+            /** Total number of items being paginated. */
+            total: number;
+          };
+        },
+        {
+          /** A detailed description of each field that failed validation. */
+          errors: Record<string, string[]>;
+          /** Errors overview. */
+          message: string;
+        }
+      >({
+        path: `/users`,
+        method: 'GET',
+        query: query,
+        format: 'json',
+        ...params,
+      }),
+
     /**
      * No description
      *
