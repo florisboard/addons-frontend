@@ -2,8 +2,9 @@
 
 import React from 'react';
 import { useRouter } from 'next/navigation';
-import Form from '@/components/projects/create/Form';
 import VerifyAlert from '@/components/projects/create/VerifyAlert';
+import Form from '@/components/projects/form/Form';
+import { ProjectTypeEnum } from '@/generated';
 import { IUnprocessableEntity } from '@/interfaces';
 import useCreateProject from '@/services/projects/create';
 import useMe from '@/services/users/me';
@@ -24,7 +25,7 @@ export default function CreateProject() {
         {!isLoading && !isVerified && <VerifyAlert />}
         <h1 className="font-display text-3xl font-bold">Create new Project</h1>
         <Form
-          onSubmit={(values, { setErrors, resetForm }) => {
+          onSubmit={(values, { setErrors }) => {
             create(values, {
               onError: (e) => {
                 if (isAxiosError<IUnprocessableEntity>(e, 422)) {

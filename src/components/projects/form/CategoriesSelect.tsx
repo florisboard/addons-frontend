@@ -7,7 +7,11 @@ import useCategories from '@/services/categories';
 import FieldWrapper from '@/shared/forms/FieldWrapper';
 import ReactSelect from '@/shared/forms/ReactSelect';
 
-export default function CategoriesSelect() {
+type CategoriesSelectProps = {
+  defaultValue?: IOption;
+};
+
+export default function CategoriesSelect({ defaultValue }: CategoriesSelectProps) {
   const [search, setSearch] = useState('');
   const { setFieldValue } = useFormikContext<ProjectsStorePayload>();
   const [debouncedSearch] = useDebounce(search, 1000);
@@ -22,6 +26,7 @@ export default function CategoriesSelect() {
         onChange={(value) => {
           setFieldValue('category_id', (value as IOption).value);
         }}
+        defaultValue={defaultValue}
         inputValue={search}
         onInputChange={setSearch}
         options={options}

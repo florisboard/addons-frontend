@@ -2,8 +2,10 @@
 
 import React, { useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
+import Form from '@/components/projects/form/Form';
 import { useCanEditProject } from '@/hooks';
 import useProject from '@/services/projects/show';
+import AuthMiddleware from '@/shared/AuthMiddleware';
 import CenterSpinner from '@/shared/CenterSpinner';
 
 export default function Edit() {
@@ -19,5 +21,20 @@ export default function Edit() {
   }, [isLoading, canEdit, router]);
 
   if (isLoading) return <CenterSpinner />;
-  return <div>Edit</div>;
+  return (
+    <AuthMiddleware middleware="auth">
+      <div className="px-container space-y-4">
+        <h1 className="font-display text-3xl font-bold">Edit {project?.name}</h1>
+        <Form
+          initialValues={{
+            ...project,
+            maintainers: project?.maintainers.map((user) => user.id),
+          }}
+          project={project}
+          onSubmit={(values, { setErrors }) => {}}
+          submit={{ text: 'Edit', isPending: false }}
+        />
+      </div>
+    </AuthMiddleware>
+  );
 }

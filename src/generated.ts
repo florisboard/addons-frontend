@@ -80,7 +80,7 @@ export interface ImageResource {
 /** ProjectFullResource */
 export interface ProjectFullResource {
   category: CategoryResource;
-  category_id: string;
+  category_id: number;
   created_at: string;
   description: string;
   donate_site: string;
@@ -107,10 +107,10 @@ export interface ProjectFullResource {
   support_site: string;
   three_reviews_count: number;
   two_reviews_count: number;
-  type: string;
+  type: ProjectTypeEnum;
   updated_at: string;
   user: UserResource;
-  user_id: string;
+  user_id: number;
 }
 
 /** ProjectResource */
@@ -158,9 +158,11 @@ export interface ProjectsStorePayload {
   description: string;
   donate_site?: string | null;
   home_page?: string | null;
-  maintainers?: any[] | null;
+  image_path: string;
+  maintainers?: number[];
   name: string;
   package_name: string;
+  screenshots_path?: any[] | null;
   short_description: string;
   /** @format email */
   support_email?: string | null;
@@ -173,9 +175,11 @@ export interface ProjectsUpdatePayload {
   description: string;
   donate_site?: string | null;
   home_page?: string | null;
-  maintainers?: any[] | null;
+  image_path: string;
+  maintainers?: number[];
   name: string;
   package_name: string;
+  screenshots_path?: any[] | null;
   short_description: string;
   /** @format email */
   support_email?: string | null;

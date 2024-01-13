@@ -8,7 +8,11 @@ import useMe from '@/services/users/me';
 import FieldWrapper from '@/shared/forms/FieldWrapper';
 import ReactSelect from '@/shared/forms/ReactSelect';
 
-export default function MaintainersSelect() {
+type MaintainersSelectProps = {
+  defaultValue?: IOption[];
+};
+
+export default function MaintainersSelect({ defaultValue }: MaintainersSelectProps) {
   const [search, setSearch] = useState('');
   const { setFieldValue, values } = useFormikContext<ProjectsStorePayload>();
   const { data: me } = useMe();
@@ -33,6 +37,7 @@ export default function MaintainersSelect() {
             (values as IOption[]).map((option) => option.value),
           );
         }}
+        defaultValue={defaultValue}
         isMulti
         inputValue={search}
         onInputChange={setSearch}
