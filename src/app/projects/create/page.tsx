@@ -32,8 +32,8 @@ export default function CreateProject() {
                   setErrors(e.response?.data.errors as any);
                 }
               },
-              onSuccess: () => {
-                router.push(`/users/${me?.username}`);
+              onSuccess: (data) => {
+                router.push(`/projects/${data.id}/${data.slug}`);
               },
             });
           }}

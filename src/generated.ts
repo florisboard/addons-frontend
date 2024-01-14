@@ -88,10 +88,10 @@ export interface ProjectFullResource {
   four_reviews_count: number;
   home_page: string;
   id: string;
-  image?: ImageResource;
+  image: ImageResource;
   is_active: string;
   is_recommended: string;
-  latest_release: ReleaseResource;
+  latest_release: ReleaseResource | null;
   maintainers: UserResource[];
   name: string;
   one_reviews_count: number;
@@ -118,10 +118,10 @@ export interface ProjectResource {
   category_id: number;
   created_at: string;
   id: number;
-  image?: ImageResource;
+  image: ImageResource;
   is_active: boolean;
   is_recommended: boolean;
-  latest_release: ReleaseResource;
+  latest_release: ReleaseResource | null;
   name: string;
   package_name: string;
   releases_sum_downloads_count: number;

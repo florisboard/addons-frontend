@@ -16,23 +16,23 @@ export default function Information({ project }: InformationProps) {
   const lists: TInfoList[] = compact([
     { name: 'Package Name', value: project?.package_name },
     { name: 'Creator', value: project?.user.username },
-    { name: 'Version', value: project?.latest_release.version },
+    { name: 'Version', value: project?.latest_release?.version ?? '0' },
     { name: 'Created', value: formatDistanceToNow(project?.created_at, { addSuffix: true }) },
     { name: 'Updated', value: formatDistanceToNow(project?.updated_at, { addSuffix: true }) },
-    {
+    project?.latest_release && {
       name: 'Last Release',
       value: formatDistanceToNow(project?.latest_release.created_at, { addSuffix: true }),
     },
   ]);
 
   return (
-    <section className="card bg-base-200 md:col-span-2">
+    <section className="card bg-base-200 lg:col-span-2">
       <div className="card-body">
         <h2 className="card-title font-display text-2xl">Information</h2>
         <div className="divider" />
         <ul>
           {lists.map((list) => (
-            <li key={list.name} className="flex items-center gap-2">
+            <li key={list.name} className="flex items-center gap-2 overflow-x-hidden">
               <span className="font-display text-lg font-medium">{list.name} :</span>
               <span className="select-all font-medium">{list.value}</span>
             </li>
