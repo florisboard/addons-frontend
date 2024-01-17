@@ -1,7 +1,7 @@
 import { toast } from 'react-toastify';
 import { MutationCache, QueryCache, QueryClient } from '@tanstack/react-query';
 import errorMessages from '@/fixtures/errorMessages';
-import { TMeta } from '@/types';
+import { TReactQueryMeta } from '@/types';
 import { isAxiosError } from '@/utils';
 
 const queryClient = new QueryClient({
@@ -14,14 +14,14 @@ const queryClient = new QueryClient({
   }),
   mutationCache: new MutationCache({
     onSuccess: (data, variables, context, mutation) => {
-      const meta = mutation.meta as TMeta | undefined;
+      const meta = mutation.meta as TReactQueryMeta | undefined;
       const toastMeta = meta?.success?.toast;
       if (toastMeta) {
         toast.success(toastMeta.content, toastMeta);
       }
     },
     onError: (e, variables, context, mutation) => {
-      const meta = mutation.meta as TMeta | undefined;
+      const meta = mutation.meta as TReactQueryMeta | undefined;
       const toastMeta = meta?.error?.toast;
       if (toastMeta) {
         toast.error(toastMeta.content, toastMeta);

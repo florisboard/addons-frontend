@@ -2,6 +2,7 @@ import axios, { AxiosError } from 'axios';
 import { ClassValue, clsx } from 'clsx';
 import { addDays, isBefore } from 'date-fns';
 import { twMerge } from 'tailwind-merge';
+import { TApiMeta } from '@/types';
 
 export function cn(...values: ClassValue[]) {
   return twMerge(clsx(...values));
@@ -29,4 +30,9 @@ export function isAxiosError<ResponseType>(
   statusCode?: number,
 ): error is AxiosError<ResponseType> {
   return axios.isAxiosError(error) && statusCode ? error.response?.status === statusCode : true;
+}
+
+export function getNextPageParam({ meta }: TApiMeta): number | undefined {
+  if (meta.current_page === meta.last_page) return undefined;
+  return meta.current_page + 1;
 }

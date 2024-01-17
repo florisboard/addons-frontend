@@ -34,6 +34,7 @@ export interface CategoriesIndexParams {
   filter?: {
     name?: string | null;
   };
+  page?: number | null;
 }
 
 /** CategoryResource */
@@ -65,6 +66,7 @@ export interface CollectionsIndexParams {
     name?: string | null;
     user_id?: number | null;
   };
+  page?: number | null;
 }
 
 export type CollectionsStorePayload = object;
@@ -149,6 +151,7 @@ export interface ProjectsIndexParams {
     user_id?: number | null;
   };
   include?: 'user' | 'category';
+  page?: number | null;
   sort?: 'package_name' | '-package_name' | 'name' | '-name' | 'id' | '-id';
 }
 
@@ -207,6 +210,13 @@ export interface ReleaseResource {
   version: string;
 }
 
+export interface ReleasesIndexParams {
+  filter?: {
+    project_id?: number | null;
+  };
+  page?: number | null;
+}
+
 /** ReviewResource */
 export interface ReviewResource {
   created_at: string;
@@ -233,6 +243,7 @@ export interface UsersIndexParams {
   filter?: {
     username?: string | null;
   };
+  page?: number | null;
 }
 
 export interface UsersMeDestroyPayload {
@@ -858,6 +869,62 @@ export class Api<SecurityDataType extends unknown> {
         method: 'PUT',
         body: data,
         type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+  };
+  releases = {
+    /**
+     * No description
+     *
+     * @tags Release
+     * @name ReleasesIndex
+     * @request GET:/releases
+     */
+    releasesIndex: (query: ReleasesIndexParams, params: RequestParams = {}) =>
+      this.http.request<
+        {
+          data: ReleaseFullResource[];
+          links: {
+            first: string | null;
+            last: string | null;
+            next: string | null;
+            prev: string | null;
+          };
+          meta: {
+            current_page: number;
+            from: number | null;
+            last_page: number;
+            /** Generated paginator links. */
+            links: {
+              active: boolean;
+              label: string;
+              url: string | null;
+            }[];
+            /** Base path for paginator generated URLs. */
+            path: string | null;
+            /** Number of items shown per page. */
+            per_page: number;
+            /** Number of the last item in the slice. */
+            to: number | null;
+            /** Total number of items being paginated. */
+            total: number;
+          };
+        },
+        | {
+            /** Error overview. */
+            message: string;
+          }
+        | {
+            /** A detailed description of each field that failed validation. */
+            errors: Record<string, string[]>;
+            /** Errors overview. */
+            message: string;
+          }
+      >({
+        path: `/releases`,
+        method: 'GET',
+        query: query,
         format: 'json',
         ...params,
       }),

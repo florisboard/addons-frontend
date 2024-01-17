@@ -1,17 +1,18 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { ProjectsIndexParams } from '@/generated';
+import { ReleasesIndexParams } from '@/generated';
 import api from '@/libs/api';
+import { getNextPageParam } from '@/utils';
 
-async function getReleases(params?: ProjectsIndexParams) {
-  const resp = await api.projects.projectsIndex({ ...params });
+async function getReleases(params?: ReleasesIndexParams) {
+  const resp = await api.releases.releasesIndex({ ...params });
   return resp.data;
 }
 
-export default function useReleases(params?: ProjectsIndexParams) {
+export default function useReleases(params?: ReleasesIndexParams) {
   return useInfiniteQuery({
-    queryKey: ['projects', params],
-    queryFn: () => getReleases(params),
-    initialPageParam: null,
-    getNextPageParam: (lastPage) => lastPage.links.next,
+    queryKey: ['releases', params],
+    queryFn: ({ pageParam }) => getReleases({ ...params, page: pageParam }),
+    initialPageParam: 1,
+    getNextPageParam: getNextPageParam,
   });
 }

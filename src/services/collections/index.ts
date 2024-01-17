@@ -1,6 +1,7 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { CollectionsIndexParams } from '@/generated';
 import api from '@/libs/api';
+import { getNextPageParam } from '@/utils';
 
 async function collections(params?: CollectionsIndexParams) {
   const resp = await api.collections.collectionsIndex({ ...params });
@@ -10,8 +11,8 @@ async function collections(params?: CollectionsIndexParams) {
 export default function useCollections(params?: CollectionsIndexParams) {
   return useInfiniteQuery({
     queryKey: ['collections', params],
-    queryFn: () => collections(params),
-    initialPageParam: null,
-    getNextPageParam: (lastPage) => lastPage.links.next,
+    queryFn: ({ pageParam }) => collections({ ...params, page: pageParam }),
+    initialPageParam: 1,
+    getNextPageParam: getNextPageParam,
   });
 }
