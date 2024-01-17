@@ -52,7 +52,6 @@ export interface CollectionResource {
   id: number;
   is_public: boolean;
   name: string;
-  projects?: ProjectResource[];
   projects_count?: number;
   updated_at: string;
   user?: UserResource;
@@ -91,7 +90,7 @@ export interface ProjectFullResource {
   image: ImageResource;
   is_active: string;
   is_recommended: string;
-  latest_release: ReleaseResource | null;
+  latest_release: ReleaseFullResource | null;
   maintainers: UserResource[];
   name: string;
   one_reviews_count: number;
@@ -185,6 +184,19 @@ export interface ProjectsUpdatePayload {
   support_email?: string | null;
   support_site?: string | null;
   type: ProjectTypeEnum;
+}
+
+/** ReleaseFullResource */
+export interface ReleaseFullResource {
+  created_at: string;
+  description: string;
+  downloads_count: number;
+  id: string;
+  project_id: string;
+  updated_at: string;
+  user: UserResource;
+  user_id: string;
+  version: string;
 }
 
 /** ReleaseResource */
