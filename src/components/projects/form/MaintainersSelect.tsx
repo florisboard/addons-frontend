@@ -10,9 +10,10 @@ import ReactSelect from '@/shared/forms/ReactSelect';
 
 type MaintainersSelectProps = {
   defaultValue?: IOption[];
+  ownerId: number | undefined;
 };
 
-export default function MaintainersSelect({ defaultValue }: MaintainersSelectProps) {
+export default function MaintainersSelect({ defaultValue, ownerId }: MaintainersSelectProps) {
   const [search, setSearch] = useState('');
   const { setFieldValue, values } = useFormikContext<ProjectsStorePayload>();
   const { data: me } = useMe();
@@ -27,6 +28,8 @@ export default function MaintainersSelect({ defaultValue }: MaintainersSelectPro
         .filter((user) => user.value !== me?.id),
     )
     .at(0);
+
+  if (me?.id === ownerId) return null;
 
   return (
     <FieldWrapper name="maintainers" isRequired={false} label="Maintainers">

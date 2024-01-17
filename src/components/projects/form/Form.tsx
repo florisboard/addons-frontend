@@ -69,6 +69,7 @@ export default function Form({ submit, onSubmit, initialValues, project }: FormP
               }
             />
             <MaintainersSelect
+              ownerId={project?.user_id}
               defaultValue={project?.maintainers.map((user) => ({
                 label: user.username,
                 value: user.id,
