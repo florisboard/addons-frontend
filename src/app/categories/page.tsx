@@ -2,9 +2,9 @@
 
 import React, { Fragment } from 'react';
 import useCategories from '@/services/categories';
-import LoadMore from '@/shared/LoadMore';
 import CategoryCard from '@/shared/cards/category/CategoryCard';
 import CategoryCardSkeleton from '@/shared/cards/category/CategoryCardSkeleton';
+import LoadMore from '@/shared/forms/LoadMore';
 
 export default function Categories() {
   const {

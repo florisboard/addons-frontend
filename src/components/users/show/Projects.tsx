@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react';
 import NewProjectCard from '@/components/projects/create/NewProjectCard';
 import useProjects from '@/services/projects';
-import LoadMore from '@/shared/LoadMore';
 import ProjectCard from '@/shared/cards/project/ProjectCard';
 import ProjectCardSkeleton from '@/shared/cards/project/ProjectCardSkeleton';
+import LoadMore from '@/shared/forms/LoadMore';
 
 type ProjectsProps = {
   userId?: number;

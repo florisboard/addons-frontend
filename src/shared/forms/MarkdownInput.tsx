@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from 'react';
-import Markdown from 'react-markdown';
 import { Field, useFormikContext } from 'formik';
+import Markdown from '@/shared/forms/Markdown';
 import { cn } from '@/utils';
 
 type MarkdownInputProps = {
@@ -28,7 +28,7 @@ export default function MarkdownInput(props: MarkdownInputProps) {
     {
       type: 'preview',
       label: 'Preview',
-      content: <Markdown className="prose prose-sm">{values[props.name]}</Markdown>,
+      content: <Markdown className="prose-sm">{values[props.name]}</Markdown>,
     },
   ];
 

@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import Markdown from 'react-markdown';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import Breadcrumb from '@/components/projects/show/Breadcrumb';
@@ -16,6 +15,7 @@ import Stats from '@/components/projects/show/Stats';
 import { useCanEditProject } from '@/hooks';
 import useProject from '@/services/projects/show';
 import CenterSpinner from '@/shared/CenterSpinner';
+import Markdown from '@/shared/forms/Markdown';
 
 export default function Project() {
   const { id } = useParams<{ id: string; slug: string }>();
@@ -53,7 +53,7 @@ export default function Project() {
               )}
             </div>
             <div className="divider" />
-            <Markdown className="prose prose-sm">{project?.description}</Markdown>
+            <Markdown className="prose-sm">{project?.description}</Markdown>
             <Screenshots />
           </div>
         </div>

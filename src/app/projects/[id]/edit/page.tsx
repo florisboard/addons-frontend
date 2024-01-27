@@ -12,7 +12,7 @@ export default function Edit() {
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
   const { data: project, isLoading: isProjectLoading } = useProject(id);
-  const { canEdit, isLoading: isMeLoading } = useCanEditProject(project);
+  const { canEdit, isLoading: isMeLoading, isOwner } = useCanEditProject(project);
   const isLoading = isProjectLoading || isMeLoading;
 
   useEffect(() => {
@@ -26,6 +26,7 @@ export default function Edit() {
       <div className="px-container space-y-4">
         <h1 className="font-display text-3xl font-bold">Edit {project?.name}</h1>
         <Form
+          isOwner={isOwner}
           initialValues={{
             ...project,
             maintainers: project?.maintainers.map((user) => user.id),

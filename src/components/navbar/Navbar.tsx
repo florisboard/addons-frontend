@@ -3,7 +3,7 @@
 import React, { Suspense, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { cn } from '@/utils';
-import Search from '../../shared/Search';
+import Search from '../../shared/forms/Search';
 import Links from './Links';
 import MobileDropdown from './MobileDropdown';
 import Profile from './Profile';

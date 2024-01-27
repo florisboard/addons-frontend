@@ -8,7 +8,7 @@ import FieldWrapper from '@/shared/forms/FieldWrapper';
 import ReactSelect from '@/shared/forms/ReactSelect';
 
 type CategoriesSelectProps = {
-  defaultValue?: IOption;
+  defaultValue?: IOption<number>;
 };
 
 export default function CategoriesSelect({ defaultValue }: CategoriesSelectProps) {
@@ -16,7 +16,7 @@ export default function CategoriesSelect({ defaultValue }: CategoriesSelectProps
   const { setFieldValue } = useFormikContext<ProjectsStorePayload>();
   const [debouncedSearch] = useDebounce(search, 1000);
   const { data, isLoading } = useCategories({ filter: { name: debouncedSearch } });
-  const options: IOption[] | undefined = data?.pages
+  const options: IOption<number>[] | undefined = data?.pages
     .map((page) => page.data.map((category) => ({ value: category.id, label: category.name })))
     .at(0);
 
@@ -24,7 +24,7 @@ export default function CategoriesSelect({ defaultValue }: CategoriesSelectProps
     <FieldWrapper name="category_id" isRequired label="Category">
       <ReactSelect
         onChange={(value) => {
-          setFieldValue('category_id', (value as IOption).value);
+          setFieldValue('category_id', (value as IOption<number>).value);
         }}
         defaultValue={defaultValue}
         inputValue={search}

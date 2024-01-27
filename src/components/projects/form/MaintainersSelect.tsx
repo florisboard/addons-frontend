@@ -9,7 +9,7 @@ import FieldWrapper from '@/shared/forms/FieldWrapper';
 import ReactSelect from '@/shared/forms/ReactSelect';
 
 type MaintainersSelectProps = {
-  defaultValue?: IOption[];
+  defaultValue?: IOption<number>[];
   ownerId: number | undefined;
 };
 
@@ -21,7 +21,7 @@ export default function MaintainersSelect({ defaultValue, ownerId }: Maintainers
   const { data, isLoading } = useUsers({ filter: { username: debouncedSearch } });
   const isMaxMaintainers = (values.maintainers?.length ?? 0) >= 5;
 
-  const options: IOption[] | undefined = data?.pages
+  const options: IOption<number>[] | undefined = data?.pages
     .map((page) =>
       page.data
         .map((user) => ({ value: user.id, label: user.username }))
@@ -37,7 +37,7 @@ export default function MaintainersSelect({ defaultValue, ownerId }: Maintainers
         onChange={(values) => {
           setFieldValue(
             'maintainers',
-            (values as IOption[]).map((option) => option.value),
+            (values as IOption<number>[]).map((option) => option.value),
           );
         }}
         defaultValue={defaultValue}
