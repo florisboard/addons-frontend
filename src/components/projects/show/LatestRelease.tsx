@@ -47,7 +47,11 @@ export default function LatestRelease({ latestRelease }: LatestReleaseProps) {
 
   return (
     <section className="card bg-base-200 md:col-span-2 md:h-min lg:sticky lg:top-20">
-      <ReleasesModal hasModalOpened={hasModalOpened} modalRef={modalRef} />
+      <ReleasesModal
+        projectId={latestRelease!.project_id}
+        hasModalOpened={hasModalOpened}
+        modalRef={modalRef}
+      />
       <div className="card-body gap-4">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <h2 className="card-title font-display text-2xl">Release</h2>

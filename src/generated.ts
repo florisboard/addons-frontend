@@ -23,11 +23,11 @@ import axios from 'axios';
 export interface AuthResource {
   created_at: string;
   email: string;
-  email_verified_at: string;
+  email_verified_at: string | null;
   id: number;
   updated_at: string;
   username: string;
-  username_changed_at: string;
+  username_changed_at: string | null;
 }
 
 export interface CategoriesIndexParams {
@@ -195,7 +195,7 @@ export interface ReleaseFullResource {
   description: string;
   downloads_count: number;
   id: string;
-  project_id: string;
+  project_id: number;
   updated_at: string;
   user: UserResource;
   user_id: string;
@@ -215,6 +215,7 @@ export interface ReleasesIndexParams {
     project_id?: number | null;
   };
   page?: number | null;
+  sort?: 'id' | '-id';
 }
 
 /** ReviewResource */
@@ -911,16 +912,12 @@ export class Api<SecurityDataType extends unknown> {
             total: number;
           };
         },
-        | {
-            /** Error overview. */
-            message: string;
-          }
-        | {
-            /** A detailed description of each field that failed validation. */
-            errors: Record<string, string[]>;
-            /** Errors overview. */
-            message: string;
-          }
+        {
+          /** A detailed description of each field that failed validation. */
+          errors: Record<string, string[]>;
+          /** Errors overview. */
+          message: string;
+        }
       >({
         path: `/releases`,
         method: 'GET',

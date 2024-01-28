@@ -1,5 +1,6 @@
 import React, { Fragment, Ref, useState } from 'react';
 import { HiXMark } from 'react-icons/hi2';
+import { ReleasesIndexParams } from '@/generated';
 import { IOption } from '@/interfaces';
 import useReleases from '@/services/releases';
 import Button from '@/shared/Button';
@@ -12,17 +13,20 @@ import { cn } from '@/utils';
 type ReleasesModal = {
   modalRef: Ref<HTMLDialogElement>;
   hasModalOpened: boolean;
+  projectId: number;
 };
 
-const filters: IOption<string>[] = [
+type TSort = ReleasesIndexParams['sort'];
+
+const filters: IOption<TSort>[] = [
   { label: 'Latest', value: '-id' },
   { label: 'Oldest', value: 'id' },
 ];
 
-export default function ReleasesModal({ modalRef, hasModalOpened }: ReleasesModal) {
-  const [orderBy, setOrderBy] = useState('latest');
+export default function ReleasesModal({ modalRef, hasModalOpened, projectId }: ReleasesModal) {
+  const [orderBy, setOrderBy] = useState<TSort>(filters.at(0)?.value);
   const { isLoading, data, hasNextPage, fetchNextPage, isFetchingNextPage } = useReleases(
-    {},
+    { filter: { project_id: projectId }, sort: orderBy },
     hasModalOpened,
   );
 

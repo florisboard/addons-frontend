@@ -1,8 +1,9 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
+import { toast } from 'react-toastify';
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import Breadcrumb from '@/components/projects/show/Breadcrumb';
 import Information from '@/components/projects/show/Information';
 import LatestRelease from '@/components/projects/show/LatestRelease';
@@ -18,9 +19,19 @@ import CenterSpinner from '@/shared/CenterSpinner';
 import Markdown from '@/shared/forms/Markdown';
 
 export default function Project() {
+  const router = useRouter();
   const { id } = useParams<{ id: string; slug: string }>();
   const { data: project, isLoading } = useProject(id);
   const { canEdit } = useCanEditProject(project);
+
+  useEffect(() => {
+    if (isLoading) return;
+    if (project) router.replace(`/projects/${id}/${project.slug}`);
+    else {
+      toast.error(`Project ${id} was not found.`);
+      router.replace('/');
+    }
+  }, [id, router, isLoading, project]);
 
   if (isLoading) return <CenterSpinner />;
   if (!project) return null;
