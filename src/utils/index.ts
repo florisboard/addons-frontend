@@ -2,6 +2,7 @@ import axios, { AxiosError } from 'axios';
 import { ClassValue, clsx } from 'clsx';
 import { addDays, isBefore } from 'date-fns';
 import { twMerge } from 'tailwind-merge';
+import axiosInstance from '@/libs/axios';
 import { TApiMeta } from '@/types';
 
 export function cn(...values: ClassValue[]) {
@@ -35,4 +36,16 @@ export function isAxiosError<ResponseType>(
 export function getNextPageParam({ meta }: TApiMeta): number | undefined {
   if (meta.current_page === meta.last_page) return undefined;
   return meta.current_page + 1;
+}
+
+export async function downloadFile(url: string, fileName: string) {
+  const { data } = await axiosInstance.get(url, { responseType: 'blob' });
+
+  const link = document.createElement('a');
+  link.href = window.URL.createObjectURL(new Blob([data]));
+  link.setAttribute('download', fileName);
+
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
 }

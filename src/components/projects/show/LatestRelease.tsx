@@ -11,9 +11,10 @@ import { cn, humanReadableFormatter } from '@/utils';
 
 type LatestReleaseProps = {
   latestRelease: ReleaseFullResource | null;
+  projectSlug: string;
 };
 
-export default function LatestRelease({ latestRelease }: LatestReleaseProps) {
+export default function LatestRelease({ latestRelease, projectSlug }: LatestReleaseProps) {
   const { modalRef, handleOpenModal: handleOpenDialogModal } = useDialogModal();
   const [hasModalOpened, setHasModalOpened] = useState(false);
 
@@ -48,7 +49,8 @@ export default function LatestRelease({ latestRelease }: LatestReleaseProps) {
   return (
     <section className="card bg-base-200 md:col-span-2 md:h-min lg:sticky lg:top-20">
       <ReleasesModal
-        projectId={latestRelease!.project_id}
+        projectSlug={projectSlug}
+        projectId={latestRelease?.project_id}
         hasModalOpened={hasModalOpened}
         modalRef={modalRef}
       />
@@ -75,7 +77,7 @@ export default function LatestRelease({ latestRelease }: LatestReleaseProps) {
             <Markdown hasViewMore className="prose-sm">
               {latestRelease?.description}
             </Markdown>
-            <Download />
+            {latestRelease && <Download release={latestRelease} project={{ slug: projectSlug }} />}
           </>
         )}
       </div>

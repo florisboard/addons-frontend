@@ -13,7 +13,8 @@ import { cn } from '@/utils';
 type ReleasesModal = {
   modalRef: Ref<HTMLDialogElement>;
   hasModalOpened: boolean;
-  projectId: number;
+  projectId: number | undefined;
+  projectSlug: string;
 };
 
 type TSort = ReleasesIndexParams['sort'];
@@ -23,7 +24,12 @@ const filters: IOption<TSort>[] = [
   { label: 'Oldest', value: 'id' },
 ];
 
-export default function ReleasesModal({ modalRef, hasModalOpened, projectId }: ReleasesModal) {
+export default function ReleasesModal({
+  modalRef,
+  hasModalOpened,
+  projectSlug,
+  projectId,
+}: ReleasesModal) {
   const [orderBy, setOrderBy] = useState<TSort>(filters.at(0)?.value);
   const { isLoading, data, hasNextPage, fetchNextPage, isFetchingNextPage } = useReleases(
     { filter: { project_id: projectId }, sort: orderBy },
@@ -59,7 +65,7 @@ export default function ReleasesModal({ modalRef, hasModalOpened, projectId }: R
       {data?.pages.map((page) => (
         <Fragment key={page.meta.current_page}>
           {page.data.map((release) => (
-            <ReleaseCard key={release.id} {...release} />
+            <ReleaseCard projectSlug={projectSlug} key={release.id} {...release} />
           ))}
         </Fragment>
       ))}

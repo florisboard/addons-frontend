@@ -8,14 +8,18 @@ import Markdown from '@/shared/forms/Markdown';
 import Download from '@/shared/releases/Download';
 import { humanReadableFormatter } from '@/utils';
 
-type ReleaseCardProps = ReleaseFullResource;
+type ReleaseCardProps = ReleaseFullResource & {
+  projectSlug: string;
+};
 
 export default function ReleaseCard({
+  id,
   user,
   version,
   downloads_count,
   description,
   created_at,
+  projectSlug,
 }: ReleaseCardProps) {
   const userLink = `/users/${user.username}`;
 
@@ -46,9 +50,9 @@ export default function ReleaseCard({
             <h4 className="card-title">{version}</h4>
           </div>
         </div>
-        <div className="flex gap-4 overflow-x-auto">
+        <div className="flex gap-4 overflow-x-auto scrollbar-none">
           {badges.map((badge) => (
-            <span key={badge.name} className="badge badge-lg gap-2 bg-base-300 p-3">
+            <span key={badge.name} className="badge badge-lg min-w-fit gap-2 bg-base-300 p-3">
               <badge.Icon className="h-6 w-6" />
               {badge.value}
             </span>
@@ -56,7 +60,7 @@ export default function ReleaseCard({
         </div>
         <Markdown hasViewMore>{description}</Markdown>
         <div className="card-actions">
-          <Download />
+          <Download release={{ id, version }} project={{ slug: projectSlug }} />
         </div>
       </div>
     </div>

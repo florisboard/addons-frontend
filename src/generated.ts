@@ -194,7 +194,7 @@ export interface ReleaseFullResource {
   created_at: string;
   description: string;
   downloads_count: number;
-  id: string;
+  id: number;
   project_id: number;
   updated_at: string;
   user: UserResource;
@@ -875,6 +875,29 @@ export class Api<SecurityDataType extends unknown> {
       }),
   };
   releases = {
+    /**
+     * No description
+     *
+     * @tags Release
+     * @name ReleasesDownload
+     * @request GET:/releases/{release}/download
+     */
+    releasesDownload: (release: number, params: RequestParams = {}) =>
+      this.http.request<
+        {
+          link: string;
+        },
+        {
+          /** Error overview. */
+          message: string;
+        }
+      >({
+        path: `/releases/${release}/download`,
+        method: 'GET',
+        format: 'json',
+        ...params,
+      }),
+
     /**
      * No description
      *
