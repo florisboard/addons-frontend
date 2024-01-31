@@ -89,7 +89,7 @@ export default function Project() {
         <Maintainers user={project.user} maintainers={project.maintainers} />
         <Links project={project} />
         <LatestRelease projectSlug={project.slug} latestRelease={project.latest_release} />
-        <Reviews reviews={project.reviews} />
+        <Reviews projectId={id!} reviews={project.reviews} />
       </div>
     </div>
   );

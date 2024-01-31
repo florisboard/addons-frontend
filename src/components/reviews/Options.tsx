@@ -11,12 +11,14 @@ import { cn } from '@/utils';
 
 type OptionsProps = {
   className?: string;
+  isOwner: boolean;
 };
-export default function Options({ className }: OptionsProps) {
+
+export default function Options({ className, isOwner }: OptionsProps) {
   const options = compact([
-    { name: 'Report', Icon: HiOutlineFlag },
-    { name: 'Edit', Icon: HiOutlinePencil },
-    { name: 'Delete', Icon: HiOutlineTrash },
+    { canShow: true, name: 'Report', Icon: HiOutlineFlag },
+    { canShow: isOwner, name: 'Edit', Icon: HiOutlinePencil },
+    { canShow: isOwner, name: 'Delete', Icon: HiOutlineTrash },
   ]);
 
   return (
@@ -28,14 +30,16 @@ export default function Options({ className }: OptionsProps) {
         tabIndex={0}
         className="menu dropdown-content z-[1] w-44 rounded-box bg-base-100 p-2 shadow"
       >
-        {options.map((option) => (
-          <li key={option.name}>
-            <Button>
-              <option.Icon className="h-6 w-6" />
-              <span>{option.name}</span>
-            </Button>
-          </li>
-        ))}
+        {options
+          .filter(({ canShow }) => canShow)
+          .map((option) => (
+            <li key={option.name}>
+              <Button>
+                <option.Icon className="h-6 w-6" />
+                <span>{option.name}</span>
+              </Button>
+            </li>
+          ))}
       </ul>
     </div>
   );

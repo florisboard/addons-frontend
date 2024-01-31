@@ -1,14 +1,10 @@
 import React, { Fragment, Ref, useState } from 'react';
-import { HiXMark } from 'react-icons/hi2';
 import { ReleasesIndexParams } from '@/generated';
 import { IOption } from '@/interfaces';
 import useReleases from '@/services/releases';
-import Button from '@/shared/Button';
 import ReleaseCard from '@/shared/cards/release/ReleaseCard';
 import ReleaseCardSkeleton from '@/shared/cards/release/ReleaseCardSkeleton';
-import LoadMore from '@/shared/forms/LoadMore';
-import DialogModal from '@/shared/modals/DialogModal';
-import { cn } from '@/utils';
+import ResourcesModal from '../projects/show/ResourcesModal';
 
 type ReleasesModal = {
   modalRef: Ref<HTMLDialogElement>;
@@ -19,7 +15,7 @@ type ReleasesModal = {
 
 type TSort = ReleasesIndexParams['sort'];
 
-const filters: IOption<TSort>[] = [
+const sorts: IOption<TSort>[] = [
   { label: 'Latest', value: '-id' },
   { label: 'Oldest', value: 'id' },
 ];
@@ -30,37 +26,23 @@ export default function ReleasesModal({
   projectSlug,
   projectId,
 }: ReleasesModal) {
-  const [orderBy, setOrderBy] = useState<TSort>(filters.at(0)?.value);
-  const { isLoading, data, hasNextPage, fetchNextPage, isFetchingNextPage } = useReleases(
+  const [orderBy, setOrderBy] = useState<TSort>(sorts.at(0)?.value);
+  const queryResult = useReleases(
     { filter: { project_id: projectId }, sort: orderBy },
     hasModalOpened,
   );
 
+  const { isLoading, data } = queryResult;
+
   return (
-    <DialogModal
-      dialogClassName="modal-bottom"
-      parentClassName="w-full h-full"
-      closeOnClickOutside
+    <ResourcesModal<TSort>
+      Skeleton={ReleaseCardSkeleton}
+      queryResult={queryResult}
+      title="Project Releases"
       modalRef={modalRef}
       id="releases"
+      sorts={{ options: sorts, activeValue: orderBy, setActiveValue: setOrderBy }}
     >
-      <div className="flex flex-wrap items-center justify-between gap-4">
-        <h4 className="font-display text-2xl font-bold md:text-3xl">Latest Releases</h4>
-        <Button className="btn btn-circle btn-sm md:btn-md" type="submit">
-          <HiXMark className="h-6 w-6" />
-        </Button>
-      </div>
-      <div className="flex gap-4 overflow-x-auto">
-        {filters.map((filter) => (
-          <Button
-            onClick={() => setOrderBy(filter.value)}
-            className={cn('btn', { 'btn-primary': orderBy === filter.value })}
-            key={filter.value}
-          >
-            {filter.label}
-          </Button>
-        ))}
-      </div>
       {isLoading && Array.from({ length: 5 }).map((_, i) => <ReleaseCardSkeleton key={i} />)}
       {data?.pages.map((page) => (
         <Fragment key={page.meta.current_page}>
@@ -69,7 +51,6 @@ export default function ReleasesModal({
           ))}
         </Fragment>
       ))}
-      {hasNextPage && <LoadMore onClick={fetchNextPage} isLoading={isFetchingNextPage} />}
-    </DialogModal>
+    </ResourcesModal>
   );
 }

@@ -155,6 +155,23 @@ export interface ProjectsIndexParams {
   sort?: 'package_name' | '-package_name' | 'name' | '-name' | 'id' | '-id';
 }
 
+export interface ProjectsReviewsIndexParams {
+  filter?: {
+    score?: number | null;
+  };
+  page?: number | null;
+  /** The project ID */
+  project: number;
+  sort?: 'id' | '-id';
+}
+
+export interface ProjectsReviewsStorePayload {
+  description: string;
+  is_anonymous: boolean;
+  score: number;
+  title: string;
+}
+
 export interface ProjectsStorePayload {
   category_id: number;
   description: string;
@@ -224,10 +241,20 @@ export interface ReviewResource {
   description: string;
   id: number;
   is_anonymous: boolean;
+  is_owner: boolean;
   score: number;
   title: string;
   updated_at: string;
   user: UserResource | null;
+}
+
+export type ReviewsDestroyPayload = object;
+
+export interface ReviewsUpdatePayload {
+  description: string;
+  is_anonymous: boolean;
+  score: number;
+  title: string;
 }
 
 export interface UploadsProcessPayload {
@@ -798,6 +825,97 @@ export class Api<SecurityDataType extends unknown> {
     /**
      * No description
      *
+     * @tags Review
+     * @name ProjectsReviewsIndex
+     * @request GET:/projects/{project}/reviews
+     */
+    projectsReviewsIndex: (
+      { project, ...query }: ProjectsReviewsIndexParams,
+      params: RequestParams = {},
+    ) =>
+      this.http.request<
+        {
+          data: ReviewResource[];
+          links: {
+            first: string | null;
+            last: string | null;
+            next: string | null;
+            prev: string | null;
+          };
+          meta: {
+            current_page: number;
+            from: number | null;
+            last_page: number;
+            /** Generated paginator links. */
+            links: {
+              active: boolean;
+              label: string;
+              url: string | null;
+            }[];
+            /** Base path for paginator generated URLs. */
+            path: string | null;
+            /** Number of items shown per page. */
+            per_page: number;
+            /** Number of the last item in the slice. */
+            to: number | null;
+            /** Total number of items being paginated. */
+            total: number;
+          };
+        },
+        | {
+            /** Error overview. */
+            message: string;
+          }
+        | {
+            /** A detailed description of each field that failed validation. */
+            errors: Record<string, string[]>;
+            /** Errors overview. */
+            message: string;
+          }
+      >({
+        path: `/projects/${project}/reviews`,
+        method: 'GET',
+        query: query,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Review
+     * @name ProjectsReviewsStore
+     * @request POST:/projects/{project}/reviews
+     */
+    projectsReviewsStore: (
+      project: number,
+      data: ProjectsReviewsStorePayload,
+      params: RequestParams = {},
+    ) =>
+      this.http.request<
+        ReviewResource,
+        | {
+            /** Error overview. */
+            message: string;
+          }
+        | {
+            /** A detailed description of each field that failed validation. */
+            errors: Record<string, string[]>;
+            /** Errors overview. */
+            message: string;
+          }
+      >({
+        path: `/projects/${project}/reviews`,
+        method: 'POST',
+        body: data,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
      * @tags Project
      * @name ProjectsShow
      * @request GET:/projects/{project}
@@ -945,6 +1063,83 @@ export class Api<SecurityDataType extends unknown> {
         path: `/releases`,
         method: 'GET',
         query: query,
+        format: 'json',
+        ...params,
+      }),
+  };
+  reviews = {
+    /**
+     * No description
+     *
+     * @tags Review
+     * @name ReviewsDestroy
+     * @request DELETE:/reviews/{review}
+     */
+    reviewsDestroy: (review: number, data: ReviewsDestroyPayload, params: RequestParams = {}) =>
+      this.http.request<
+        {
+          /** @example "Review deleted successfully." */
+          message: string;
+        },
+        {
+          /** Error overview. */
+          message: string;
+        }
+      >({
+        path: `/reviews/${review}`,
+        method: 'DELETE',
+        body: data,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Review
+     * @name ReviewsShow
+     * @request GET:/reviews/{review}
+     */
+    reviewsShow: (review: number, params: RequestParams = {}) =>
+      this.http.request<
+        ReviewResource,
+        {
+          /** Error overview. */
+          message: string;
+        }
+      >({
+        path: `/reviews/${review}`,
+        method: 'GET',
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Review
+     * @name ReviewsUpdate
+     * @request PUT:/reviews/{review}
+     */
+    reviewsUpdate: (review: number, data: ReviewsUpdatePayload, params: RequestParams = {}) =>
+      this.http.request<
+        ReviewResource,
+        | {
+            /** Error overview. */
+            message: string;
+          }
+        | {
+            /** A detailed description of each field that failed validation. */
+            errors: Record<string, string[]>;
+            /** Errors overview. */
+            message: string;
+          }
+      >({
+        path: `/reviews/${review}`,
+        method: 'PUT',
+        body: data,
+        type: ContentType.Json,
         format: 'json',
         ...params,
       }),
