@@ -155,23 +155,6 @@ export interface ProjectsIndexParams {
   sort?: 'package_name' | '-package_name' | 'name' | '-name' | 'id' | '-id';
 }
 
-export interface ProjectsReviewsIndexParams {
-  filter?: {
-    score?: number | null;
-  };
-  page?: number | null;
-  /** The project ID */
-  project: number;
-  sort?: 'id' | '-id';
-}
-
-export interface ProjectsReviewsStorePayload {
-  description: string;
-  is_anonymous: boolean;
-  score: number;
-  title: string;
-}
-
 export interface ProjectsStorePayload {
   category_id: number;
   description: string;
@@ -249,6 +232,22 @@ export interface ReviewResource {
 }
 
 export type ReviewsDestroyPayload = object;
+
+export interface ReviewsIndexParams {
+  filter?: {
+    project_id?: number | null;
+    score?: number | null;
+  };
+  page?: number | null;
+  sort?: 'id' | '-id';
+}
+
+export interface ReviewsStorePayload {
+  description: string;
+  is_anonymous: boolean;
+  score: number;
+  title: string;
+}
 
 export interface ReviewsUpdatePayload {
   description: string;
@@ -826,90 +825,13 @@ export class Api<SecurityDataType extends unknown> {
      * No description
      *
      * @tags Review
-     * @name ProjectsReviewsIndex
-     * @request GET:/projects/{project}/reviews
+     * @name ProjectsReviewsCreate
+     * @request GET:/projects/{project}/reviews/create
      */
-    projectsReviewsIndex: (
-      { project, ...query }: ProjectsReviewsIndexParams,
-      params: RequestParams = {},
-    ) =>
-      this.http.request<
-        {
-          data: ReviewResource[];
-          links: {
-            first: string | null;
-            last: string | null;
-            next: string | null;
-            prev: string | null;
-          };
-          meta: {
-            current_page: number;
-            from: number | null;
-            last_page: number;
-            /** Generated paginator links. */
-            links: {
-              active: boolean;
-              label: string;
-              url: string | null;
-            }[];
-            /** Base path for paginator generated URLs. */
-            path: string | null;
-            /** Number of items shown per page. */
-            per_page: number;
-            /** Number of the last item in the slice. */
-            to: number | null;
-            /** Total number of items being paginated. */
-            total: number;
-          };
-        },
-        | {
-            /** Error overview. */
-            message: string;
-          }
-        | {
-            /** A detailed description of each field that failed validation. */
-            errors: Record<string, string[]>;
-            /** Errors overview. */
-            message: string;
-          }
-      >({
-        path: `/projects/${project}/reviews`,
+    projectsReviewsCreate: (project: string, params: RequestParams = {}) =>
+      this.http.request<any, any>({
+        path: `/projects/${project}/reviews/create`,
         method: 'GET',
-        query: query,
-        format: 'json',
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Review
-     * @name ProjectsReviewsStore
-     * @request POST:/projects/{project}/reviews
-     */
-    projectsReviewsStore: (
-      project: number,
-      data: ProjectsReviewsStorePayload,
-      params: RequestParams = {},
-    ) =>
-      this.http.request<
-        ReviewResource,
-        | {
-            /** Error overview. */
-            message: string;
-          }
-        | {
-            /** A detailed description of each field that failed validation. */
-            errors: Record<string, string[]>;
-            /** Errors overview. */
-            message: string;
-          }
-      >({
-        path: `/projects/${project}/reviews`,
-        method: 'POST',
-        body: data,
-        type: ContentType.Json,
-        format: 'json',
         ...params,
       }),
 
@@ -1098,6 +1020,61 @@ export class Api<SecurityDataType extends unknown> {
      * No description
      *
      * @tags Review
+     * @name ReviewsIndex
+     * @request GET:/reviews
+     */
+    reviewsIndex: (query: ReviewsIndexParams, params: RequestParams = {}) =>
+      this.http.request<
+        {
+          data: ReviewResource[];
+          links: {
+            first: string | null;
+            last: string | null;
+            next: string | null;
+            prev: string | null;
+          };
+          meta: {
+            current_page: number;
+            from: number | null;
+            last_page: number;
+            /** Generated paginator links. */
+            links: {
+              active: boolean;
+              label: string;
+              url: string | null;
+            }[];
+            /** Base path for paginator generated URLs. */
+            path: string | null;
+            /** Number of items shown per page. */
+            per_page: number;
+            /** Number of the last item in the slice. */
+            to: number | null;
+            /** Total number of items being paginated. */
+            total: number;
+          };
+        },
+        | {
+            /** Error overview. */
+            message: string;
+          }
+        | {
+            /** A detailed description of each field that failed validation. */
+            errors: Record<string, string[]>;
+            /** Errors overview. */
+            message: string;
+          }
+      >({
+        path: `/reviews`,
+        method: 'GET',
+        query: query,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Review
      * @name ReviewsShow
      * @request GET:/reviews/{review}
      */
@@ -1111,6 +1088,35 @@ export class Api<SecurityDataType extends unknown> {
       >({
         path: `/reviews/${review}`,
         method: 'GET',
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Review
+     * @name ReviewsStore
+     * @request POST:/reviews
+     */
+    reviewsStore: (data: ReviewsStorePayload, params: RequestParams = {}) =>
+      this.http.request<
+        ReviewResource,
+        | {
+            /** Error overview. */
+            message: string;
+          }
+        | {
+            /** A detailed description of each field that failed validation. */
+            errors: Record<string, string[]>;
+            /** Errors overview. */
+            message: string;
+          }
+      >({
+        path: `/reviews`,
+        method: 'POST',
+        body: data,
+        type: ContentType.Json,
         format: 'json',
         ...params,
       }),

@@ -1,14 +1,14 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { ProjectsReviewsIndexParams } from '@/generated';
+import { ReviewsIndexParams } from '@/generated';
 import api from '@/libs/api';
 import { getNextPageParam } from '@/utils';
 
-async function getReviews(params: ProjectsReviewsIndexParams) {
-  const resp = await api.projects.projectsReviewsIndex(params);
+async function getReviews(params: ReviewsIndexParams) {
+  const resp = await api.reviews.reviewsIndex(params);
   return resp.data;
 }
 
-export default function useReviews(params: ProjectsReviewsIndexParams, enabled = true) {
+export default function useReviews(params: ReviewsIndexParams, enabled = true) {
   return useInfiniteQuery({
     queryKey: ['reviews', params],
     queryFn: ({ pageParam }) => getReviews({ ...params, page: pageParam }),

@@ -28,7 +28,7 @@ function AuthMiddleware({
     if (waitForAuthResult && isLoading) return;
     if (middleware === 'guest' && isLoggedIn) router.replace(navigateTo ?? '/');
     if (middleware === 'auth' && !isLoggedIn) router.replace(navigateTo ?? login('/'));
-  }, [isLoggedIn, isLoading, navigateTo, router, middleware, waitForAuthResult]);
+  }, [isLoggedIn, isLoading, navigateTo, router, middleware, waitForAuthResult, login]);
 
   return children;
 }

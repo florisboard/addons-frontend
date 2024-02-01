@@ -1,11 +1,9 @@
 import React, { Fragment, Ref, useState } from 'react';
-import { ProjectsReviewsIndexParams, ReleasesIndexParams } from '@/generated';
+import { ReviewsIndexParams } from '@/generated';
 import { IOption } from '@/interfaces';
 import useReviews from '@/services/reviews';
-import Button from '@/shared/Button';
 import ReviewCard from '@/shared/cards/review/ReviewCard';
 import ReviewCardSkeleton from '@/shared/cards/review/ReviewCardSkeleton';
-import { cn } from '@/utils';
 import ResourcesModal from '../projects/show/ResourcesModal';
 
 type ReleasesModal = {
@@ -14,7 +12,7 @@ type ReleasesModal = {
   projectId: string;
 };
 
-type TSort = ProjectsReviewsIndexParams['sort'];
+type TSort = ReviewsIndexParams['sort'];
 
 const sorts: IOption<TSort>[] = [
   { label: 'Latest', value: '-id' },
@@ -35,8 +33,7 @@ export default function ReviewsModal({ modalRef, hasModalOpened, projectId }: Re
   const [scoreFilter, setScoreFilter] = useState<number>(scoreFilters.at(0)!.value);
   const queryResult = useReviews(
     {
-      project: +projectId,
-      filter: { score: scoreFilter === 0 ? undefined : scoreFilter },
+      filter: { project_id: +projectId, score: scoreFilter === 0 ? undefined : scoreFilter },
       sort: orderBy,
     },
     hasModalOpened,
