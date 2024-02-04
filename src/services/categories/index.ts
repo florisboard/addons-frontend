@@ -1,6 +1,7 @@
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { CategoriesIndexParams } from '@/generated';
 import api from '@/libs/api';
+import { getNextPageParam } from '@/utils';
 
 async function categories(params?: CategoriesIndexParams) {
   const resp = await api.categories.categoriesIndex({ ...params });
@@ -10,8 +11,8 @@ async function categories(params?: CategoriesIndexParams) {
 export default function useCategories(params?: CategoriesIndexParams) {
   return useInfiniteQuery({
     queryKey: ['categories', params],
-    queryFn: () => categories(params),
-    initialPageParam: null,
-    getNextPageParam: (lastPage) => lastPage.links.next,
+    queryFn: ({ pageParam }) => categories({ ...params, page: pageParam }),
+    initialPageParam: 1,
+    getNextPageParam: getNextPageParam,
   });
 }

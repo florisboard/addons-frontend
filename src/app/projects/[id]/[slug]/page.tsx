@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import Breadcrumb from '@/components/projects/show/Breadcrumb';
 import Information from '@/components/projects/show/Information';
+import LatestRelease from '@/components/projects/show/LatestRelease';
 import Links from '@/components/projects/show/Links';
 import Maintainers from '@/components/projects/show/Maintainers';
 import Reviews from '@/components/projects/show/Reviews';
@@ -14,7 +15,6 @@ import Screenshots from '@/components/projects/show/Screenshots';
 import Stats from '@/components/projects/show/Stats';
 import { useCanEditProject } from '@/hooks';
 import useProject from '@/services/projects/show';
-import Button from '@/shared/Button';
 import CenterSpinner from '@/shared/CenterSpinner';
 
 export default function Project() {
@@ -55,9 +55,6 @@ export default function Project() {
             <div className="divider" />
             <Markdown className="prose prose-sm">{project?.description}</Markdown>
             <Screenshots />
-            <div className="card-actions mt-4">
-              <Button className="btn btn-primary">Download</Button>
-            </div>
           </div>
         </div>
         <div className="card max-h-[38rem] bg-base-200 md:col-span-2">
@@ -80,6 +77,7 @@ export default function Project() {
         <Information project={project} />
         <Maintainers user={project.user} maintainers={project.maintainers} />
         <Links project={project} />
+        <LatestRelease latestRelease={project.latest_release} />
         <Reviews reviews={project.reviews} />
       </div>
     </div>

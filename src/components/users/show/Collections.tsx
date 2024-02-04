@@ -1,6 +1,6 @@
 import React from 'react';
-import EmptyList from './EmptyList';
+import EmptyList from '@/shared/EmptyList';
 
 export default function Collections() {
-  return <EmptyList name="Collections" />;
+  return <EmptyList />;
 }

@@ -26,7 +26,7 @@ export default function Information({ project }: InformationProps) {
   ]);
 
   return (
-    <section className="card bg-base-200 lg:col-span-2">
+    <section className="card bg-base-200 md:col-span-2">
       <div className="card-body">
         <h2 className="card-title font-display text-2xl">Information</h2>
         <div className="divider" />

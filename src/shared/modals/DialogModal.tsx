@@ -24,7 +24,7 @@ export default function DialogModal({
   const parentProps = { className: cn('modal-box space-y-4', parentClassName) };
 
   return (
-    <>
+    <Modal>
       <dialog ref={modalRef} {...props} className={cn('modal', dialogClassName)}>
         {parentElement === 'form' ? (
           <form method="dialog" {...parentProps}>
@@ -39,6 +39,6 @@ export default function DialogModal({
           </form>
         )}
       </dialog>
-    </>
+    </Modal>
   );
 }

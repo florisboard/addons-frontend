@@ -1,8 +1,9 @@
 import { UndefinedInitialDataInfiniteOptions, useInfiniteQuery } from '@tanstack/react-query';
 import { ProjectsIndexParams } from '@/generated';
 import api from '@/libs/api';
+import { getNextPageParam } from '@/utils';
 
-async function getProjects(params?: ProjectsIndexParams) {
+export async function getProjects(params?: ProjectsIndexParams) {
   const resp = await api.projects.projectsIndex({ ...params });
   return resp.data;
 }
@@ -14,8 +15,8 @@ export default function useProjects(
   return useInfiniteQuery({
     ...options,
     queryKey: ['projects', params],
-    queryFn: () => getProjects(params),
-    initialPageParam: null,
-    getNextPageParam: (lastPage) => lastPage.links.next,
+    queryFn: ({ pageParam }) => getProjects({ ...params, page: pageParam }),
+    initialPageParam: 1,
+    getNextPageParam: getNextPageParam,
   });
 }

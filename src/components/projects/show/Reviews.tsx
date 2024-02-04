@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { ReviewResource } from '@/generated';
+import EmptyList from '@/shared/EmptyList';
 import ReviewCard from '@/shared/cards/review/ReviewCard';
 
 type ReviewsProps = {
@@ -18,6 +19,7 @@ export default function Reviews({ reviews }: ReviewsProps) {
           </Link>
         </div>
         <div className="divider" />
+        {reviews.length <= 0 && <EmptyList />}
         {reviews.map((review) => (
           <ReviewCard key={review.id} {...review} />
         ))}

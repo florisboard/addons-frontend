@@ -1,6 +1,7 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { UsersIndexParams } from '@/generated';
 import api from '@/libs/api';
+import { getNextPageParam } from '@/utils';
 
 async function getUsers(params?: UsersIndexParams) {
   const resp = await api.users.usersIndex({ ...params });
@@ -10,8 +11,8 @@ async function getUsers(params?: UsersIndexParams) {
 export default function useUsers(params?: UsersIndexParams) {
   return useInfiniteQuery({
     queryKey: ['users', params],
-    queryFn: () => getUsers(params),
-    initialPageParam: null,
-    getNextPageParam: (lastPage) => lastPage.links.next,
+    queryFn: ({ pageParam }) => getUsers({ ...params, page: pageParam }),
+    initialPageParam: 1,
+    getNextPageParam: getNextPageParam,
   });
 }
