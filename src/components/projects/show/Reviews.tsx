@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Form from '@/components/reviews/Form';
 import ReviewsModal from '@/components/reviews/ReviewsModal';
 import { ReviewResource } from '@/generated';
 import { useDialogModal } from '@/hooks';
@@ -32,6 +33,11 @@ export default function Reviews({ reviews, projectId }: ReviewsProps) {
           </Button>
         </div>
         <div className="divider" />
+        <div className="card bg-base-300">
+          <div className="card-body">
+            <h3 className="card-title">Create a Review</h3>
+          </div>
+        </div>
         {reviews.length <= 0 && <EmptyList />}
         {reviews.map((review) => (
           <ReviewCard key={review.id} {...review} />

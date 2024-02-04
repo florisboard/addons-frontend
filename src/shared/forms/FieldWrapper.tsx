@@ -36,7 +36,7 @@ export default function FieldWrapper({
   const hasError: boolean = (get(touched, name) && get(errors, name) !== undefined) || false;
 
   return (
-    <div className={cn('w-full space-y-2', className)}>
+    <div className={cn('form-control', className)}>
       <Label info={info} isRequired={isRequired} htmlFor={name} label={label} />
       {typeof children === 'function' ? children({ hasError, name, id: name }) : children}
       <ErrorMessage name={name} />
