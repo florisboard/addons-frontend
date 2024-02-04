@@ -15,26 +15,18 @@ import Screenshots from '@/components/projects/show/Screenshots';
 import Stats from '@/components/projects/show/Stats';
 import { useCanEditProject } from '@/hooks';
 import useProject from '@/services/projects/show';
-import CenterSpinner from '@/shared/CenterSpinner';
 import Markdown from '@/shared/forms/Markdown';
 
 export default function Project() {
   const router = useRouter();
   const { id } = useParams<{ id: string; slug: string }>();
-  const { data: project, isLoading } = useProject(id);
+  const { data: project } = useProject(+id);
   const { canEdit } = useCanEditProject(project);
 
   useEffect(() => {
-    if (isLoading) return;
-    if (project) router.replace(`/projects/${id}/${project.slug}`);
-    else {
-      toast.error(`Project ${id} was not found.`);
-      router.replace('/');
-    }
-  }, [id, router, isLoading, project]);
+    router.replace(`/projects/${id}/${project.slug}`);
+  }, [id, router, project.slug]);
 
-  if (isLoading) return <CenterSpinner />;
-  if (!project) return null;
   return (
     <div className="px-container space-y-4">
       <Breadcrumb slug={project.slug} />
@@ -89,7 +81,7 @@ export default function Project() {
         <Maintainers user={project.user} maintainers={project.maintainers} />
         <Links project={project} />
         <LatestRelease projectSlug={project.slug} latestRelease={project.latest_release} />
-        <Reviews projectId={id!} reviews={project.reviews} />
+        <Reviews authUserReview={project.user_review} projectId={id!} reviews={project.reviews} />
       </div>
     </div>
   );

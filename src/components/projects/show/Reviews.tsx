@@ -1,21 +1,23 @@
 import React, { useState } from 'react';
-import Link from 'next/link';
-import Form from '@/components/reviews/Form';
+import AuthUserReview from '@/components/reviews/AuthUserReview';
 import ReviewsModal from '@/components/reviews/ReviewsModal';
 import { ReviewResource } from '@/generated';
 import { useDialogModal } from '@/hooks';
+import useMe from '@/services/users/me';
 import Button from '@/shared/Button';
 import EmptyList from '@/shared/EmptyList';
 import ReviewCard from '@/shared/cards/review/ReviewCard';
 
 type ReviewsProps = {
   reviews: ReviewResource[];
+  authUserReview: ReviewResource | undefined;
   projectId: string;
 };
 
-export default function Reviews({ reviews, projectId }: ReviewsProps) {
+export default function Reviews({ reviews, projectId, authUserReview }: ReviewsProps) {
   const { modalRef, handleOpenModal: handleOpenDialogModal } = useDialogModal();
   const [hasModalOpened, setHasModalOpened] = useState(false);
+  const { data: me } = useMe();
 
   const handleOpenModal = () => {
     handleOpenDialogModal();
@@ -33,11 +35,7 @@ export default function Reviews({ reviews, projectId }: ReviewsProps) {
           </Button>
         </div>
         <div className="divider" />
-        <div className="card bg-base-300">
-          <div className="card-body">
-            <h3 className="card-title">Create a Review</h3>
-          </div>
-        </div>
+        <AuthUserReview authUserReview={authUserReview} projectId={projectId} />
         {reviews.length <= 0 && <EmptyList />}
         {reviews.map((review) => (
           <ReviewCard key={review.id} {...review} />

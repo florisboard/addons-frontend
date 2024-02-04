@@ -1,27 +1,37 @@
 import React from 'react';
-import { Field, Formik, Form as FormikForm } from 'formik';
+import { Field, Formik, Form as FormikForm, FormikHelpers } from 'formik';
 import validations from '@/fixtures/validations';
+import { ProjectsReviewsStorePayload } from '@/generated';
 import yup from '@/libs/yup';
 import Button from '@/shared/Button';
 import FieldWrapper from '@/shared/forms/FieldWrapper';
 import InputFields from '@/shared/forms/InputFields';
 import { cn } from '@/utils';
 
-const validationSchema = yup.object({
+const validationSchema = yup.object<ProjectsReviewsStorePayload>({
   title: validations.title,
   description: validations.description,
   is_anonymous: yup.boolean().required(),
   score: yup.number().min(1).max(5).required(),
 });
 
-export default function Form() {
+type FormProps = {
+  onCancel: () => void;
+  isPending: boolean;
+  initialValues: ProjectsReviewsStorePayload;
+  onSubmit: (
+    values: ProjectsReviewsStorePayload,
+    helpers: FormikHelpers<ProjectsReviewsStorePayload>,
+  ) => void;
+};
+
+export default function Form({ onCancel, onSubmit, isPending, initialValues }: FormProps) {
   return (
     <Formik
+      enableReinitialize
       validationSchema={validationSchema}
-      initialValues={{ score: 5, is_anonymous: true, title: '', description: '' }}
-      onSubmit={(values) => {
-        console.log(values);
-      }}
+      initialValues={initialValues}
+      onSubmit={onSubmit}
     >
       <FormikForm className="space-y-4">
         <div className="flex items-center justify-between">
@@ -57,9 +67,19 @@ export default function Form() {
             />
           )}
         </FieldWrapper>
-        <Button type="submit" className="btn btn-primary">
-          Submit
-        </Button>
+        <div className="flex gap-4">
+          <Button
+            isLoading={isPending}
+            disabled={isPending}
+            type="submit"
+            className="btn btn-primary"
+          >
+            Submit
+          </Button>
+          <Button onClick={onCancel} type="button" className="btn">
+            Cancel
+          </Button>
+        </div>
       </FormikForm>
     </Formik>
   );

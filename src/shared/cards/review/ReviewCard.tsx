@@ -7,7 +7,12 @@ import Options from '@/components/reviews/Options';
 import { ReviewResource } from '@/generated';
 import useMe from '@/services/users/me';
 
+type ReviewCardProps = ReviewResource & {
+  onEdit?: () => void;
+};
+
 export default function ReviewCard({
+  id,
   is_anonymous,
   user,
   score,
@@ -15,15 +20,17 @@ export default function ReviewCard({
   title,
   description,
   is_owner,
-}: ReviewResource) {
+  onEdit,
+}: ReviewCardProps) {
   const { data: me } = useMe();
 
   const other = {
-    link: is_anonymous ? '#' : `/users/${user!.username}`,
-    username: is_anonymous ? 'FlorisBoard User' : user!.username,
+    link: is_anonymous ? '#' : `/users/${user?.username}`,
+    username: is_anonymous ? 'FlorisBoard User' : user?.username,
   };
   const username = is_owner ? me?.username : other.username;
-  const userLink = is_owner ? `/users/${me!.username}` : other.link;
+  const userLink = is_owner ? `/users/${me?.username}` : other.link;
+  const optionsProps = { reviewId: id, isOwner: is_owner, onEdit };
 
   return (
     <div className="card bg-base-300">
@@ -57,11 +64,11 @@ export default function ReviewCard({
                   <span className="badge badge-accent md:ml-2">Anonymous</span>
                 </div>
               )}
-              <Options isOwner={is_owner} className="hidden md:flex" />
+              <Options {...optionsProps} className="hidden md:flex" />
             </div>
             <h4 className="card-title hidden md:block">{title}</h4>
           </div>
-          <Options isOwner={is_owner} className="md:hidden" />
+          <Options {...optionsProps} className="md:hidden" />
         </div>
         <h4 className="card-title md:hidden">{title}</h4>
         <p>{description}</p>

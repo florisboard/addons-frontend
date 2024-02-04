@@ -112,6 +112,7 @@ export interface ProjectFullResource {
   updated_at: string;
   user: UserResource;
   user_id: number;
+  user_review?: ReviewResource;
 }
 
 /** ProjectResource */
@@ -153,6 +154,13 @@ export interface ProjectsIndexParams {
   include?: 'user' | 'category';
   page?: number | null;
   sort?: 'package_name' | '-package_name' | 'name' | '-name' | 'id' | '-id';
+}
+
+export interface ProjectsReviewsStorePayload {
+  description: string;
+  is_anonymous: boolean;
+  score: number;
+  title: string;
 }
 
 export interface ProjectsStorePayload {
@@ -237,16 +245,10 @@ export interface ReviewsIndexParams {
   filter?: {
     project_id?: number | null;
     score?: number | null;
+    user_id?: number | null;
   };
   page?: number | null;
   sort?: 'id' | '-id';
-}
-
-export interface ReviewsStorePayload {
-  description: string;
-  is_anonymous: boolean;
-  score: number;
-  title: string;
 }
 
 export interface ReviewsUpdatePayload {
@@ -825,13 +827,32 @@ export class Api<SecurityDataType extends unknown> {
      * No description
      *
      * @tags Review
-     * @name ProjectsReviewsCreate
-     * @request GET:/projects/{project}/reviews/create
+     * @name ProjectsReviewsStore
+     * @request POST:/projects/{project}/reviews
      */
-    projectsReviewsCreate: (project: string, params: RequestParams = {}) =>
-      this.http.request<any, any>({
-        path: `/projects/${project}/reviews/create`,
-        method: 'GET',
+    projectsReviewsStore: (
+      project: number,
+      data: ProjectsReviewsStorePayload,
+      params: RequestParams = {},
+    ) =>
+      this.http.request<
+        ReviewResource,
+        | {
+            /** Error overview. */
+            message: string;
+          }
+        | {
+            /** A detailed description of each field that failed validation. */
+            errors: Record<string, string[]>;
+            /** Errors overview. */
+            message: string;
+          }
+      >({
+        path: `/projects/${project}/reviews`,
+        method: 'POST',
+        body: data,
+        type: ContentType.Json,
+        format: 'json',
         ...params,
       }),
 
@@ -1088,35 +1109,6 @@ export class Api<SecurityDataType extends unknown> {
       >({
         path: `/reviews/${review}`,
         method: 'GET',
-        format: 'json',
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Review
-     * @name ReviewsStore
-     * @request POST:/reviews
-     */
-    reviewsStore: (data: ReviewsStorePayload, params: RequestParams = {}) =>
-      this.http.request<
-        ReviewResource,
-        | {
-            /** Error overview. */
-            message: string;
-          }
-        | {
-            /** A detailed description of each field that failed validation. */
-            errors: Record<string, string[]>;
-            /** Errors overview. */
-            message: string;
-          }
-      >({
-        path: `/reviews`,
-        method: 'POST',
-        body: data,
-        type: ContentType.Json,
         format: 'json',
         ...params,
       }),

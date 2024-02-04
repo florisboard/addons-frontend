@@ -11,7 +11,7 @@ import CenterSpinner from '@/shared/CenterSpinner';
 export default function Edit() {
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
-  const { data: project, isLoading: isProjectLoading } = useProject(id);
+  const { data: project, isLoading: isProjectLoading } = useProject(+id);
   const { canEdit, isLoading: isMeLoading, isOwner } = useCanEditProject(project);
   const isLoading = isProjectLoading || isMeLoading;
 

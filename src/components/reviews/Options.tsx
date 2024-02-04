@@ -5,20 +5,31 @@ import {
   HiOutlinePencil,
   HiOutlineTrash,
 } from 'react-icons/hi2';
+import { useParams } from 'next/navigation';
 import compact from 'lodash/compact';
+import useDeleteReview from '@/services/reviews/delete';
 import Button from '@/shared/Button';
 import { cn } from '@/utils';
 
 type OptionsProps = {
   className?: string;
   isOwner: boolean;
+  reviewId: number;
+  onEdit?: () => void;
 };
 
-export default function Options({ className, isOwner }: OptionsProps) {
+export default function Options({ className, isOwner, reviewId, onEdit }: OptionsProps) {
+  const { id } = useParams<{ id: string }>();
+  const { mutate: deleteReview } = useDeleteReview(+id);
+
+  const handleDelete = () => {
+    deleteReview(+reviewId);
+  };
+
   const options = compact([
     { canShow: true, name: 'Report', Icon: HiOutlineFlag },
-    { canShow: isOwner, name: 'Edit', Icon: HiOutlinePencil },
-    { canShow: isOwner, name: 'Delete', Icon: HiOutlineTrash },
+    { canShow: isOwner, onClick: onEdit, name: 'Edit', Icon: HiOutlinePencil },
+    { canShow: isOwner, onClick: handleDelete, name: 'Delete', Icon: HiOutlineTrash },
   ]);
 
   return (
@@ -34,7 +45,7 @@ export default function Options({ className, isOwner }: OptionsProps) {
           .filter(({ canShow }) => canShow)
           .map((option) => (
             <li key={option.name}>
-              <Button>
+              <Button onClick={option.onClick}>
                 <option.Icon className="h-6 w-6" />
                 <span>{option.name}</span>
               </Button>
