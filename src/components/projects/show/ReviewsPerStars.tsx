@@ -38,7 +38,11 @@ export default function ReviewsPerStars({
               {humanReadableFormatter.format(review)}
             </div>
           </div>
-          <progress className="progress" value={((review / total) * 100).toString()} max="100" />
+          <progress
+            className="progress"
+            value={review > 0 ? (review / total) * 100 : 0}
+            max="100"
+          />
         </Fragment>
       ))}
     </section>
