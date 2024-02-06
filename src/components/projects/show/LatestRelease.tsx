@@ -1,21 +1,27 @@
-import React, { useMemo } from 'react';
-import Markdown from 'react-markdown';
-import Link from 'next/link';
+import React, { useMemo, useState } from 'react';
 import { formatDistanceToNow } from 'date-fns';
 import ReleasesModal from '@/components/releases/ReleasesModal';
 import { ReleaseFullResource } from '@/generated';
 import { useDialogModal } from '@/hooks';
 import Button from '@/shared/Button';
 import EmptyList from '@/shared/EmptyList';
+import Markdown from '@/shared/forms/Markdown';
 import Download from '@/shared/releases/Download';
 import { cn, humanReadableFormatter } from '@/utils';
 
 type LatestReleaseProps = {
   latestRelease: ReleaseFullResource | null;
+  projectSlug: string;
 };
 
-export default function LatestRelease({ latestRelease }: LatestReleaseProps) {
-  const { modalRef, handleOpenModal, handleCloseModal } = useDialogModal();
+export default function LatestRelease({ latestRelease, projectSlug }: LatestReleaseProps) {
+  const { modalRef, handleOpenModal: handleOpenDialogModal } = useDialogModal();
+  const [hasModalOpened, setHasModalOpened] = useState(false);
+
+  const handleOpenModal = () => {
+    handleOpenDialogModal();
+    setHasModalOpened(true);
+  };
 
   const badges = useMemo(() => {
     if (!latestRelease) return [];
@@ -42,7 +48,12 @@ export default function LatestRelease({ latestRelease }: LatestReleaseProps) {
 
   return (
     <section className="card bg-base-200 md:col-span-2 md:h-min lg:sticky lg:top-20">
-      <ReleasesModal modalRef={modalRef} />
+      <ReleasesModal
+        projectSlug={projectSlug}
+        projectId={latestRelease?.project_id}
+        hasModalOpened={hasModalOpened}
+        modalRef={modalRef}
+      />
       <div className="card-body gap-4">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <h2 className="card-title font-display text-2xl">Release</h2>
@@ -63,10 +74,10 @@ export default function LatestRelease({ latestRelease }: LatestReleaseProps) {
                 </div>
               ))}
             </div>
-            <Markdown className="prose prose-sm line-clamp-[12]">
+            <Markdown hasViewMore className="prose-sm">
               {latestRelease?.description}
             </Markdown>
-            <Download />
+            {latestRelease && <Download release={latestRelease} project={{ slug: projectSlug }} />}
           </>
         )}
       </div>

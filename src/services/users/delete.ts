@@ -1,7 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { UsersMeDestroyPayload } from '@/generated';
 import api from '@/libs/api';
-import { TReactQueryMeta } from '@/types';
 
 async function deleteAccount(data: UsersMeDestroyPayload) {
   const resp = await api.users.usersMeDestroy(data);
@@ -20,6 +19,6 @@ export default function useDeleteAccount() {
       success: {
         toast: { content: "You've deleted your account successfully." },
       },
-    } satisfies TReactQueryMeta,
+    },
   });
 }

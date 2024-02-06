@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { useSearchParams } from '@/hooks';
 import useCollections from '@/services/collections';
 import useProjects from '@/services/projects';
-import LoadMore from '@/shared/LoadMore';
+import LoadMore from '@/shared/forms/LoadMore';
 
 export default function Collections() {
   const [searchParams] = useSearchParams();

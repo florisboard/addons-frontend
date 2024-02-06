@@ -1,6 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from '@/libs/axios';
-import { TReactQueryMeta, TToast } from '@/types';
 
 async function logout() {
   return await axios.post('/logout');
@@ -13,9 +12,9 @@ export default function useLogout() {
     mutationFn: logout,
     meta: {
       success: {
-        toast: { content: "You've logged out successfully." } satisfies TToast,
+        toast: { content: "You've logged out successfully." },
       },
-    } satisfies TReactQueryMeta,
+    },
     onSuccess: () => {
       queryClient.setQueryData(['users', 'me'], null);
     },

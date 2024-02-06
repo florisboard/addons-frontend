@@ -18,9 +18,4 @@ export type TReactQueryErrorMeta = {
   toast?: TToast;
 };
 
-export type TReactQueryMeta = {
-  success?: TReactQuerySuccessMeta;
-  error?: TReactQueryErrorMeta;
-};
-
 export type TApiMeta = Omit<Awaited<ReturnType<typeof getProjects>>, 'data'>;

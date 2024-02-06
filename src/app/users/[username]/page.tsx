@@ -34,13 +34,13 @@ export default function User() {
         name: 'projects',
         icon: { base: HiOutlineFire, active: HiFire },
         label: 'Projects',
-        component: <Projects isCurrentUser={isCurrentUser} userId={user?.id} />,
+        component: <Projects isCurrentUser={isCurrentUser} userId={user.id} />,
       },
       {
         name: 'reviews',
         icon: { base: HiOutlineStar, active: HiStar },
         label: 'Reviews',
-        component: <Reviews />,
+        component: <Reviews userId={user.id} />,
       },
       {
         name: 'collections',

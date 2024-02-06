@@ -1,6 +1,6 @@
 import React from 'react';
 import { cn } from '@/utils';
-import Button from './Button';
+import Button from '../Button';
 
 type LoadMoreProps = {
   isLoading: boolean;

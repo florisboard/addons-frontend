@@ -3,7 +3,7 @@ export interface IUnprocessableEntity {
   message: string;
 }
 
-export interface IOption {
+export interface IOption<T> {
   label: string;
-  value: string | number;
+  value: T;
 }

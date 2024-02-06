@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import api from '@/libs/api';
 
 async function show(username: string) {
@@ -7,5 +7,5 @@ async function show(username: string) {
 }
 
 export default function useUser(username: string) {
-  return useQuery({ queryKey: ['users', username], queryFn: () => show(username) });
+  return useSuspenseQuery({ queryKey: ['users', username], queryFn: () => show(username) });
 }

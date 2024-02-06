@@ -8,11 +8,12 @@ async function getReleases(params?: ReleasesIndexParams) {
   return resp.data;
 }
 
-export default function useReleases(params?: ReleasesIndexParams) {
+export default function useReleases(params?: ReleasesIndexParams, enabled = true) {
   return useInfiniteQuery({
     queryKey: ['releases', params],
     queryFn: ({ pageParam }) => getReleases({ ...params, page: pageParam }),
     initialPageParam: 1,
     getNextPageParam: getNextPageParam,
+    enabled,
   });
 }

@@ -25,6 +25,7 @@ export default function CreateProject() {
         {!isLoading && !isVerified && <VerifyAlert />}
         <h1 className="font-display text-3xl font-bold">Create new Project</h1>
         <Form
+          isOwner
           onSubmit={(values, { setErrors }) => {
             create(values, {
               onError: (e) => {

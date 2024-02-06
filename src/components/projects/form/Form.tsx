@@ -34,9 +34,10 @@ type FormProps = {
   onSubmit: (values: ProjectsStorePayload, helpers: FormikHelpers<ProjectsStorePayload>) => void;
   initialValues?: Partial<ProjectsStorePayload>;
   project?: ProjectFullResource;
+  isOwner: boolean;
 };
 
-export default function Form({ submit, onSubmit, initialValues, project }: FormProps) {
+export default function Form({ submit, onSubmit, initialValues, project, isOwner }: FormProps) {
   return (
     <Formik
       validationSchema={validationSchema}
@@ -68,13 +69,15 @@ export default function Form({ submit, onSubmit, initialValues, project }: FormP
                 project?.category && { label: project.category.name, value: project.category_id }
               }
             />
-            <MaintainersSelect
-              ownerId={project?.user_id}
-              defaultValue={project?.maintainers.map((user) => ({
-                label: user.username,
-                value: user.id,
-              }))}
-            />
+            {isOwner && (
+              <MaintainersSelect
+                ownerId={project?.user_id}
+                defaultValue={project?.maintainers.map((user) => ({
+                  label: user.username,
+                  value: user.id,
+                }))}
+              />
+            )}
             <InputFields
               fields={[
                 { isRequired: true, name: 'name', label: 'Name' },

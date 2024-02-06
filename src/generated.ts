@@ -23,11 +23,11 @@ import axios from 'axios';
 export interface AuthResource {
   created_at: string;
   email: string;
-  email_verified_at: string;
+  email_verified_at: string | null;
   id: number;
   updated_at: string;
   username: string;
-  username_changed_at: string;
+  username_changed_at: string | null;
 }
 
 export interface CategoriesIndexParams {
@@ -112,6 +112,7 @@ export interface ProjectFullResource {
   updated_at: string;
   user: UserResource;
   user_id: number;
+  user_review?: ReviewResource;
 }
 
 /** ProjectResource */
@@ -155,12 +156,19 @@ export interface ProjectsIndexParams {
   sort?: 'package_name' | '-package_name' | 'name' | '-name' | 'id' | '-id';
 }
 
+export interface ProjectsReviewsStorePayload {
+  description: string;
+  is_anonymous: boolean;
+  score: number;
+  title: string;
+}
+
 export interface ProjectsStorePayload {
   category_id: number;
   description: string;
   donate_site?: string | null;
   home_page?: string | null;
-  image_path: string;
+  image_path?: string | null;
   maintainers?: number[];
   name: string;
   package_name: string;
@@ -177,7 +185,7 @@ export interface ProjectsUpdatePayload {
   description: string;
   donate_site?: string | null;
   home_page?: string | null;
-  image_path: string;
+  image_path?: string | null;
   maintainers?: number[];
   name: string;
   package_name: string;
@@ -194,8 +202,8 @@ export interface ReleaseFullResource {
   created_at: string;
   description: string;
   downloads_count: number;
-  id: string;
-  project_id: string;
+  id: number;
+  project_id: number;
   updated_at: string;
   user: UserResource;
   user_id: string;
@@ -215,6 +223,7 @@ export interface ReleasesIndexParams {
     project_id?: number | null;
   };
   page?: number | null;
+  sort?: 'id' | '-id';
 }
 
 /** ReviewResource */
@@ -223,10 +232,31 @@ export interface ReviewResource {
   description: string;
   id: number;
   is_anonymous: boolean;
+  is_owner: boolean;
+  project_id: number;
   score: number;
   title: string;
   updated_at: string;
   user: UserResource | null;
+}
+
+export type ReviewsDestroyPayload = object;
+
+export interface ReviewsIndexParams {
+  filter?: {
+    project_id?: number | null;
+    score?: number | null;
+    user_id?: number | null;
+  };
+  page?: number | null;
+  sort?: 'id' | '-id';
+}
+
+export interface ReviewsUpdatePayload {
+  description: string;
+  is_anonymous: boolean;
+  score: number;
+  title: string;
 }
 
 export interface UploadsProcessPayload {
@@ -797,6 +827,39 @@ export class Api<SecurityDataType extends unknown> {
     /**
      * No description
      *
+     * @tags Review
+     * @name ProjectsReviewsStore
+     * @request POST:/projects/{project}/reviews
+     */
+    projectsReviewsStore: (
+      project: number,
+      data: ProjectsReviewsStorePayload,
+      params: RequestParams = {},
+    ) =>
+      this.http.request<
+        ReviewResource,
+        | {
+            /** Error overview. */
+            message: string;
+          }
+        | {
+            /** A detailed description of each field that failed validation. */
+            errors: Record<string, string[]>;
+            /** Errors overview. */
+            message: string;
+          }
+      >({
+        path: `/projects/${project}/reviews`,
+        method: 'POST',
+        body: data,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
      * @tags Project
      * @name ProjectsShow
      * @request GET:/projects/{project}
@@ -878,6 +941,29 @@ export class Api<SecurityDataType extends unknown> {
      * No description
      *
      * @tags Release
+     * @name ReleasesDownload
+     * @request GET:/releases/{release}/download
+     */
+    releasesDownload: (release: number, params: RequestParams = {}) =>
+      this.http.request<
+        {
+          link: string;
+        },
+        {
+          /** Error overview. */
+          message: string;
+        }
+      >({
+        path: `/releases/${release}/download`,
+        method: 'GET',
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Release
      * @name ReleasesIndex
      * @request GET:/releases
      */
@@ -885,6 +971,84 @@ export class Api<SecurityDataType extends unknown> {
       this.http.request<
         {
           data: ReleaseFullResource[];
+          links: {
+            first: string | null;
+            last: string | null;
+            next: string | null;
+            prev: string | null;
+          };
+          meta: {
+            current_page: number;
+            from: number | null;
+            last_page: number;
+            /** Generated paginator links. */
+            links: {
+              active: boolean;
+              label: string;
+              url: string | null;
+            }[];
+            /** Base path for paginator generated URLs. */
+            path: string | null;
+            /** Number of items shown per page. */
+            per_page: number;
+            /** Number of the last item in the slice. */
+            to: number | null;
+            /** Total number of items being paginated. */
+            total: number;
+          };
+        },
+        {
+          /** A detailed description of each field that failed validation. */
+          errors: Record<string, string[]>;
+          /** Errors overview. */
+          message: string;
+        }
+      >({
+        path: `/releases`,
+        method: 'GET',
+        query: query,
+        format: 'json',
+        ...params,
+      }),
+  };
+  reviews = {
+    /**
+     * No description
+     *
+     * @tags Review
+     * @name ReviewsDestroy
+     * @request DELETE:/reviews/{review}
+     */
+    reviewsDestroy: (review: number, data: ReviewsDestroyPayload, params: RequestParams = {}) =>
+      this.http.request<
+        {
+          /** @example "Review deleted successfully." */
+          message: string;
+        },
+        {
+          /** Error overview. */
+          message: string;
+        }
+      >({
+        path: `/reviews/${review}`,
+        method: 'DELETE',
+        body: data,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Review
+     * @name ReviewsIndex
+     * @request GET:/reviews
+     */
+    reviewsIndex: (query: ReviewsIndexParams, params: RequestParams = {}) =>
+      this.http.request<
+        {
+          data: ReviewResource[];
           links: {
             first: string | null;
             last: string | null;
@@ -922,9 +1086,59 @@ export class Api<SecurityDataType extends unknown> {
             message: string;
           }
       >({
-        path: `/releases`,
+        path: `/reviews`,
         method: 'GET',
         query: query,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Review
+     * @name ReviewsShow
+     * @request GET:/reviews/{review}
+     */
+    reviewsShow: (review: number, params: RequestParams = {}) =>
+      this.http.request<
+        ReviewResource,
+        {
+          /** Error overview. */
+          message: string;
+        }
+      >({
+        path: `/reviews/${review}`,
+        method: 'GET',
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Review
+     * @name ReviewsUpdate
+     * @request PUT:/reviews/{review}
+     */
+    reviewsUpdate: (review: number, data: ReviewsUpdatePayload, params: RequestParams = {}) =>
+      this.http.request<
+        ReviewResource,
+        | {
+            /** Error overview. */
+            message: string;
+          }
+        | {
+            /** A detailed description of each field that failed validation. */
+            errors: Record<string, string[]>;
+            /** Errors overview. */
+            message: string;
+          }
+      >({
+        path: `/reviews/${review}`,
+        method: 'PUT',
+        body: data,
+        type: ContentType.Json,
         format: 'json',
         ...params,
       }),

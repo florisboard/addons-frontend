@@ -1,37 +1,56 @@
-import React, { Fragment, Ref } from 'react';
-import { HiXMark } from 'react-icons/hi2';
+import React, { Fragment, Ref, useState } from 'react';
+import { ReleasesIndexParams } from '@/generated';
+import { IOption } from '@/interfaces';
 import useReleases from '@/services/releases';
-import Button from '@/shared/Button';
-import DialogModal from '@/shared/modals/DialogModal';
+import ReleaseCard from '@/shared/cards/release/ReleaseCard';
+import ReleaseCardSkeleton from '@/shared/cards/release/ReleaseCardSkeleton';
+import ResourcesModal from '../projects/show/ResourcesModal';
 
 type ReleasesModal = {
   modalRef: Ref<HTMLDialogElement>;
+  hasModalOpened: boolean;
+  projectId: number | undefined;
+  projectSlug: string;
 };
 
-export default function ReleasesModal({ modalRef }: ReleasesModal) {
-  const { data } = useReleases();
+type TSort = ReleasesIndexParams['sort'];
+
+const sorts: IOption<TSort>[] = [
+  { label: 'Latest', value: '-id' },
+  { label: 'Oldest', value: 'id' },
+];
+
+export default function ReleasesModal({
+  modalRef,
+  hasModalOpened,
+  projectSlug,
+  projectId,
+}: ReleasesModal) {
+  const [orderBy, setOrderBy] = useState<TSort>(sorts.at(0)?.value);
+  const queryResult = useReleases(
+    { filter: { project_id: projectId }, sort: orderBy },
+    hasModalOpened,
+  );
+
+  const { isLoading, data } = queryResult;
 
   return (
-    <DialogModal
-      dialogClassName="modal-bottom"
-      parentClassName="w-full h-full"
-      closeOnClickOutside
+    <ResourcesModal<TSort>
+      Skeleton={ReleaseCardSkeleton}
+      queryResult={queryResult}
+      title="Project Releases"
       modalRef={modalRef}
       id="releases"
+      sorts={{ options: sorts, activeValue: orderBy, setActiveValue: setOrderBy }}
     >
-      <div className="flex flex-wrap items-center justify-between gap-4">
-        <h4 className="font-display text-2xl font-bold md:text-3xl">Latest Releases</h4>
-        <Button className="btn btn-circle btn-sm md:btn-md" type="submit">
-          <HiXMark className="h-6 w-6" />
-        </Button>
-      </div>
+      {isLoading && Array.from({ length: 5 }).map((_, i) => <ReleaseCardSkeleton key={i} />)}
       {data?.pages.map((page) => (
         <Fragment key={page.meta.current_page}>
           {page.data.map((release) => (
-            <p key={release.id}>Release</p>
+            <ReleaseCard projectSlug={projectSlug} key={release.id} {...release} />
           ))}
         </Fragment>
       ))}
-    </DialogModal>
+    </ResourcesModal>
   );
 }

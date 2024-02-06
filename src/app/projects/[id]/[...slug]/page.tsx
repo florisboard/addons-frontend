@@ -1,9 +1,9 @@
 'use client';
 
-import React from 'react';
-import Markdown from 'react-markdown';
+import React, { useEffect } from 'react';
+import { toast } from 'react-toastify';
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import Breadcrumb from '@/components/projects/show/Breadcrumb';
 import Information from '@/components/projects/show/Information';
 import LatestRelease from '@/components/projects/show/LatestRelease';
@@ -15,15 +15,18 @@ import Screenshots from '@/components/projects/show/Screenshots';
 import Stats from '@/components/projects/show/Stats';
 import { useCanEditProject } from '@/hooks';
 import useProject from '@/services/projects/show';
-import CenterSpinner from '@/shared/CenterSpinner';
+import Markdown from '@/shared/forms/Markdown';
 
 export default function Project() {
+  const router = useRouter();
   const { id } = useParams<{ id: string; slug: string }>();
-  const { data: project, isLoading } = useProject(id);
+  const { data: project } = useProject(+id);
   const { canEdit } = useCanEditProject(project);
 
-  if (isLoading) return <CenterSpinner />;
-  if (!project) return null;
+  useEffect(() => {
+    router.replace(`/projects/${id}/${project.slug}`);
+  }, [id, router, project.slug]);
+
   return (
     <div className="px-container space-y-4">
       <Breadcrumb slug={project.slug} />
@@ -53,7 +56,7 @@ export default function Project() {
               )}
             </div>
             <div className="divider" />
-            <Markdown className="prose prose-sm">{project?.description}</Markdown>
+            <Markdown className="prose-sm">{project?.description}</Markdown>
             <Screenshots />
           </div>
         </div>
@@ -77,8 +80,8 @@ export default function Project() {
         <Information project={project} />
         <Maintainers user={project.user} maintainers={project.maintainers} />
         <Links project={project} />
-        <LatestRelease latestRelease={project.latest_release} />
-        <Reviews reviews={project.reviews} />
+        <LatestRelease projectSlug={project.slug} latestRelease={project.latest_release} />
+        <Reviews authUserReview={project.user_review} projectId={id!} reviews={project.reviews} />
       </div>
     </div>
   );
