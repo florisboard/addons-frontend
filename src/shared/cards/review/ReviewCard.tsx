@@ -6,10 +6,12 @@ import { format, formatDistanceToNow } from 'date-fns';
 import Options from '@/components/reviews/Options';
 import { ReviewResource } from '@/generated';
 import useMe from '@/services/users/me';
+import { cn } from '@/utils';
 
 type ReviewCardProps = ReviewResource & {
   onEdit?: () => void;
   hasOptions?: boolean;
+  cardClassName?: string;
 };
 
 export default function ReviewCard({
@@ -23,6 +25,7 @@ export default function ReviewCard({
   is_owner,
   onEdit,
   hasOptions = true,
+  cardClassName,
 }: ReviewCardProps) {
   const { data: me } = useMe();
 
@@ -35,7 +38,7 @@ export default function ReviewCard({
   const optionsProps = { reviewId: id, isOwner: is_owner, onEdit };
 
   return (
-    <div className="card bg-base-300">
+    <div className={cn('card bg-base-300', cardClassName)}>
       <div className="card-body">
         <div className="flex items-center gap-4">
           <Link href={userLink}>
