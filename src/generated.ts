@@ -168,7 +168,7 @@ export interface ProjectsStorePayload {
   description: string;
   donate_site?: string | null;
   home_page?: string | null;
-  image_path: string;
+  image_path?: string | null;
   maintainers?: number[];
   name: string;
   package_name: string;
@@ -185,7 +185,7 @@ export interface ProjectsUpdatePayload {
   description: string;
   donate_site?: string | null;
   home_page?: string | null;
-  image_path: string;
+  image_path?: string | null;
   maintainers?: number[];
   name: string;
   package_name: string;
@@ -233,6 +233,7 @@ export interface ReviewResource {
   id: number;
   is_anonymous: boolean;
   is_owner: boolean;
+  project_id: number;
   score: number;
   title: string;
   updated_at: string;

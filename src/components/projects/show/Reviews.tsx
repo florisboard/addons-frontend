@@ -3,7 +3,6 @@ import AuthUserReview from '@/components/reviews/AuthUserReview';
 import ReviewsModal from '@/components/reviews/ReviewsModal';
 import { ReviewResource } from '@/generated';
 import { useDialogModal } from '@/hooks';
-import useMe from '@/services/users/me';
 import Button from '@/shared/Button';
 import EmptyList from '@/shared/EmptyList';
 import ReviewCard from '@/shared/cards/review/ReviewCard';
@@ -17,7 +16,6 @@ type ReviewsProps = {
 export default function Reviews({ reviews, projectId, authUserReview }: ReviewsProps) {
   const { modalRef, handleOpenModal: handleOpenDialogModal } = useDialogModal();
   const [hasModalOpened, setHasModalOpened] = useState(false);
-  const { data: me } = useMe();
 
   const handleOpenModal = () => {
     handleOpenDialogModal();

@@ -9,6 +9,7 @@ import useMe from '@/services/users/me';
 
 type ReviewCardProps = ReviewResource & {
   onEdit?: () => void;
+  hasOptions?: boolean;
 };
 
 export default function ReviewCard({
@@ -21,6 +22,7 @@ export default function ReviewCard({
   description,
   is_owner,
   onEdit,
+  hasOptions = true,
 }: ReviewCardProps) {
   const { data: me } = useMe();
 
@@ -64,11 +66,11 @@ export default function ReviewCard({
                   <span className="badge badge-accent md:ml-2">Anonymous</span>
                 </div>
               )}
-              <Options {...optionsProps} className="hidden md:flex" />
+              {hasOptions && <Options {...optionsProps} className="hidden md:flex" />}
             </div>
             <h4 className="card-title hidden md:block">{title}</h4>
           </div>
-          <Options {...optionsProps} className="md:hidden" />
+          {hasOptions && <Options {...optionsProps} className="md:hidden" />}
         </div>
         <h4 className="card-title md:hidden">{title}</h4>
         <p>{description}</p>

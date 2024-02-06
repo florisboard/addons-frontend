@@ -6,7 +6,7 @@ import ProjectCardSkeleton from '@/shared/cards/project/ProjectCardSkeleton';
 import LoadMore from '@/shared/forms/LoadMore';
 
 type ProjectsProps = {
-  userId?: number;
+  userId: number;
   isCurrentUser: boolean;
 };
 
@@ -17,7 +17,7 @@ export default function Projects({ userId, isCurrentUser }: ProjectsProps) {
     isFetchingNextPage,
     fetchNextPage,
     hasNextPage,
-  } = useProjects({ sort: '-id', filter: { user_id: userId } }, { enabled: !!userId });
+  } = useProjects({ sort: '-id', filter: { user_id: userId } });
 
   return (
     <>
