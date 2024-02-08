@@ -81,7 +81,7 @@ function Edit() {
                 name="tab"
                 role="tab"
                 className="tab"
-                defaultChecked={i === 0}
+                defaultChecked={i === 1}
               />
               <div
                 role="tabpanel"

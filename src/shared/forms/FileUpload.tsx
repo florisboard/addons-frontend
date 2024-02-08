@@ -79,6 +79,7 @@ export default function FileUpload({
       maxFileSize="512KB"
       className="input input-bordered h-auto w-auto cursor-pointer"
       allowRevert={true}
+      allowReorder={false}
       credits={false}
       {...rest}
     />

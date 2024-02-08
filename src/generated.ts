@@ -90,7 +90,7 @@ export interface ProjectFullResource {
   four_reviews_count: number;
   home_page: string;
   id: number;
-  image: ImageResource;
+  image: ImageResource | null;
   is_active: string;
   is_recommended: string;
   latest_release: ReleaseFullResource | null;
@@ -121,7 +121,7 @@ export interface ProjectResource {
   category_id: number;
   created_at: string;
   id: number;
-  image: ImageResource;
+  image: ImageResource | null;
   is_active: boolean;
   is_recommended: boolean;
   latest_release: ReleaseResource | null;

@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { ProjectsUpdatePayload } from '@/generated';
 import api from '@/libs/api';
 
@@ -12,8 +12,13 @@ export async function update({ projectId, ...data }: TProjectUpdate) {
 }
 
 export default function useEditProject(projectId: number) {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: (data: ProjectsUpdatePayload) => update({ projectId, ...data }),
+    onSuccess: (data) => {
+      queryClient.setQueryData(['projects', projectId], data);
+    },
     meta: {
       success: { toast: { content: 'Project updated successfully.' } },
     },
