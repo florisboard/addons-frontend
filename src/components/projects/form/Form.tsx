@@ -6,6 +6,8 @@ import compact from 'lodash/compact';
 import validations from '@/fixtures/validations';
 import { ProjectFullResource, ProjectTypeEnum, ProjectsStorePayload } from '@/generated';
 import yup from '@/libs/yup';
+import useDeleteProjectImage from '@/services/projects/image/delete';
+import useDeleteProjectScreenshots from '@/services/projects/screenshots/delete';
 import Button from '@/shared/Button';
 import Collapse from '@/shared/Collapse';
 import FieldWrapper from '@/shared/forms/FieldWrapper';
@@ -29,18 +31,39 @@ const validationSchema = yup.object<ProjectsStorePayload>({
   description: yup.string().required().min(3).max(2024),
 });
 
+export type TProjectValues = ProjectsStorePayload & {
+  image_path: string;
+  screenshots_path: string[];
+};
+
 type FormProps = {
   submit: { text: string; isPending: boolean; disabled?: boolean };
-  onSubmit: (values: ProjectsStorePayload, helpers: FormikHelpers<ProjectsStorePayload>) => void;
-  initialValues?: Partial<ProjectsStorePayload>;
+  onSubmit: (values: TProjectValues, helpers: FormikHelpers<TProjectValues>) => void;
+  initialValues?: Partial<TProjectValues>;
   project?: ProjectFullResource;
   isOwner: boolean;
 };
 
 export default function Form({ submit, onSubmit, initialValues, project, isOwner }: FormProps) {
+  const { mutate: deleteImage } = useDeleteProjectImage();
+  const { mutate: deleteScreenshot } = useDeleteProjectScreenshots();
+
+  const handleDeleteImage = () => {
+    if (project?.image) {
+      deleteImage(project.id);
+    }
+  };
+
+  const handleDeleteScreenshot = (mediaId: number) => {
+    if (project?.screenshots) {
+      deleteScreenshot({ projectId: project.id, mediaId });
+    }
+  };
+
   return (
     <Formik
       validationSchema={validationSchema}
+      enableReinitialize
       initialValues={
         {
           category_id: 0,
@@ -57,11 +80,11 @@ export default function Form({ submit, onSubmit, initialValues, project, isOwner
           screenshots_path: [],
           maintainers: [],
           ...initialValues,
-        } as ProjectsStorePayload
+        } as TProjectValues
       }
       onSubmit={onSubmit}
     >
-      {({ setFieldValue }) => (
+      {({ setFieldValue, values }) => (
         <FormikForm className="space-y-4">
           <Collapse title="Main" contentClassName="grid grid-cols-1 gap-4 md:grid-cols-2">
             <CategoriesSelect
@@ -121,16 +144,18 @@ export default function Form({ submit, onSubmit, initialValues, project, isOwner
           </Collapse>
           <Collapse title="Images" contentClassName="grid grid-cols-1 gap-4 md:grid-cols-2">
             <>
-              <FieldWrapper name="image" isRequired label="Image">
+              <FieldWrapper name="image_path" isRequired label="Image">
                 <FileUpload
+                  onremovefile={handleDeleteImage}
                   onFileUploadedState={(paths) => setFieldValue('image_path', paths.at(0))}
-                  uploadedFileLinks={compact([project?.image?.url])}
+                  uploadedFileLinks={compact([project?.image])}
                   acceptedFileTypes={validations.image}
                 />
               </FieldWrapper>
               <FieldWrapper name="screenshots" isRequired={false} label="Screenshots">
                 <FileUpload
-                  uploadedFileLinks={compact(project?.screenshots?.map((image) => image.url))}
+                  onremovefile={(_, file) => handleDeleteScreenshot(file.getMetadata().id)}
+                  uploadedFileLinks={compact(project?.screenshots)}
                   allowMultiple
                   allowReorder
                   maxFiles={5}

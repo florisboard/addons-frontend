@@ -11,7 +11,6 @@ import { cn } from '@/utils';
 const validationSchema = yup.object<ProjectsReviewsStorePayload>({
   title: validations.title,
   description: validations.description,
-  is_anonymous: yup.boolean().required(),
   score: yup.number().min(1).max(5).required(),
 });
 
@@ -34,28 +33,16 @@ export default function Form({ onCancel, onSubmit, isPending, initialValues }: F
       onSubmit={onSubmit}
     >
       <FormikForm className="space-y-4">
-        <div className="flex items-center justify-between">
-          <div className="rating">
-            {Array.from({ length: 5 }).map((_, i) => (
-              <Field
-                key={i}
-                value={`${i + 1}`}
-                type="radio"
-                name="score"
-                className="mask mask-star-2 bg-orange-400"
-              />
-            ))}
-          </div>
-          <FieldWrapper
-            className="flex-row items-center gap-2"
-            isRequired={false}
-            name="is_anonymous"
-            label="Anonymous"
-          >
-            {({ hasError, ...props }) => (
-              <Field {...props} className="toggle toggle-primary" type="checkbox" />
-            )}
-          </FieldWrapper>
+        <div className="rating">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <Field
+              key={i}
+              value={`${i + 1}`}
+              type="radio"
+              name="score"
+              className="mask mask-star-2 bg-orange-400"
+            />
+          ))}
         </div>
         <InputFields fields={[{ isRequired: true, name: 'title', label: 'Title' }]} />
         <FieldWrapper name="description" isRequired={true} label="Description">

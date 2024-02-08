@@ -75,6 +75,7 @@ export type CollectionsUpdatePayload = object;
 
 /** ImageResource */
 export interface ImageResource {
+  id: string;
   url: string;
 }
 
@@ -88,7 +89,7 @@ export interface ProjectFullResource {
   five_reviews_count: number;
   four_reviews_count: number;
   home_page: string;
-  id: string;
+  id: number;
   image: ImageResource;
   is_active: string;
   is_recommended: string;
@@ -101,7 +102,7 @@ export interface ProjectFullResource {
   reviews: ReviewResource[];
   reviews_avg_score: number;
   reviews_count: number;
-  screenshots?: ImageResource[];
+  screenshots: ImageResource[];
   short_description: string;
   slug: string;
   support_email: string;
@@ -143,6 +144,12 @@ export enum ProjectTypeEnum {
 
 export type ProjectsDestroyPayload = object;
 
+export type ProjectsImageDestroyPayload = object;
+
+export interface ProjectsImageStorePayload {
+  image: string;
+}
+
 export interface ProjectsIndexParams {
   filter?: {
     category_id?: number | null;
@@ -158,9 +165,15 @@ export interface ProjectsIndexParams {
 
 export interface ProjectsReviewsStorePayload {
   description: string;
-  is_anonymous: boolean;
   score: number;
   title: string;
+}
+
+export type ProjectsScreenshotsDestroyPayload = object;
+
+export interface ProjectsScreenshotsStorePayload {
+  /** @maxItems 5 */
+  screenshots: string[];
 }
 
 export interface ProjectsStorePayload {
@@ -168,11 +181,9 @@ export interface ProjectsStorePayload {
   description: string;
   donate_site?: string | null;
   home_page?: string | null;
-  image_path?: string | null;
   maintainers?: number[];
   name: string;
   package_name: string;
-  screenshots_path?: any[] | null;
   short_description: string;
   /** @format email */
   support_email?: string | null;
@@ -185,11 +196,9 @@ export interface ProjectsUpdatePayload {
   description: string;
   donate_site?: string | null;
   home_page?: string | null;
-  image_path?: string | null;
   maintainers?: number[];
   name: string;
   package_name: string;
-  screenshots_path?: any[] | null;
   short_description: string;
   /** @format email */
   support_email?: string | null;
@@ -231,8 +240,6 @@ export interface ReviewResource {
   created_at: string;
   description: string;
   id: number;
-  is_anonymous: boolean;
-  is_owner: boolean;
   project_id: number;
   score: number;
   title: string;
@@ -254,7 +261,6 @@ export interface ReviewsIndexParams {
 
 export interface ReviewsUpdatePayload {
   description: string;
-  is_anonymous: boolean;
   score: number;
   title: string;
 }
@@ -772,6 +778,72 @@ export class Api<SecurityDataType extends unknown> {
     /**
      * No description
      *
+     * @tags Image
+     * @name ProjectsImageDestroy
+     * @request DELETE:/projects/{project}/image
+     */
+    projectsImageDestroy: (
+      project: number,
+      data: ProjectsImageDestroyPayload,
+      params: RequestParams = {},
+    ) =>
+      this.http.request<
+        {
+          /** @example "Image has been deleted successfully." */
+          message: string;
+        },
+        {
+          /** Error overview. */
+          message: string;
+        }
+      >({
+        path: `/projects/${project}/image`,
+        method: 'DELETE',
+        body: data,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Image
+     * @name ProjectsImageStore
+     * @request POST:/projects/{project}/image
+     */
+    projectsImageStore: (
+      project: number,
+      data: ProjectsImageStorePayload,
+      params: RequestParams = {},
+    ) =>
+      this.http.request<
+        {
+          /** @example "Image has been saved successfully." */
+          message: string;
+        },
+        | {
+            /** Error overview. */
+            message: string;
+          }
+        | {
+            /** A detailed description of each field that failed validation. */
+            errors: Record<string, string[]>;
+            /** Errors overview. */
+            message: string;
+          }
+      >({
+        path: `/projects/${project}/image`,
+        method: 'POST',
+        body: data,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
      * @tags Project
      * @name ProjectsIndex
      * @request GET:/projects
@@ -850,6 +922,73 @@ export class Api<SecurityDataType extends unknown> {
           }
       >({
         path: `/projects/${project}/reviews`,
+        method: 'POST',
+        body: data,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Screenshot
+     * @name ProjectsScreenshotsDestroy
+     * @request DELETE:/projects/{project}/screenshots/{media}
+     */
+    projectsScreenshotsDestroy: (
+      project: number,
+      media: string,
+      data: ProjectsScreenshotsDestroyPayload,
+      params: RequestParams = {},
+    ) =>
+      this.http.request<
+        {
+          /** @example "Screenshot has been deleted successfully." */
+          message: string;
+        },
+        {
+          /** Error overview. */
+          message: string;
+        }
+      >({
+        path: `/projects/${project}/screenshots/${media}`,
+        method: 'DELETE',
+        body: data,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Screenshot
+     * @name ProjectsScreenshotsStore
+     * @request POST:/projects/{project}/screenshots
+     */
+    projectsScreenshotsStore: (
+      project: number,
+      data: ProjectsScreenshotsStorePayload,
+      params: RequestParams = {},
+    ) =>
+      this.http.request<
+        {
+          /** @example "Screenshots has been saved successfully." */
+          message: string;
+        },
+        | {
+            /** Error overview. */
+            message: string;
+          }
+        | {
+            /** A detailed description of each field that failed validation. */
+            errors: Record<string, string[]>;
+            /** Errors overview. */
+            message: string;
+          }
+      >({
+        path: `/projects/${project}/screenshots`,
         method: 'POST',
         body: data,
         type: ContentType.Json,

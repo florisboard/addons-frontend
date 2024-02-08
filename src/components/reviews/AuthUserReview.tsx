@@ -30,9 +30,7 @@ export default function CommentAReview({ projectId, authUserReview }: CommentARe
         </h3>
         <div className="divider" />
         <Form
-          initialValues={
-            authUserReview ?? { score: 5, is_anonymous: false, title: '', description: '' }
-          }
+          initialValues={authUserReview ?? { score: 5, title: '', description: '' }}
           isPending={isPending}
           onSubmit={(values) => {
             if (authUserReview) {

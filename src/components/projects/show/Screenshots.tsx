@@ -1,6 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import BlurImage from '@/shared/BlurImage';
 
 type ScreenshotsProps = {};
 
@@ -14,7 +15,7 @@ export default function Screenshots({}: ScreenshotsProps) {
       >
         {Array.from({ length: 5 }).map((_, i) => (
           <SwiperSlide className="h-auto w-auto" key={i}>
-            <Image
+            <BlurImage
               width={250}
               height={250}
               src="https://picsum.photos/250/250"

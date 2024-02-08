@@ -16,26 +16,20 @@ type ReviewCardProps = ReviewResource & {
 
 export default function ReviewCard({
   id,
-  is_anonymous,
   user,
   score,
   updated_at,
   title,
   description,
-  is_owner,
   onEdit,
   hasOptions = true,
   cardClassName,
 }: ReviewCardProps) {
   const { data: me } = useMe();
 
-  const other = {
-    link: is_anonymous ? '#' : `/users/${user?.username}`,
-    username: is_anonymous ? 'FlorisBoard User' : user?.username,
-  };
-  const username = is_owner ? me?.username : other.username;
-  const userLink = is_owner ? `/users/${me?.username}` : other.link;
-  const optionsProps = { reviewId: id, isOwner: is_owner, onEdit };
+  const username = user?.username;
+  const userLink = `/users/${user?.username}`;
+  const optionsProps = { reviewId: id, isOwner: me?.username === user?.username, onEdit };
 
   return (
     <div className={cn('card bg-base-300', cardClassName)}>
@@ -61,14 +55,6 @@ export default function ReviewCard({
               >
                 <span className="md:ml-2">{format(updated_at, 'MMM d, yyyy')}</span>
               </div>
-              {is_anonymous && (
-                <div
-                  data-tip={is_owner ? "You're profile is hidden from others" : 'Anonymous'}
-                  className="tooltip text-left"
-                >
-                  <span className="badge badge-accent md:ml-2">Anonymous</span>
-                </div>
-              )}
               {hasOptions && <Options {...optionsProps} className="hidden md:flex" />}
             </div>
             <h4 className="card-title hidden md:block">{title}</h4>

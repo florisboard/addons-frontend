@@ -10,6 +10,7 @@ import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orien
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
 import 'filepond/dist/filepond.min.css';
+import { ImageResource } from '@/generated';
 import axiosInstance from '@/libs/axios';
 
 registerPlugin(
@@ -23,7 +24,7 @@ registerPlugin(
 interface FileUploadProps extends FilePondProps {
   onFileUploaded?: (path: string) => void;
   onFileUploadedState?: (paths: string[]) => void;
-  uploadedFileLinks: string[];
+  uploadedFileLinks: ImageResource[];
 }
 
 export default function FileUpload({
@@ -34,8 +35,8 @@ export default function FileUpload({
 }: FileUploadProps) {
   const [files, setFiles] = useState<(string | FilePondInitialFile | Blob | FilePondFile)[]>(
     uploadedFileLinks.map((link) => ({
-      source: link,
-      options: { type: 'local', metadata: { poster: link } },
+      source: link.url,
+      options: { type: 'local', metadata: { poster: link.url, id: link.id } },
     })),
   );
   const [uploadedFiles, setUploadedFiles] = useState<string[]>([]);
