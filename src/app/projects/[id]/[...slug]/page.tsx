@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useEffect } from 'react';
-import { toast } from 'react-toastify';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import Breadcrumb from '@/components/projects/show/Breadcrumb';
@@ -34,7 +33,7 @@ export default function Project() {
         <div className="card bg-base-200 md:col-span-4">
           <div className="card-body">
             <div className="flex flex-wrap items-center justify-between gap-4">
-              <h1 className="font-display text-3xl font-bold">{project?.name}</h1>
+              <h1 className="font-display text-3xl font-bold">{project.name}</h1>
               {canEdit && (
                 <Link href={`/projects/${id}/edit`} className="btn btn-accent">
                   Edit
@@ -56,8 +55,8 @@ export default function Project() {
               )}
             </div>
             <div className="divider" />
-            <Markdown className="prose-sm">{project?.description}</Markdown>
-            <Screenshots />
+            <Markdown className="prose-sm">{project.description}</Markdown>
+            <Screenshots screenshots={project.screenshots} />
           </div>
         </div>
         <div className="card max-h-[38rem] bg-base-200 md:col-span-2">
