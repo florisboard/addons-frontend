@@ -1,6 +1,7 @@
 import React from 'react';
+import { useRouter } from 'next/navigation';
 import { ReviewResource } from '@/generated';
-import { useDialogModal } from '@/hooks';
+import { useAuthRoutes, useDialogModal } from '@/hooks';
 import useCreateReview from '@/services/reviews/create';
 import useEditReview from '@/services/reviews/edit';
 import useMe from '@/services/users/me';
@@ -16,11 +17,12 @@ type CommentAReviewProps = {
 
 export default function CommentAReview({ projectId, authUserReview }: CommentAReviewProps) {
   const { modalRef, handleCloseModal, handleOpenModal } = useDialogModal();
+  const router = useRouter();
   const { mutate: createReview, isPending: isCreating } = useCreateReview(+projectId);
   const { mutate: editReview, isPending: isUpdating } = useEditReview(+projectId);
-  const isPending = isCreating || isUpdating;
-
   const { data: me } = useMe();
+  const { login } = useAuthRoutes();
+  const isPending = isCreating || isUpdating;
 
   return (
     <div className="card bg-base-300">
@@ -30,9 +32,7 @@ export default function CommentAReview({ projectId, authUserReview }: CommentARe
         </h3>
         <div className="divider" />
         <Form
-          initialValues={
-            authUserReview ?? { score: 5, is_anonymous: false, title: '', description: '' }
-          }
+          initialValues={authUserReview ?? { score: 5, title: '', description: '' }}
           isPending={isPending}
           onSubmit={(values) => {
             if (authUserReview) {
@@ -50,11 +50,21 @@ export default function CommentAReview({ projectId, authUserReview }: CommentARe
         />
       </DialogModal>
       {authUserReview && <ReviewCard onEdit={handleOpenModal} {...authUserReview} />}
-      {me && !authUserReview && (
+      {!authUserReview && (
         <div className="card-body flex-row flex-wrap justify-between gap-4">
-          <h3 className="card-title min-w-max">Let others know what&apos;s your feedback</h3>
-          <Button onClick={handleOpenModal} className="btn btn-accent">
-            Comment a Review
+          <h3 className="card-title min-w-max">
+            {me
+              ? "Let others know what's your feedback"
+              : 'Login to your Account to comment a Review'}
+          </h3>
+          <Button
+            onClick={() => {
+              if (me) handleOpenModal();
+              else router.push(login());
+            }}
+            className="btn btn-accent"
+          >
+            {me ? 'Comment a Review' : 'Login'}
           </Button>
         </div>
       )}

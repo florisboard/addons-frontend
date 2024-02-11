@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { formatDistanceToNow } from 'date-fns';
 import compact from 'lodash/compact';
 import { ProjectResource } from '@/generated';
+import BlurImage from '@/shared/BlurImage';
 import { cn, humanReadableFormatter, isBetweenDate } from '@/utils';
 
 type ProjectCardProps = ProjectResource & {
@@ -18,6 +19,7 @@ export default function ProjectCard({
   short_description,
   reviews_avg_score,
   reviews_count,
+  image,
   releases_sum_downloads_count,
   is_recommended,
   is_active,
@@ -63,7 +65,7 @@ export default function ProjectCard({
     >
       <div className="card-body gap-2">
         <figure className="relative h-36 w-full rounded">
-          <Image fill src="https://picsum.photos/200/100" alt="Shoes" />
+          <BlurImage fill src={image?.url ?? 'https://picsum.photos/250/150'} alt="Shoes" />
         </figure>
         <h3 className="card-title line-clamp-1">{name}</h3>
         <div className="flex flex-wrap gap-2">

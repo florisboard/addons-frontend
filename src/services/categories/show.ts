@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import api from '@/libs/api';
 
 async function category(slug: string) {
@@ -7,5 +7,5 @@ async function category(slug: string) {
 }
 
 export default function useCategory(slug: string) {
-  return useQuery({ queryKey: ['category', slug], queryFn: () => category(slug) });
+  return useSuspenseQuery({ queryKey: ['categories', slug], queryFn: () => category(slug) });
 }

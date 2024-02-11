@@ -21,7 +21,7 @@ export default function Projects({ userId, isCurrentUser }: ProjectsProps) {
 
   return (
     <>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
         {!isLoading && isCurrentUser && <NewProjectCard />}
         {projects?.pages.map((page) => (
           <Fragment key={page.meta.current_page}>
@@ -32,7 +32,7 @@ export default function Projects({ userId, isCurrentUser }: ProjectsProps) {
         ))}
         {isLoading &&
           Array.from({ length: 6 }).map((_, i) => (
-            <ProjectCardSkeleton bodyClassName="w-auto" key={i} />
+            <ProjectCardSkeleton bodyClassName="w-auto bg-base-100" key={i} />
           ))}
       </div>
       {hasNextPage && <LoadMore onClick={fetchNextPage} isLoading={isFetchingNextPage} />}

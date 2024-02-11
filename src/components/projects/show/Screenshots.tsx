@@ -1,10 +1,14 @@
 import React from 'react';
 import Image from 'next/image';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { ImageResource } from '@/generated';
+import BlurImage from '@/shared/BlurImage';
 
-type ScreenshotsProps = {};
+type ScreenshotsProps = {
+  screenshots: ImageResource[];
+};
 
-export default function Screenshots({}: ScreenshotsProps) {
+export default function Screenshots({ screenshots }: ScreenshotsProps) {
   return (
     <div>
       <Swiper
@@ -12,12 +16,13 @@ export default function Screenshots({}: ScreenshotsProps) {
         slidesPerView="auto"
         scrollbar={{ draggable: true, enabled: false }}
       >
-        {Array.from({ length: 5 }).map((_, i) => (
-          <SwiperSlide className="h-auto w-auto" key={i}>
-            <Image
-              width={250}
-              height={250}
-              src="https://picsum.photos/250/250"
+        {screenshots.map((screenshot, i) => (
+          <SwiperSlide className="h-auto w-auto" key={screenshot.id}>
+            <BlurImage
+              loading="lazy"
+              width={500}
+              height={300}
+              src={screenshot.url}
               alt={`Screenshot ${i + 1}`}
             />
           </SwiperSlide>

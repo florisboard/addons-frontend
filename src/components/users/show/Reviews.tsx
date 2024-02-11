@@ -17,13 +17,13 @@ export default function Reviews({ userId }: ReviewsProps) {
   });
 
   return (
-    <section className="space-y-4">
+    <section className="grid grid-cols-1 gap-4 lg:grid-cols-2">
       {isLoading && Array.from({ length: 5 }).map((_, i) => <ReviewCardSkeleton key={i} />)}
       {data?.pages.map((page) => (
         <Fragment key={page.meta.current_page}>
           {page.data.map((review) => (
             <Link className="block" href={`/projects/${review.project_id}/slug`} key={review.id}>
-              <ReviewCard hasOptions={false} {...review} />
+              <ReviewCard cardClassName="h-full" hasOptions={false} {...review} />
             </Link>
           ))}
         </Fragment>

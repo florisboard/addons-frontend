@@ -2,9 +2,9 @@
 
 import React, { useMemo } from 'react';
 import { HiArrowUp, HiCalendar, HiFire, HiStar } from 'react-icons/hi2';
+import CountDown from '@/components/home/CountDown';
 import TopCategories from '@/components/home/TopCategories';
 import useHome from '@/services/home';
-import CountDown from '@/shared/CountDown';
 import ProjectsList from '@/shared/home/ProjectsList';
 
 export default function Home() {
