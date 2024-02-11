@@ -6,7 +6,7 @@ type TProjectUpdate = ProjectsUpdatePayload & {
   projectId: number;
 };
 
-export async function update({ projectId, ...data }: TProjectUpdate) {
+export async function editProject({ projectId, ...data }: TProjectUpdate) {
   const resp = await api.projects.projectsUpdate(projectId, data);
   return resp.data;
 }
@@ -15,7 +15,7 @@ export default function useEditProject(projectId: number) {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (data: ProjectsUpdatePayload) => update({ projectId, ...data }),
+    mutationFn: (data: ProjectsUpdatePayload) => editProject({ projectId, ...data }),
     onSuccess: (data) => {
       queryClient.setQueryData(['projects', projectId], data);
     },

@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import axios from '@/libs/axios';
+import api from '@/libs/api';
 
 async function logout() {
-  return await axios.post('/logout');
+  return await api.auth.logout({});
 }
 
 export default function useLogout() {

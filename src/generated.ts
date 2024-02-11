@@ -79,6 +79,27 @@ export interface ImageResource {
   url: string;
 }
 
+export interface LoginPayload {
+  /** @format email */
+  email: string;
+  password: string;
+}
+
+export type LogoutPayload = object;
+
+export interface PasswordEmailPayload {
+  /** @format email */
+  email: string;
+}
+
+export interface PasswordStorePayload {
+  /** @format email */
+  email: string;
+  password: string;
+  password_confirmation: string;
+  token: string;
+}
+
 /** ProjectFullResource */
 export interface ProjectFullResource {
   category: CategoryResource;
@@ -206,6 +227,14 @@ export interface ProjectsUpdatePayload {
   type: ProjectTypeEnum;
 }
 
+export interface RegisterPayload {
+  /** @format email */
+  email: string;
+  password: string;
+  password_confirmation: string;
+  username: string;
+}
+
 /** ReleaseFullResource */
 export interface ReleaseFullResource {
   created_at: string;
@@ -295,14 +324,7 @@ export interface UsersMeUpdatePayload {
   username: string;
 }
 
-export interface UsersUpdatePayload {
-  current_password?: string | null;
-  /** @format email */
-  email: string;
-  new_password?: string | null;
-  new_password_confirmation?: string | null;
-  username: string;
-}
+export type VerificationSendPayload = object;
 
 export type QueryParamsType = Record<string | number, any>;
 
@@ -475,6 +497,189 @@ export class Api<SecurityDataType extends unknown> {
         any
       >({
         path: `/about`,
+        method: 'GET',
+        format: 'json',
+        ...params,
+      }),
+  };
+  auth = {
+    /**
+     * No description
+     *
+     * @tags AuthenticatedSession
+     * @name Login
+     * @summary Handle an incoming authentication request
+     * @request POST:/auth/login
+     */
+    login: (data: LoginPayload, params: RequestParams = {}) =>
+      this.http.request<
+        AuthResource,
+        | {
+            /** Error overview. */
+            message: string;
+          }
+        | {
+            /** A detailed description of each field that failed validation. */
+            errors: Record<string, string[]>;
+            /** Errors overview. */
+            message: string;
+          }
+      >({
+        path: `/auth/login`,
+        method: 'POST',
+        body: data,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags AuthenticatedSession
+     * @name Logout
+     * @summary Destroy an authenticated session
+     * @request POST:/auth/logout
+     */
+    logout: (data: LogoutPayload, params: RequestParams = {}) =>
+      this.http.request<void, any>({
+        path: `/auth/logout`,
+        method: 'POST',
+        body: data,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags PasswordResetLink
+     * @name PasswordEmail
+     * @summary Handle an incoming password reset link request
+     * @request POST:/auth/forgot-password
+     */
+    passwordEmail: (data: PasswordEmailPayload, params: RequestParams = {}) =>
+      this.http.request<
+        {
+          status: string;
+        },
+        {
+          /** A detailed description of each field that failed validation. */
+          errors: Record<string, string[]>;
+          /** Errors overview. */
+          message: string;
+        }
+      >({
+        path: `/auth/forgot-password`,
+        method: 'POST',
+        body: data,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags NewPassword
+     * @name PasswordStore
+     * @summary Handle an incoming new password request
+     * @request POST:/auth/reset-password
+     */
+    passwordStore: (data: PasswordStorePayload, params: RequestParams = {}) =>
+      this.http.request<
+        {
+          status: string;
+        },
+        {
+          /** A detailed description of each field that failed validation. */
+          errors: Record<string, string[]>;
+          /** Errors overview. */
+          message: string;
+        }
+      >({
+        path: `/auth/reset-password`,
+        method: 'POST',
+        body: data,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags RegisteredUser
+     * @name Register
+     * @request POST:/auth/register
+     */
+    register: (data: RegisterPayload, params: RequestParams = {}) =>
+      this.http.request<
+        AuthResource,
+        {
+          /** A detailed description of each field that failed validation. */
+          errors: Record<string, string[]>;
+          /** Errors overview. */
+          message: string;
+        }
+      >({
+        path: `/auth/register`,
+        method: 'POST',
+        body: data,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags EmailVerificationNotification
+     * @name VerificationSend
+     * @summary Send a new email verification notification
+     * @request POST:/auth/email/verification-notification
+     */
+    verificationSend: (data: VerificationSendPayload, params: RequestParams = {}) =>
+      this.http.request<
+        | {
+            /** @example "verification-link-sent" */
+            status: string;
+          }
+        | string,
+        any
+      >({
+        path: `/auth/email/verification-notification`,
+        method: 'POST',
+        body: data,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags VerifyEmail
+     * @name VerificationVerify
+     * @summary Mark the authenticated user's email address as verified
+     * @request GET:/auth/verify-email/{id}/{hash}
+     */
+    verificationVerify: (id: string, hash: string, params: RequestParams = {}) =>
+      this.http.request<
+        string,
+        | {
+            /** Error overview. */
+            message: string;
+          }
+        | {
+            /** A detailed description of each field that failed validation. */
+            errors: Record<string, string[]>;
+            /** Errors overview. */
+            message: string;
+          }
+      >({
+        path: `/auth/verify-email/${id}/${hash}`,
         method: 'GET',
         format: 'json',
         ...params,
@@ -1419,31 +1624,6 @@ export class Api<SecurityDataType extends unknown> {
       >({
         path: `/users/${user}`,
         method: 'GET',
-        format: 'json',
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags User
-     * @name UsersUpdate
-     * @request PUT:/users/{user}
-     */
-    usersUpdate: (user: string, data: UsersUpdatePayload, params: RequestParams = {}) =>
-      this.http.request<
-        AuthResource,
-        {
-          /** A detailed description of each field that failed validation. */
-          errors: Record<string, string[]>;
-          /** Errors overview. */
-          message: string;
-        }
-      >({
-        path: `/users/${user}`,
-        method: 'PUT',
-        body: data,
-        type: ContentType.Json,
         format: 'json',
         ...params,
       }),

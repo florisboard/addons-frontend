@@ -1,14 +1,11 @@
 import { useMutation } from '@tanstack/react-query';
-import axios from '@/libs/axios';
+import { PasswordEmailPayload } from '@/generated';
+import api from '@/libs/api';
 import sanctum from './sanctum';
 
-export interface IForgotPasswordDto {
-  email: string;
-}
-
-async function forgotPassword(data: IForgotPasswordDto) {
+async function forgotPassword(data: PasswordEmailPayload) {
   await sanctum();
-  const resp = await axios.post('/forgot-password', data);
+  const resp = await api.auth.passwordEmail(data);
   return resp.data;
 }
 

@@ -1,19 +1,24 @@
 import React, { useMemo } from 'react';
+import { useRouter } from 'next/navigation';
 import { Field, Form, Formik } from 'formik';
 import errorMessages from '@/fixtures/errorMessages';
 import validations from '@/fixtures/validations';
 import { useDialogModal } from '@/hooks';
+import { IUnprocessableEntity } from '@/interfaces';
 import yup from '@/libs/yup';
+import useEditMe from '@/services/users/edit';
 import useMe from '@/services/users/me';
 import Button from '@/shared/Button';
 import FieldWrapper from '@/shared/forms/FieldWrapper';
 import PasswordField from '@/shared/forms/PasswordField';
 import DialogModal from '@/shared/modals/DialogModal';
-import { cn } from '@/utils';
+import { cn, isAxiosError } from '@/utils';
 
 export default function ProfileUpdate() {
   const { data: me } = useMe();
   const { modalRef, handleCloseModal, handleOpenModal } = useDialogModal();
+  const { mutate: editMe, isPending } = useEditMe();
+  const router = useRouter();
 
   const validationSchema = useMemo(() => {
     return yup.object({
@@ -48,15 +53,26 @@ export default function ProfileUpdate() {
         </h3>
         <Formik
           validationSchema={validationSchema}
+          enableReinitialize
           initialValues={{
-            username: me?.username,
-            email: me?.email,
+            username: me!.username,
+            email: me!.email,
             current_password: '',
             new_password: '',
             new_password_confirmation: '',
           }}
-          onSubmit={(values) => {
-            console.log(values);
+          onSubmit={(values, { setErrors }) => {
+            editMe(values, {
+              onSuccess: (data) => {
+                router.replace(`/users/${data.username}`);
+                handleCloseModal();
+              },
+              onError: (e) => {
+                if (isAxiosError<IUnprocessableEntity>(e, 422)) {
+                  setErrors(e.response!.data.errors);
+                }
+              },
+            });
           }}
         >
           {({ values }) => {
@@ -97,7 +113,12 @@ export default function ProfileUpdate() {
                   <Button onClick={handleCloseModal} className="btn">
                     Cancel
                   </Button>
-                  <Button type="submit" className="btn btn-primary">
+                  <Button
+                    isLoading={isPending}
+                    disabled={isPending}
+                    type="submit"
+                    className="btn btn-primary"
+                  >
                     Submit
                   </Button>
                 </div>
