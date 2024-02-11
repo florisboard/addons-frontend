@@ -6,11 +6,11 @@ type TProjectScreenshotsCreate = ProjectsScreenshotsStorePayload & {
   projectId: number;
 };
 
-export async function create({ projectId, ...data }: TProjectScreenshotsCreate) {
+export async function createScreenshots({ projectId, ...data }: TProjectScreenshotsCreate) {
   const resp = await api.projects.projectsScreenshotsStore(projectId, data);
   return resp.data;
 }
 
 export default function useCreateProjectScreenshots() {
-  return useMutation({ mutationFn: create });
+  return useMutation({ mutationFn: createScreenshots });
 }

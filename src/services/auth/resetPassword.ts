@@ -1,17 +1,11 @@
 import { useMutation } from '@tanstack/react-query';
-import axios from '@/libs/axios';
+import { PasswordStorePayload } from '@/generated';
+import api from '@/libs/api';
 import sanctum from './sanctum';
 
-export interface IResetPasswordDto {
-  email: string;
-  token: string;
-  password: string;
-  password_confirmation: string;
-}
-
-async function resetPassword(data: IResetPasswordDto) {
+async function resetPassword(data: PasswordStorePayload) {
   await sanctum();
-  const resp = await axios.post('/reset-password', data);
+  const resp = await api.auth.passwordStore(data);
   return resp.data;
 }
 

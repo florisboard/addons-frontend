@@ -1,8 +1,8 @@
 import { useMutation } from '@tanstack/react-query';
-import axios from '@/libs/axios';
+import api from '@/libs/api';
 
 async function emailVerification() {
-  const resp = await axios.post('/email/verification-notification');
+  const resp = await api.auth.verificationSend({});
   return resp.data;
 }
 

@@ -6,11 +6,11 @@ type TProjectImageCreate = ProjectsImageStorePayload & {
   projectId: number;
 };
 
-export async function create({ projectId, ...data }: TProjectImageCreate) {
+export async function createImage({ projectId, ...data }: TProjectImageCreate) {
   const resp = await api.projects.projectsImageStore(projectId, data);
   return resp.data;
 }
 
 export default function useCreateProjectImage() {
-  return useMutation({ mutationFn: create });
+  return useMutation({ mutationFn: createImage });
 }

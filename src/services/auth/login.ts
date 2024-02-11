@@ -1,14 +1,11 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { AuthResource } from '@/generated';
-import axios from '@/libs/axios';
-import { IRegisterDto } from './register';
+import { LoginPayload } from '@/generated';
+import api from '@/libs/api';
 import sanctum from './sanctum';
 
-export interface ILoginDto extends Pick<IRegisterDto, 'email' | 'password'> {}
-
-async function login(data: ILoginDto) {
+async function login(data: LoginPayload) {
   await sanctum();
-  const resp = await axios.post<AuthResource>('/login', data);
+  const resp = await api.auth.login(data);
   return resp.data;
 }
 
