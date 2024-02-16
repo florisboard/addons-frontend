@@ -60,7 +60,7 @@ export default function CommentAReview({ projectId, authUserReview }: CommentARe
           <Button
             onClick={() => {
               if (me) handleOpenModal();
-              else router.push(login());
+              else router.push(login(), { scroll: false });
             }}
             className="btn btn-accent"
           >

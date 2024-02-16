@@ -2,6 +2,7 @@
 
 import React, { useEffect } from 'react';
 import { HiXMark } from 'react-icons/hi2';
+import { toast } from 'react-toastify';
 import config from '@/fixtures/config';
 import { useDialogModal, useSearchParams } from '@/hooks';
 import useMe from '@/services/users/me';
@@ -53,9 +54,12 @@ const routes = [
 ];
 
 export default function AuthModal() {
-  const { data: user } = useMe();
+  const { data: user, isLoading } = useMe();
   const { modalRef, handleCloseModal, handleOpenModal } = useDialogModal();
   const [searchParams, setSearchParams] = useSearchParams();
+  // when using oauth backend redirects to the frontend with loginSuccessful
+  // we get that and show the user a message that he's logged in
+  const loginWasSuccessful = searchParams.has('loginSuccessful');
 
   const handleCloseAuthModal = () => {
     handleCloseModal();
@@ -69,10 +73,16 @@ export default function AuthModal() {
   const route = routes.find((r) => r.name === authParam);
 
   useEffect(() => {
+    if (isLoading) return;
     if (route) handleOpenModal();
     if (user && !route?.canOpenWhenAuthenticated) handleCloseAuthModal();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [route, user]);
+  }, [route, user, isLoading]);
+
+  useEffect(() => {
+    if (!loginWasSuccessful) return;
+    toast.success("You've logged in successfully.");
+  }, [loginWasSuccessful]);
 
   return (
     <DialogModal

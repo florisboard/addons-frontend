@@ -518,6 +518,26 @@ export class Api<SecurityDataType extends unknown> {
     /**
      * No description
      *
+     * @tags Github
+     * @name GithubRedirect
+     * @request GET:/auth/github/redirect
+     */
+    githubRedirect: (params: RequestParams = {}) =>
+      this.http.request<
+        {
+          url: string;
+        },
+        any
+      >({
+        path: `/auth/github/redirect`,
+        method: 'GET',
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
      * @tags AuthenticatedSession
      * @name Login
      * @summary Handle an incoming authentication request
