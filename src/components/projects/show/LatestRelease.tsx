@@ -41,7 +41,7 @@ export default function LatestRelease({ latestRelease, projectSlug }: LatestRele
       {
         name: 'version',
         className: 'badge-primary',
-        value: `Version : ${latestRelease.version}`,
+        value: `Version : ${latestRelease.version_name}`,
       },
     ];
   }, [latestRelease]);

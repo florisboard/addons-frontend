@@ -41,10 +41,13 @@ export default function CreateProject() {
               },
             });
             if (values.image_path) {
-              await createImage({ image: values.image_path, projectId: data.id });
+              await createImage({ image_path: values.image_path, projectId: data.id });
             }
             if (values.screenshots_path.length > 0) {
-              await createScreenshots({ screenshots: values.screenshots_path, projectId: data.id });
+              await createScreenshots({
+                screenshots_path: values.screenshots_path,
+                projectId: data.id,
+              });
             }
             router.push(`/projects/${data.id}/edit?tab=releases`);
           }}

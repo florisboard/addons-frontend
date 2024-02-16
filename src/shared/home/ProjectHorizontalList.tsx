@@ -7,12 +7,12 @@ import ProjectCard from '@/shared/cards/project/ProjectCard';
 import ProjectCardSkeleton from '@/shared/cards/project/ProjectCardSkeleton';
 import Section, { SectionProps } from '@/shared/home/Section';
 
-type ProjectsListProps = {
+type ProjectHorizontalListProps = {
   section: Omit<SectionProps, 'children'>;
   projects: ProjectResource[] | undefined;
 };
 
-export default function ProjectsList({ section, projects }: ProjectsListProps) {
+export default function ProjectHorizontalList({ section, projects }: ProjectHorizontalListProps) {
   return (
     <Section {...section}>
       <Swiper

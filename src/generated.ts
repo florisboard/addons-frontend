@@ -168,7 +168,7 @@ export type ProjectsDestroyPayload = object;
 export type ProjectsImageDestroyPayload = object;
 
 export interface ProjectsImageStorePayload {
-  image: string;
+  image_path: string;
 }
 
 export interface ProjectsIndexParams {
@@ -184,6 +184,12 @@ export interface ProjectsIndexParams {
   sort?: 'package_name' | '-package_name' | 'name' | '-name' | 'id' | '-id';
 }
 
+export interface ProjectsReleasesStorePayload {
+  description: string;
+  file: string;
+  version_name: string;
+}
+
 export interface ProjectsReviewsStorePayload {
   description: string;
   score: number;
@@ -194,7 +200,7 @@ export type ProjectsScreenshotsDestroyPayload = object;
 
 export interface ProjectsScreenshotsStorePayload {
   /** @maxItems 5 */
-  screenshots: string[];
+  screenshots_path: string[];
 }
 
 export interface ProjectsStorePayload {
@@ -245,7 +251,8 @@ export interface ReleaseFullResource {
   updated_at: string;
   user: UserResource;
   user_id: string;
-  version: string;
+  version_code: number;
+  version_name: string;
 }
 
 /** ReleaseResource */
@@ -253,7 +260,8 @@ export interface ReleaseResource {
   created_at: string;
   id: number;
   updated_at: string;
-  version: string;
+  version_code: number;
+  version_name: string;
 }
 
 export interface ReleasesIndexParams {
@@ -262,6 +270,10 @@ export interface ReleasesIndexParams {
   };
   page?: number | null;
   sort?: 'id' | '-id';
+}
+
+export interface ReleasesUpdatePayload {
+  description: string;
 }
 
 /** ReviewResource */
@@ -772,7 +784,7 @@ export class Api<SecurityDataType extends unknown> {
       params: RequestParams = {},
     ) =>
       this.http.request<
-        string,
+        object,
         {
           /** Error overview. */
           message: string;
@@ -846,7 +858,7 @@ export class Api<SecurityDataType extends unknown> {
      */
     collectionsShow: (collection: number, params: RequestParams = {}) =>
       this.http.request<
-        string,
+        object,
         {
           /** Error overview. */
           message: string;
@@ -866,7 +878,7 @@ export class Api<SecurityDataType extends unknown> {
      * @request POST:/collections
      */
     collectionsStore: (data: CollectionsStorePayload, params: RequestParams = {}) =>
-      this.http.request<string, any>({
+      this.http.request<object, any>({
         path: `/collections`,
         method: 'POST',
         body: data,
@@ -888,7 +900,7 @@ export class Api<SecurityDataType extends unknown> {
       params: RequestParams = {},
     ) =>
       this.http.request<
-        string,
+        object,
         {
           /** Error overview. */
           message: string;
@@ -1104,6 +1116,39 @@ export class Api<SecurityDataType extends unknown> {
     /**
      * No description
      *
+     * @tags Release
+     * @name ProjectsReleasesStore
+     * @request POST:/projects/{project}/releases
+     */
+    projectsReleasesStore: (
+      project: number,
+      data: ProjectsReleasesStorePayload,
+      params: RequestParams = {},
+    ) =>
+      this.http.request<
+        ReleaseFullResource,
+        | {
+            /** Error overview. */
+            message: string;
+          }
+        | {
+            /** A detailed description of each field that failed validation. */
+            errors: Record<string, string[]>;
+            /** Errors overview. */
+            message: string;
+          }
+      >({
+        path: `/projects/${project}/releases`,
+        method: 'POST',
+        body: data,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
      * @tags Review
      * @name ProjectsReviewsStore
      * @request POST:/projects/{project}/reviews
@@ -1143,7 +1188,7 @@ export class Api<SecurityDataType extends unknown> {
      */
     projectsScreenshotsDestroy: (
       project: number,
-      media: string,
+      media: number,
       data: ProjectsScreenshotsDestroyPayload,
       params: RequestParams = {},
     ) =>
@@ -1341,16 +1386,49 @@ export class Api<SecurityDataType extends unknown> {
             total: number;
           };
         },
-        {
-          /** A detailed description of each field that failed validation. */
-          errors: Record<string, string[]>;
-          /** Errors overview. */
-          message: string;
-        }
+        | {
+            /** Error overview. */
+            message: string;
+          }
+        | {
+            /** A detailed description of each field that failed validation. */
+            errors: Record<string, string[]>;
+            /** Errors overview. */
+            message: string;
+          }
       >({
         path: `/releases`,
         method: 'GET',
         query: query,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Release
+     * @name ReleasesUpdate
+     * @request PUT:/releases/{release}
+     */
+    releasesUpdate: (release: number, data: ReleasesUpdatePayload, params: RequestParams = {}) =>
+      this.http.request<
+        ReleaseFullResource,
+        | {
+            /** Error overview. */
+            message: string;
+          }
+        | {
+            /** A detailed description of each field that failed validation. */
+            errors: Record<string, string[]>;
+            /** Errors overview. */
+            message: string;
+          }
+      >({
+        path: `/releases/${release}`,
+        method: 'PUT',
+        body: data,
+        type: ContentType.Json,
         format: 'json',
         ...params,
       }),

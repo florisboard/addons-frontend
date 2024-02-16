@@ -16,7 +16,7 @@ export default function Information({ project }: InformationProps) {
   const lists: TInfoList[] = compact([
     { name: 'Package Name', value: project?.package_name },
     { name: 'Creator', value: project?.user.username },
-    { name: 'Version', value: project?.latest_release?.version ?? '0' },
+    { name: 'Version', value: project?.latest_release?.version_name ?? '0' },
     { name: 'Created', value: formatDistanceToNow(project?.created_at, { addSuffix: true }) },
     { name: 'Updated', value: formatDistanceToNow(project?.updated_at, { addSuffix: true }) },
     project?.latest_release && {

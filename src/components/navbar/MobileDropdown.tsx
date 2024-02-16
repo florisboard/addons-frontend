@@ -4,7 +4,11 @@ import Link from 'next/link';
 import { navbarLinks } from '@/fixtures/navbar';
 import Search from '../../shared/forms/Search';
 
-export default function MobileDropdown() {
+type MobileDropdownProps = {
+  isSearchActive: boolean;
+};
+
+export default function MobileDropdown({ isSearchActive }: MobileDropdownProps) {
   return (
     <div className="navbar-start md:w-auto lg:hidden">
       <div className="dropdown">
@@ -20,9 +24,11 @@ export default function MobileDropdown() {
               <Link href={link.href}>{link.name}</Link>
             </li>
           ))}
-          <Suspense>
-            <Search className="w-full md:hidden" />
-          </Suspense>
+          {isSearchActive && (
+            <Suspense>
+              <Search placeholder="Search Projects ..." className="w-full md:hidden" />
+            </Suspense>
+          )}
         </ul>
       </div>
     </div>

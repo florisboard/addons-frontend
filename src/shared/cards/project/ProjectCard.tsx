@@ -65,7 +65,12 @@ export default function ProjectCard({
     >
       <div className="card-body gap-2">
         <figure className="relative h-36 w-full rounded">
-          <BlurImage fill src={image?.url ?? 'https://picsum.photos/250/150'} alt="Shoes" />
+          <BlurImage
+            sizes="(max-width: 144px) 100vw, 144px"
+            fill
+            src={image?.url ?? 'https://picsum.photos/250/150'}
+            alt="Shoes"
+          />
         </figure>
         <h3 className="card-title line-clamp-1">{name}</h3>
         <div className="flex flex-wrap gap-2">

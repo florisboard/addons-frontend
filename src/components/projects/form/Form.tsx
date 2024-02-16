@@ -18,19 +18,6 @@ import { cn } from '@/utils';
 import CategoriesSelect from './CategoriesSelect';
 import MaintainersSelect from './MaintainersSelect';
 
-const validationSchema = yup.object<ProjectsStorePayload>({
-  category_id: yup.number().required().min(1),
-  name: yup.string().required().min(3).max(50),
-  package_name: validations.package_name,
-  short_description: yup.string().required().min(3).max(255),
-  type: yup.string().required().oneOf([ProjectTypeEnum.EXTENSION]),
-  home_page: validations.url,
-  support_email: validations.email.notRequired(),
-  support_site: validations.url,
-  donate_site: validations.url,
-  description: yup.string().required().min(3).max(2024),
-});
-
 export type TProjectValues = ProjectsStorePayload & {
   image_path: string;
   screenshots_path: string[];
@@ -43,6 +30,19 @@ type FormProps = {
   project?: ProjectFullResource;
   isOwner: boolean;
 };
+
+const validationSchema = yup.object<ProjectsStorePayload>({
+  category_id: yup.number().required().min(1),
+  name: yup.string().required().min(3).max(50),
+  package_name: validations.package_name,
+  short_description: yup.string().required().min(3).max(255),
+  type: yup.string().required().oneOf([ProjectTypeEnum.EXTENSION]),
+  home_page: validations.url,
+  support_email: validations.email.notRequired(),
+  support_site: validations.url,
+  donate_site: validations.url,
+  description: yup.string().required().min(3).max(2024),
+});
 
 export default function Form({ submit, onSubmit, initialValues, project, isOwner }: FormProps) {
   const { mutate: deleteImage } = useDeleteProjectImage();
@@ -115,9 +115,6 @@ export default function Form({ submit, onSubmit, initialValues, project, isOwner
                   as="select"
                   className={cn('select select-bordered w-full', { 'select-error': hasError })}
                 >
-                  <option disabled value="">
-                    Select a type
-                  </option>
                   {Object.values(ProjectTypeEnum).map((value) => (
                     <option key={value} value={value}>
                       {value}
@@ -144,8 +141,9 @@ export default function Form({ submit, onSubmit, initialValues, project, isOwner
           </Collapse>
           <Collapse title="Images" contentClassName="grid grid-cols-1 gap-4 md:grid-cols-2">
             <>
-              <FieldWrapper name="image_path" isRequired label="Image">
+              <FieldWrapper name="image_path" isRequired={false} label="Image">
                 <FileUpload
+                  required
                   onremovefile={handleDeleteImage}
                   onFileUploadedState={(paths) => setFieldValue('image_path', paths.at(0))}
                   uploadedFileLinks={compact([project?.image])}
