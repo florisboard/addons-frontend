@@ -47,10 +47,10 @@ function Edit() {
               },
             });
             if (values.image_path) {
-              createImage({ image: values.image_path, projectId: +id });
+              createImage({ image_path: values.image_path, projectId: +id });
             }
             if (values.screenshots_path.length > 0) {
-              createScreenshots({ screenshots: values.screenshots_path, projectId: +id });
+              createScreenshots({ screenshots_path: values.screenshots_path, projectId: +id });
             }
           }}
           submit={{ text: 'Edit', isPending }}

@@ -5,7 +5,7 @@ import { HiArrowUp, HiCalendar, HiFire, HiStar } from 'react-icons/hi2';
 import CountDown from '@/components/home/CountDown';
 import TopCategories from '@/components/home/TopCategories';
 import useHome from '@/services/home';
-import ProjectsList from '@/shared/home/ProjectsList';
+import ProjectHorizontalList from '@/shared/home/ProjectHorizontalList';
 
 export default function Home() {
   const { data } = useHome();
@@ -16,7 +16,7 @@ export default function Home() {
     targetDate.setUTCHours(0, 0, 0, 0);
 
     return [
-      <ProjectsList
+      <ProjectHorizontalList
         key="picksOfTheDay"
         section={{
           headingChildren: <CountDown targetDate={targetDate} />,
@@ -25,17 +25,17 @@ export default function Home() {
         }}
         projects={data?.picks_of_the_day}
       />,
-      <ProjectsList
+      <ProjectHorizontalList
         key="recommended"
         section={{ Icon: HiStar, name: 'Recommended' }}
         projects={data?.recommended}
       />,
-      <ProjectsList
+      <ProjectHorizontalList
         key="latestReleases"
         section={{ Icon: HiArrowUp, name: 'Latest Releases' }}
         projects={data?.latest_releases}
       />,
-      <ProjectsList
+      <ProjectHorizontalList
         key="latestProjects"
         section={{ Icon: HiFire, name: 'Latest Projects' }}
         projects={data?.latest_projects}

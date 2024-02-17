@@ -26,6 +26,7 @@ export default function CategoriesSelect({ defaultValue }: CategoriesSelectProps
         onChange={(value) => {
           setFieldValue('category_id', (value as IOption<number>).value);
         }}
+        placeholder="Search Categories ..."
         defaultValue={defaultValue}
         inputValue={search}
         onInputChange={setSearch}

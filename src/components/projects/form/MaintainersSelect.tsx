@@ -43,6 +43,7 @@ export default function MaintainersSelect({ defaultValue, ownerId }: Maintainers
         defaultValue={defaultValue}
         isMulti
         inputValue={search}
+        placeholder="Search Users ..."
         onInputChange={setSearch}
         options={isMaxMaintainers ? [] : options}
         noOptionsMessage={() => (isMaxMaintainers ? 'Max maintainers is selected.' : undefined)}

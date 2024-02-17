@@ -1,15 +1,24 @@
 'use client';
 
-import React, { Suspense, useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { cn } from '@/utils';
 import Search from '../../shared/forms/Search';
 import Links from './Links';
 import MobileDropdown from './MobileDropdown';
 import Profile from './Profile';
 
+function canShowGlobalSearch(pathname: string) {
+  if (['/projects'].includes(pathname)) return false;
+  if (pathname.startsWith('/categories/')) return false;
+  return true;
+}
+
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const pathname = usePathname();
+  const isGlobalSearchActive = useMemo(() => canShowGlobalSearch(pathname), [pathname]);
 
   useEffect(() => {
     const checkScrollTop = () => {
@@ -26,7 +35,7 @@ export default function Navbar() {
         'shadow-md': isScrolled,
       })}
     >
-      <MobileDropdown />
+      <MobileDropdown isSearchActive={isGlobalSearchActive} />
       <div className="navbar-center md:navbar-start md:flex-shrink">
         <Link href="/" className="btn btn-ghost text-xl">
           FlorisBoard Addons
@@ -34,9 +43,11 @@ export default function Navbar() {
       </div>
       <Links />
       <div className="navbar-end items-center gap-2">
-        <Suspense>
-          <Search className="hidden md:form-control" />
-        </Suspense>
+        {isGlobalSearchActive && (
+          <Suspense>
+            <Search placeholder="Search Projects ..." className="hidden md:form-control" />
+          </Suspense>
+        )}
         <Profile />
       </div>
     </header>

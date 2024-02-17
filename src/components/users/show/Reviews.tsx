@@ -5,16 +5,17 @@ import EmptyList from '@/shared/EmptyList';
 import ReviewCard from '@/shared/cards/review/ReviewCard';
 import ReviewCardSkeleton from '@/shared/cards/review/ReviewCardSkeleton';
 import LoadMore from '@/shared/forms/LoadMore';
+import { isInfiniteResultEmpty } from '@/utils';
 
 type ReviewsProps = {
   userId: number;
 };
 
 export default function Reviews({ userId }: ReviewsProps) {
-  const { data, isLoading, hasNextPage, isFetchingNextPage, fetchNextPage } = useReviews({
-    filter: { user_id: userId },
-    sort: '-id',
-  });
+  const queryResult = useReviews({ filter: { user_id: userId }, sort: '-id' });
+  const { data, isLoading, hasNextPage, isFetchingNextPage, fetchNextPage } = queryResult;
+
+  if (isInfiniteResultEmpty(queryResult)) return <EmptyList />;
 
   return (
     <section className="grid grid-cols-1 gap-4 lg:grid-cols-2">
@@ -28,7 +29,6 @@ export default function Reviews({ userId }: ReviewsProps) {
           ))}
         </Fragment>
       ))}
-      {data?.pages.at(0)?.meta.total === 0 && <EmptyList />}
       {hasNextPage && <LoadMore onClick={fetchNextPage} isLoading={isFetchingNextPage} />}
     </section>
   );

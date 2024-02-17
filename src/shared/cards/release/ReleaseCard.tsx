@@ -15,7 +15,7 @@ type ReleaseCardProps = ReleaseFullResource & {
 export default function ReleaseCard({
   id,
   user,
-  version,
+  version_name,
   downloads_count,
   description,
   created_at,
@@ -47,7 +47,7 @@ export default function ReleaseCard({
             <Link href={userLink} className="font-display hover:underline">
               {user.username}
             </Link>
-            <h4 className="card-title">{version}</h4>
+            <h4 className="card-title">{version_name}</h4>
           </div>
         </div>
         <div className="flex gap-4 overflow-x-auto scrollbar-none">
@@ -60,7 +60,7 @@ export default function ReleaseCard({
         </div>
         <Markdown hasViewMore>{description}</Markdown>
         <div className="card-actions">
-          <Download release={{ id, version }} project={{ slug: projectSlug }} />
+          <Download release={{ id, version_name }} project={{ slug: projectSlug }} />
         </div>
       </div>
     </div>

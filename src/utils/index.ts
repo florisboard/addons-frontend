@@ -2,6 +2,7 @@ import axios, { AxiosError } from 'axios';
 import { ClassValue, clsx } from 'clsx';
 import { addDays, isBefore } from 'date-fns';
 import { twMerge } from 'tailwind-merge';
+import { InfiniteData, UseInfiniteQueryResult } from '@tanstack/react-query';
 import axiosInstance from '@/libs/axios';
 import { TApiMeta } from '@/types';
 
@@ -54,4 +55,11 @@ export function convertNullToEmptyString(obj: object) {
   return Object.fromEntries(
     Object.entries(obj).map(([key, value]) => [key, value === null ? '' : value]),
   );
+}
+
+export function isInfiniteResultEmpty({
+  isLoading,
+  data,
+}: UseInfiniteQueryResult<InfiniteData<TApiMeta>>) {
+  return !isLoading && data?.pages.at(0)?.meta.total === 0;
 }

@@ -4,13 +4,13 @@ import { downloadFile } from '@/utils';
 import Button from '../Button';
 
 type DownloadProps = {
-  release: { id: number; version: string };
+  release: { id: number; version_name: string };
   project: { slug: string };
 };
 
 export default function Download({ release, project }: DownloadProps) {
   const { mutate: download, isPending } = useDownloadRelease();
-  const fileName = `${project.slug}-${release.version}.mp3`;
+  const fileName = `${project.slug}-${release.version_name}.mp3`;
 
   const handleDownload = () => {
     download(release.id, {
