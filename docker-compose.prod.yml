@@ -1,0 +1,15 @@
+version: '3.8'
+services:
+  ui:
+    build:
+      context: .
+      dockerfile: ui.dockerfile
+    restart: unless-stopped
+    networks:
+      - addons
+    ports:
+      - '3000:3000'
+
+networks:
+  addons:
+    name: addons
