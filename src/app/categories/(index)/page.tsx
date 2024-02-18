@@ -1,7 +1,6 @@
 'use client';
 
 import React, { Fragment } from 'react';
-import { useSearchParams } from '@/hooks';
 import useCategories from '@/services/categories';
 import CategoryCard from '@/shared/cards/category/CategoryCard';
 import CategoryCardSkeleton from '@/shared/cards/category/CategoryCardSkeleton';
@@ -9,15 +8,13 @@ import LoadMore from '@/shared/forms/LoadMore';
 import Search from '@/shared/forms/Search';
 
 export default function Categories() {
-  const [searchParams] = useSearchParams();
-  const query = searchParams.get('query') ?? '';
   const {
     data: categories,
     isLoading,
     hasNextPage,
     isFetchingNextPage,
     fetchNextPage,
-  } = useCategories({ filter: { name: query } });
+  } = useCategories({ filter: { name: '' } });
 
   return (
     <div className="px-container space-y-4">
