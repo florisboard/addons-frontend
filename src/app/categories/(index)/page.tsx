@@ -5,7 +5,8 @@ import useCategories from '@/services/categories';
 import CategoryCard from '@/shared/cards/category/CategoryCard';
 import CategoryCardSkeleton from '@/shared/cards/category/CategoryCardSkeleton';
 import LoadMore from '@/shared/forms/LoadMore';
-import Search from '@/shared/forms/Search';
+
+// import Search from '@/shared/forms/Search';
 
 export default function Categories() {
   const {
@@ -20,7 +21,7 @@ export default function Categories() {
     <div className="px-container space-y-4">
       <div className="flex flex-col gap-4 md:flex-row md:justify-between">
         <h1 className="h1">Categories</h1>
-        <Search searchOnCurrentRoute placeholder="Search Categories ..." />
+        {/* <Search searchOnCurrentRoute placeholder="Search Categories ..." /> */}
       </div>
       <section className="flex flex-wrap items-center gap-4">
         {categories?.pages.map((page) => (
