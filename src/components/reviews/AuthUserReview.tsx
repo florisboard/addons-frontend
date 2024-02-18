@@ -52,7 +52,7 @@ export default function CommentAReview({ projectId, authUserReview }: CommentARe
       {authUserReview && <ReviewCard onEdit={handleOpenModal} {...authUserReview} />}
       {!authUserReview && (
         <div className="card-body flex-row flex-wrap justify-between gap-4">
-          <h3 className="card-title min-w-max">
+          <h3 className="card-title lg:min-w-max">
             {me
               ? "Let others know what's your feedback"
               : 'Login to your Account to comment a Review'}
