@@ -16,7 +16,7 @@ export default function Section({ Icon, name, viewMore, children, headingChildre
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-2 md:gap-4">
           <Icon className="h-5 w-5 md:h-6 md:w-6" />
-          <h2 className="font-display text-xl font-bold md:text-3xl">{name}</h2>
+          <h2 className="font-display text-2xl font-bold md:text-3xl">{name}</h2>
         </div>
         {viewMore && (
           <Link
