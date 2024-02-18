@@ -61,7 +61,7 @@ export default function ProjectCard({
   return (
     <Link
       href={`/projects/${id}/${slug}`}
-      className={cn('card h-[23rem] w-72 bg-base-200 md:w-80', bodyClassName)}
+      className={cn('card min-h-[23rem] w-72 bg-base-200 md:w-80', bodyClassName)}
     >
       <div className="card-body gap-2">
         <figure className="relative h-36 w-full rounded">

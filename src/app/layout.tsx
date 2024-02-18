@@ -28,9 +28,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <Suspense>
           <AuthModal />
         </Suspense>
-        <main className="flex flex-1 flex-col space-y-4 overflow-x-hidden md:space-y-8">
-          {children}
-        </main>
+        <main className="flex flex-1 flex-col space-y-4 md:space-y-8">{children}</main>
         <Footer />
       </ReactQueryProvider>
     </Html>

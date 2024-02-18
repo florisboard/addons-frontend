@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useRef } from 'react';
 import { HiBars3BottomLeft } from 'react-icons/hi2';
 import Link from 'next/link';
 import { navbarLinks } from '@/fixtures/navbar';
@@ -9,10 +9,21 @@ type MobileDropdownProps = {
 };
 
 export default function MobileDropdown({ isSearchActive }: MobileDropdownProps) {
+  const isOpen = useRef(false);
+
   return (
     <div className="navbar-start md:w-auto lg:hidden">
       <div className="dropdown">
-        <label tabIndex={0} className="btn btn-circle btn-ghost">
+        <label
+          onClick={(e) => {
+            if (isOpen.current) {
+              e.currentTarget.blur();
+            }
+            isOpen.current = !isOpen.current;
+          }}
+          tabIndex={0}
+          className="btn btn-circle btn-ghost"
+        >
           <HiBars3BottomLeft className="h-6 w-6" />
         </label>
         <ul
