@@ -11,7 +11,7 @@ import Profile from './Profile';
 
 function canShowGlobalSearch(pathname: string) {
   if (['/projects'].includes(pathname)) return false;
-  if (pathname.startsWith('/categories/')) return false;
+  if (pathname.startsWith('/categories')) return false;
   return true;
 }
 

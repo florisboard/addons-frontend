@@ -19,7 +19,7 @@ export default function Category() {
   return (
     <div className="px-container space-y-4">
       <div className="flex flex-col gap-4 md:flex-row md:justify-between">
-        <h1 className="font-display text-3xl font-bold">{category.name} Projects</h1>
+        <h1 className="h1">{category.name} Projects</h1>
         <Search searchOnCurrentRoute placeholder="Search Category Projects ..." />
       </div>
       <ProjectInfiniteGridList queryResult={queryResult} />

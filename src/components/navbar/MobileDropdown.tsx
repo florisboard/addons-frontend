@@ -2,7 +2,7 @@ import React, { Suspense } from 'react';
 import { HiBars3BottomLeft } from 'react-icons/hi2';
 import Link from 'next/link';
 import { navbarLinks } from '@/fixtures/navbar';
-import Search from '../../shared/forms/Search';
+import Search from '@/shared/forms/Search';
 
 type MobileDropdownProps = {
   isSearchActive: boolean;

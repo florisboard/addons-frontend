@@ -59,7 +59,7 @@ export default function User() {
       <div className="space-y-4 rounded-box bg-base-200 p-4">
         <div className="flex items-center gap-4">
           <Avatar round size="40" name={username} />
-          <h1 className="text-center font-display text-3xl font-bold md:text-left">{username}</h1>
+          <h1 className="h1 text-center md:text-left">{username}</h1>
         </div>
         <Tabs activeTab={activeTab} tabs={tabs} />
         {activeTab.component}

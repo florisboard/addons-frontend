@@ -14,15 +14,15 @@ type TLink = {
 
 export default function Links({ project }: LinksProps) {
   const links: TLink[] = compact([
-    project?.home_page && { name: 'Home Page', href: project?.home_page },
-    project?.donate_site && { name: 'Donate Site', href: project?.donate_site },
+    project?.home_page && { name: 'Home Page', href: project.home_page },
+    project?.donate_site && { name: 'Donate Site', href: project.donate_site },
     project?.support_email && {
       name: 'Support Email',
-      href: project?.support_email,
+      href: `mailto:${project.support_email}`,
     },
     project?.support_site && {
       name: 'Support Site',
-      href: project?.support_site,
+      href: project.support_site,
     },
   ]);
 

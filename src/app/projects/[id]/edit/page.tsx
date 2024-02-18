@@ -71,7 +71,7 @@ function Edit() {
   return (
     <AuthMiddleware middleware="auth">
       <div className="px-container space-y-4">
-        <h1 className="font-display text-3xl font-bold">Edit {project?.name}</h1>
+        <h1 className="h1">Edit {project?.name}</h1>
         <div role="tablist" className="tabs tabs-lifted">
           {tabs.map((tab, i) => (
             <Fragment key={tab.name}>

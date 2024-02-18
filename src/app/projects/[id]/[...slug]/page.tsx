@@ -33,7 +33,7 @@ export default function Project() {
         <div className="card bg-base-200 md:col-span-4">
           <div className="card-body">
             <div className="flex flex-wrap items-center justify-between gap-4">
-              <h1 className="font-display text-3xl font-bold">{project.name}</h1>
+              <h1 className="h1">{project.name}</h1>
               {canEdit && (
                 <Link href={`/projects/${id}/edit`} className="btn btn-accent">
                   Edit

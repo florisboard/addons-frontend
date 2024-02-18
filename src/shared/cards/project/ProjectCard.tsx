@@ -61,7 +61,7 @@ export default function ProjectCard({
   return (
     <Link
       href={`/projects/${id}/${slug}`}
-      className={cn('card h-[23rem] w-80 bg-base-200', bodyClassName)}
+      className={cn('card h-[23rem] w-72 bg-base-200 md:w-80', bodyClassName)}
     >
       <div className="card-body gap-2">
         <figure className="relative h-36 w-full rounded">
@@ -72,7 +72,7 @@ export default function ProjectCard({
             alt="Shoes"
           />
         </figure>
-        <h3 className="card-title line-clamp-1">{name}</h3>
+        <h3 className="card-title line-clamp-1 text-lg md:text-xl">{name}</h3>
         <div className="flex flex-wrap gap-2">
           {badges.map((badge) => (
             <div
