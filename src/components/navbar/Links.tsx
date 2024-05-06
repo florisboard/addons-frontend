@@ -15,9 +15,9 @@ export default function Links() {
             className={cn({
               'border-b border-primary text-primary hover:border-none': pathname === link.href,
             })}
-            key={link.name}
+            key={link.title}
           >
-            <Link href={link.href}>{link.name}</Link>
+            <Link href={link.href}>{link.title}</Link>
           </li>
         ))}
       </ul>

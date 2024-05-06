@@ -29,7 +29,7 @@ function Edit() {
 
   const tabs = [
     {
-      name: 'Information',
+      title: 'Information',
       children: (
         <Form
           isOwner={isOwner}
@@ -58,7 +58,7 @@ function Edit() {
       ),
     },
     {
-      name: 'Releases',
+      title: 'Releases',
       children: <Releases project={{ id: +id, slug: project.slug }} />,
     },
   ];
@@ -74,10 +74,10 @@ function Edit() {
         <h1 className="h1">Edit {project?.name}</h1>
         <div role="tablist" className="tabs tabs-lifted">
           {tabs.map((tab, i) => (
-            <Fragment key={tab.name}>
+            <Fragment key={tab.title}>
               <input
                 type="radio"
-                aria-label={tab.name}
+                aria-label={tab.title}
                 name="tab"
                 role="tab"
                 className="tab"

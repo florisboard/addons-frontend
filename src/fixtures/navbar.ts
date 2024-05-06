@@ -1,6 +1,6 @@
 export const navbarLinks = [
-  { name: 'Projects', href: '/projects' },
-  { name: 'Categories', href: '/categories' },
-  { name: 'Collections', href: '/collections' },
-  { name: 'About', href: '/about' },
+  { title: 'Projects', href: '/projects' },
+  { title: 'Categories', href: '/categories' },
+  { title: 'Collections', href: '/collections' },
+  { title: 'About', href: '/about' },
 ];

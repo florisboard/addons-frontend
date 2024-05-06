@@ -21,23 +21,23 @@ export default function Home() {
         section={{
           headingChildren: <CountDown targetDate={targetDate} />,
           Icon: HiCalendar,
-          name: 'Picks of the Day',
+          title: 'Picks of the Day',
         }}
         projects={data?.picks_of_the_day}
       />,
       <ProjectHorizontalList
         key="recommended"
-        section={{ Icon: HiStar, name: 'Recommended' }}
+        section={{ Icon: HiStar, title: 'Recommended' }}
         projects={data?.recommended}
       />,
       <ProjectHorizontalList
         key="latestReleases"
-        section={{ Icon: HiArrowUp, name: 'Latest Releases' }}
+        section={{ Icon: HiArrowUp, title: 'Latest Releases' }}
         projects={data?.latest_releases}
       />,
       <ProjectHorizontalList
         key="latestProjects"
-        section={{ Icon: HiFire, name: 'Latest Projects' }}
+        section={{ Icon: HiFire, title: 'Latest Projects' }}
         projects={data?.latest_projects}
       />,
     ];

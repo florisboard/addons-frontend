@@ -14,7 +14,7 @@ export default function TopCategories() {
   return (
     <Section
       Icon={HiMiniRectangleStack}
-      name="Top Categories"
+      title="Top Categories"
       viewMore={{ text: 'All', href: '/categories' }}
     >
       <Swiper

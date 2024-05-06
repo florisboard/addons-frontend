@@ -31,8 +31,8 @@ export default function MobileDropdown({ isSearchActive }: MobileDropdownProps) 
           className="menu dropdown-content menu-sm z-[1] mt-3 w-[95vw] rounded-box bg-base-100 p-2 shadow md:menu-md"
         >
           {navbarLinks.map((link) => (
-            <li key={link.name}>
-              <Link href={link.href}>{link.name}</Link>
+            <li key={link.title}>
+              <Link href={link.href}>{link.title}</Link>
             </li>
           ))}
           {isSearchActive && (

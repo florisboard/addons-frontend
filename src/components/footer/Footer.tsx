@@ -18,15 +18,15 @@ export default function Footer() {
       <nav>
         <header className="footer-title">FlorisBoard</header>
         {footerLinks.map((link) => (
-          <Link key={link.name} href={link.href} className="link-hover link">
-            {link.name}
+          <Link key={link.title} href={link.href} className="link-hover link">
+            {link.title}
           </Link>
         ))}
       </nav>
       <nav>
         <header className="footer-title">Social Medias</header>
         {footerSocialMedias.map((link) => (
-          <Link target="_blank" key={link.name} href={link.href} className="link-hover link">
+          <Link target="_blank" key={link.title} href={link.href} className="link-hover link">
             <link.Icon className="h-6 w-6" />
           </Link>
         ))}

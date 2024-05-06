@@ -6,6 +6,7 @@ import 'swiper/css/a11y';
 import 'swiper/css/navigation';
 import AuthModal from '@/components/auth/AuthModal';
 import Footer from '@/components/footer/Footer';
+import Bottom from '@/components/navbar/Bottom';
 import Navbar from '@/components/navbar/Navbar';
 import ReactQueryProvider from '@/components/providers/ReactQueryProvider';
 import Html from '@/shared/layouts/Html';
@@ -31,6 +32,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           <AuthModal />
         </Suspense>
         <main className="flex flex-1 flex-col space-y-4 md:space-y-8">{children}</main>
+        <Bottom />
         <Footer />
       </ReactQueryProvider>
     </Html>

@@ -8,19 +8,19 @@ type InformationProps = {
 };
 
 type TInfoList = {
-  name: string;
+  title: string;
   value: string | number | undefined;
 };
 
 export default function Information({ project }: InformationProps) {
   const lists: TInfoList[] = compact([
-    { name: 'Package Name', value: project?.package_name },
-    { name: 'Creator', value: project?.user.username },
-    { name: 'Version', value: project?.latest_release?.version_name ?? '0' },
-    { name: 'Created', value: formatDistanceToNow(project?.created_at, { addSuffix: true }) },
-    { name: 'Updated', value: formatDistanceToNow(project?.updated_at, { addSuffix: true }) },
+    { title: 'Package Name', value: project?.package_name },
+    { title: 'Creator', value: project?.user.username },
+    { title: 'Version', value: project?.latest_release?.version_name ?? '0' },
+    { title: 'Created', value: formatDistanceToNow(project?.created_at, { addSuffix: true }) },
+    { title: 'Updated', value: formatDistanceToNow(project?.updated_at, { addSuffix: true }) },
     project?.latest_release && {
-      name: 'Last Release',
+      title: 'Last Release',
       value: formatDistanceToNow(project?.latest_release.created_at, { addSuffix: true }),
     },
   ]);
@@ -32,8 +32,8 @@ export default function Information({ project }: InformationProps) {
         <div className="divider" />
         <ul>
           {lists.map((list) => (
-            <li key={list.name} className="flex items-center gap-2 overflow-x-hidden">
-              <span className="font-display text-lg font-medium">{list.name} :</span>
+            <li key={list.title} className="flex items-center gap-2 overflow-x-hidden">
+              <span className="font-display text-lg font-medium">{list.title} :</span>
               <span className="select-all font-medium">{list.value}</span>
             </li>
           ))}

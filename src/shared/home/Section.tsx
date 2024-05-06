@@ -5,18 +5,24 @@ import { THasChildren, TIcon } from '@/types';
 
 export type SectionProps = THasChildren & {
   Icon: TIcon;
-  name: string;
+  title: string;
   viewMore?: { text: string; href: string };
   headingChildren?: React.ReactNode;
 };
 
-export default function Section({ Icon, name, viewMore, children, headingChildren }: SectionProps) {
+export default function Section({
+  Icon,
+  title,
+  viewMore,
+  children,
+  headingChildren,
+}: SectionProps) {
   return (
     <section className="px-container space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-2 md:gap-4">
           <Icon className="h-5 w-5 md:h-6 md:w-6" />
-          <h2 className="font-display text-2xl font-bold md:text-3xl">{name}</h2>
+          <h2 className="font-display text-2xl font-bold md:text-3xl">{title}</h2>
         </div>
         {viewMore && (
           <Link
