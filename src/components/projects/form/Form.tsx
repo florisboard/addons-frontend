@@ -56,6 +56,7 @@ export default function Form({ submit, onSubmit, initialValues, project, isOwner
 
   const handleDeleteScreenshot = (mediaId: number) => {
     if (project?.screenshots) {
+      console.log(mediaId);
       deleteScreenshot({ projectId: project.id, mediaId });
     }
   };
