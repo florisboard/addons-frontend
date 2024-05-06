@@ -25,7 +25,7 @@ export default function User() {
   const { username } = useParams<{ username: string }>();
   const [searchParams] = useSearchParams();
   const { data: me } = useMe();
-  const { data: user, isError } = useUser(username);
+  const { data: user } = useUser(username);
   const isCurrentUser = username === me?.username;
 
   const tabs: TTab[] = useMemo(() => {
@@ -53,7 +53,6 @@ export default function User() {
 
   const activeTab = tabs.find((tab) => tab.name === searchParams.get(TAB_PARAM_KEY)) ?? tabs[0];
 
-  if (isError) return <p>User not found.</p>;
   return (
     <div className="px-container space-y-4">
       <div className="space-y-4 rounded-box bg-base-200 p-4">

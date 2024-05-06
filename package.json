@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -29,6 +29,7 @@
     "install": "^0.13.0",
     "lodash": "^4.17.21",
     "next": "14.2.3",
+    "nextjs-toploader": "^1.6.12",
     "react": "^18",
     "react-avatar": "^5.0.3",
     "react-dom": "^18",

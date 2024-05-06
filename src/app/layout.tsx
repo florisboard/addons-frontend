@@ -1,5 +1,6 @@
 import { Suspense } from 'react';
 import type { Metadata } from 'next';
+import NextTopLoader from 'nextjs-toploader';
 import 'swiper/css';
 import 'swiper/css/a11y';
 import 'swiper/css/navigation';
@@ -23,6 +24,7 @@ type RootLayoutProps = THasChildren;
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <Html>
+      <NextTopLoader color="green" showSpinner={false} />
       <ReactQueryProvider>
         <Navbar />
         <Suspense>

@@ -17,7 +17,7 @@ export default function Screenshots({ screenshots }: ScreenshotsProps) {
         scrollbar={{ draggable: true, enabled: false }}
       >
         {screenshots.map((screenshot, i) => (
-          <SwiperSlide className="h-auto w-auto" key={screenshot.id}>
+          <SwiperSlide className="!h-auto !w-auto" key={screenshot.id}>
             <BlurImage
               loading="lazy"
               width={500}
