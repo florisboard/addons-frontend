@@ -1,9 +1,7 @@
 import React from 'react';
 import Markdown from 'react-markdown';
 import { Metadata } from 'next';
-import api from '@/libs/api';
-
-export const revalidate = 300; // 5 min
+import getAboutServer from '@/services/about/show';
 
 export const metadata: Metadata = {
   title: 'About',
@@ -11,7 +9,7 @@ export const metadata: Metadata = {
 };
 
 export default async function About() {
-  const { data } = await api.about.about();
+  const { content } = await getAboutServer();
 
-  return <Markdown className="px-container prose">{data.content}</Markdown>;
+  return <Markdown className="px-container prose">{content}</Markdown>;
 }
