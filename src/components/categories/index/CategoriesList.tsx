@@ -16,7 +16,7 @@ export default function CategoriesList() {
     hasNextPage,
     isFetchingNextPage,
     fetchNextPage,
-  } = useCategories({ filter: { name: query } });
+  } = useCategories({ filter: { title: query } });
 
   return (
     <section className="flex flex-wrap items-center gap-4">

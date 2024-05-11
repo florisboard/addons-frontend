@@ -90,7 +90,7 @@ export default function Form({ submit, onSubmit, initialValues, project, isOwner
           <Collapse title="Main" contentClassName="grid grid-cols-1 gap-4 md:grid-cols-2">
             <CategoriesSelect
               defaultValue={
-                project?.category && { label: project.category.name, value: project.category_id }
+                project?.category && { label: project.category.title, value: project.category_id }
               }
             />
             {isOwner && (

@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import Link from 'next/link';
-import { useParams, useRouter } from 'next/navigation';
+import { notFound, useParams } from 'next/navigation';
 import Breadcrumb from '@/components/projects/show/Breadcrumb';
 import Information from '@/components/projects/show/Information';
 import LatestRelease from '@/components/projects/show/LatestRelease';
@@ -15,25 +15,24 @@ import Stats from '@/components/projects/show/Stats';
 import { useCanEditProject } from '@/hooks';
 import useProject from '@/services/projects/show';
 import Markdown from '@/shared/forms/Markdown';
+import { extractIdFromSlug, slugifyId } from '@/utils';
 
 export default function Project() {
-  const router = useRouter();
-  const { id } = useParams<{ id: string; slug: string }>();
-  const { data: project } = useProject(+id);
-  const { canEdit } = useCanEditProject(project);
+  const { slug } = useParams<{ slug: string }>();
+  const id = extractIdFromSlug(slug);
+  if (!id) notFound();
 
-  useEffect(() => {
-    router.replace(`/projects/${id}/${project.slug}`);
-  }, [id, router, project.slug]);
+  const { data: project } = useProject(id);
+  const { canEdit } = useCanEditProject(project);
 
   return (
     <div className="px-container space-y-4">
-      <Breadcrumb slug={project.slug} />
+      <Breadcrumb title={project.title} />
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-6">
         <div className="card bg-base-200 md:col-span-4">
           <div className="card-body">
             <div className="flex flex-wrap items-center justify-between gap-4">
-              <h1 className="h1">{project.name}</h1>
+              <h1 className="h1">{project.title}</h1>
               {canEdit && (
                 <Link href={`/projects/${id}/edit`} className="btn btn-accent">
                   Edit
@@ -43,9 +42,9 @@ export default function Project() {
             <div className="flex gap-2 overflow-x-auto">
               <Link
                 className="badge badge-accent badge-lg min-w-max"
-                href={`/categories/${project.category.slug}`}
+                href={`/categories/${slugifyId(project.category.id, project.category.title)}`}
               >
-                {project.category.name}
+                {project.category.title}
               </Link>
               {project.is_recommended && (
                 <span className="badge badge-primary badge-lg min-w-max">Recommended</span>
@@ -79,8 +78,8 @@ export default function Project() {
         <Information project={project} />
         <Maintainers user={project.user} maintainers={project.maintainers} />
         <Links project={project} />
-        <LatestRelease projectSlug={project.slug} latestRelease={project.latest_release} />
-        <Reviews authUserReview={project.user_review} projectId={id!} reviews={project.reviews} />
+        <LatestRelease projectTitle={project.title} latestRelease={project.latest_release} />
+        <Reviews authUserReview={project.user_review} projectId={id} reviews={project.reviews} />
       </div>
     </div>
   );

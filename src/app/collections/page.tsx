@@ -1,5 +1,11 @@
 import React from 'react';
 import { HiInformationCircle } from 'react-icons/hi2';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Collections',
+  description: 'Collections',
+};
 
 export default function Collections() {
   return (

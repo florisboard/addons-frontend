@@ -2,10 +2,10 @@ import React from 'react';
 import Link from 'next/link';
 
 type BreadcrumbProps = {
-  slug: string;
+  title: string;
 };
 
-export default function Breadcrumb({ slug }: BreadcrumbProps) {
+export default function Breadcrumb({ title }: BreadcrumbProps) {
   return (
     <div className="breadcrumbs text-sm">
       <ul>
@@ -15,7 +15,7 @@ export default function Breadcrumb({ slug }: BreadcrumbProps) {
         <li>
           <Link href="/projects">Projects</Link>
         </li>
-        <li>{slug}</li>
+        <li>{title}</li>
       </ul>
     </div>
   );

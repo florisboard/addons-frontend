@@ -6,7 +6,7 @@ import { formatDistanceToNow } from 'date-fns';
 import compact from 'lodash/compact';
 import { ProjectResource } from '@/generated';
 import BlurImage from '@/shared/BlurImage';
-import { cn, humanReadableFormatter, isBetweenDate } from '@/utils';
+import { cn, humanReadableFormatter, isBetweenDate, slugifyId } from '@/utils';
 
 type ProjectCardProps = ProjectResource & {
   bodyClassName?: string;
@@ -14,8 +14,7 @@ type ProjectCardProps = ProjectResource & {
 
 export default function ProjectCard({
   id,
-  name,
-  slug,
+  title,
   short_description,
   reviews_avg_score,
   reviews_count,
@@ -60,7 +59,7 @@ export default function ProjectCard({
 
   return (
     <Link
-      href={`/projects/${id}/${slug}`}
+      href={`/projects/${slugifyId(id, title)}`}
       className={cn('card min-h-[23rem] w-72 bg-base-200 md:w-80', bodyClassName)}
     >
       <div className="card-body gap-2">
@@ -72,7 +71,7 @@ export default function ProjectCard({
             alt="Shoes"
           />
         </figure>
-        <h3 className="card-title line-clamp-1 text-lg md:text-xl">{name}</h3>
+        <h3 className="card-title line-clamp-1 text-lg md:text-xl">{title}</h3>
         <div className="flex flex-wrap gap-2">
           {badges.map((badge) => (
             <div

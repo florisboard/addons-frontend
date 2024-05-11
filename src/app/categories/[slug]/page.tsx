@@ -8,20 +8,21 @@ import useCategory from '@/services/categories/show';
 import useProjects from '@/services/projects';
 import Search from '@/shared/forms/Search';
 import ProjectInfiniteGridList from '@/shared/projects/ProjectInfiniteGridList';
+import { extractIdFromSlug } from '@/utils';
 
 export default function Category() {
   const { slug } = useParams<{ slug: string }>();
-  const { data: category } = useCategory(slug);
+  const { data: category } = useCategory(extractIdFromSlug(slug)!);
   const [searchParams] = useSearchParams();
   const query = searchParams.get('query') ?? '';
-  const queryResult = useProjects({ filter: { category_id: category.id, name: query } });
+  const queryResult = useProjects({ filter: { category_id: category.id, title: query } });
 
   return (
     <div className="px-container space-y-4 overflow-y-hidden">
       <Breadcrumb slug={slug} />
       <div className="flex flex-col gap-4 md:flex-row md:justify-between">
         <h1 className="h1">
-          <span className="text-primary">{category.name}</span> Projects
+          <span className="text-primary">{category.title}</span> Projects
         </h1>
         <Search searchOnCurrentRoute placeholder="Search Projects ..." />
       </div>

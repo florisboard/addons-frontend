@@ -9,7 +9,7 @@ import Download from '@/shared/releases/Download';
 import { humanReadableFormatter } from '@/utils';
 
 type ReleaseCardProps = ReleaseFullResource & {
-  projectSlug: string;
+  projectTitle: string;
 };
 
 export default function ReleaseCard({
@@ -19,7 +19,7 @@ export default function ReleaseCard({
   downloads_count,
   description,
   created_at,
-  projectSlug,
+  projectTitle,
 }: ReleaseCardProps) {
   const userLink = `/users/${user.username}`;
 
@@ -60,7 +60,7 @@ export default function ReleaseCard({
         </div>
         <Markdown hasViewMore>{description}</Markdown>
         <div className="card-actions">
-          <Download release={{ id, version_name }} project={{ slug: projectSlug }} />
+          <Download release={{ id, version_name }} project={{ title: projectTitle }} />
         </div>
       </div>
     </div>

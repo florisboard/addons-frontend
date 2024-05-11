@@ -15,9 +15,9 @@ export default function CategoriesSelect({ defaultValue }: CategoriesSelectProps
   const [search, setSearch] = useState('');
   const { setFieldValue } = useFormikContext<ProjectsStorePayload>();
   const [debouncedSearch] = useDebounce(search, 1000);
-  const { data, isLoading } = useCategories({ filter: { name: debouncedSearch } });
+  const { data, isLoading } = useCategories({ filter: { title: debouncedSearch } });
   const options: IOption<number>[] | undefined = data?.pages
-    .map((page) => page.data.map((category) => ({ value: category.id, label: category.name })))
+    .map((page) => page.data.map((category) => ({ value: category.id, label: category.title })))
     .at(0);
 
   return (

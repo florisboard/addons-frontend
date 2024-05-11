@@ -11,7 +11,7 @@ import DialogModal from '@/shared/modals/DialogModal';
 import Form from './Form';
 
 type CommentAReviewProps = {
-  projectId: string;
+  projectId: number;
   authUserReview: ReviewResource | undefined;
 };
 
