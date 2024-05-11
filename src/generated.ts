@@ -32,7 +32,7 @@ export interface AuthResource {
 
 export interface CategoriesIndexParams {
   filter?: {
-    name?: string | null;
+    title?: string | null;
   };
   page?: number | null;
 }
@@ -43,8 +43,7 @@ export interface CategoryResource {
   circle_fg: string;
   id: number;
   is_top: boolean;
-  name: string;
-  slug: string;
+  title: string;
 }
 
 /** CollectionResource */
@@ -52,8 +51,8 @@ export interface CollectionResource {
   created_at: string;
   id: number;
   is_public: boolean;
-  name: string;
   projects_count?: number;
+  title: string;
   updated_at: string;
   user?: UserResource;
   user_id: number;
@@ -63,7 +62,7 @@ export type CollectionsDestroyPayload = object;
 
 export interface CollectionsIndexParams {
   filter?: {
-    name?: string | null;
+    title?: string | null;
     user_id?: number | null;
   };
   page?: number | null;
@@ -116,7 +115,6 @@ export interface ProjectFullResource {
   is_recommended: string;
   latest_release: ReleaseFullResource | null;
   maintainers: UserResource[];
-  name: string;
   one_reviews_count: number;
   package_name: string;
   releases_sum_downloads_count: number;
@@ -125,10 +123,10 @@ export interface ProjectFullResource {
   reviews_count: number;
   screenshots: ImageResource[];
   short_description: string;
-  slug: string;
   support_email: string;
   support_site: string;
   three_reviews_count: number;
+  title: string;
   two_reviews_count: number;
   type: ProjectTypeEnum;
   updated_at: string;
@@ -139,23 +137,22 @@ export interface ProjectFullResource {
 
 /** ProjectResource */
 export interface ProjectResource {
-  category_id: number;
+  category_id: number | null;
   created_at: string;
   id: number;
   image: ImageResource | null;
   is_active: boolean;
   is_recommended: boolean;
   latest_release: ReleaseResource | null;
-  name: string;
   package_name: string;
   releases_sum_downloads_count: number;
   reviews_avg_score: number;
   reviews_count: number;
   short_description: string;
-  slug: string;
+  title: string;
   type: ProjectTypeEnum;
   updated_at: string;
-  user_id: number;
+  user_id: number | null;
 }
 
 /** ProjectTypeEnum */
@@ -175,8 +172,8 @@ export interface ProjectsIndexParams {
   filter?: {
     category_id?: number | null;
     is_recommended?: boolean | null;
-    name?: string | null;
     package_name?: string | null;
+    title?: string | null;
     user_id?: number | null;
   };
   include?: 'user' | 'category';
@@ -209,12 +206,12 @@ export interface ProjectsStorePayload {
   donate_site?: string | null;
   home_page?: string | null;
   maintainers?: number[];
-  name: string;
   package_name: string;
   short_description: string;
   /** @format email */
   support_email?: string | null;
   support_site?: string | null;
+  title: string;
   type: ProjectTypeEnum;
 }
 
@@ -224,12 +221,12 @@ export interface ProjectsUpdatePayload {
   donate_site?: string | null;
   home_page?: string | null;
   maintainers?: number[];
-  name: string;
   package_name: string;
   short_description: string;
   /** @format email */
   support_email?: string | null;
   support_site?: string | null;
+  title: string;
   type: ProjectTypeEnum;
 }
 
@@ -519,6 +516,21 @@ export class Api<SecurityDataType extends unknown> {
      * No description
      *
      * @tags Github
+     * @name GithubCallback
+     * @request GET:/auth/github/callback
+     */
+    githubCallback: (params: RequestParams = {}) =>
+      this.http.request<string, any>({
+        path: `/auth/github/callback`,
+        method: 'GET',
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Github
      * @name GithubRedirect
      * @request GET:/auth/github/redirect
      */
@@ -776,7 +788,7 @@ export class Api<SecurityDataType extends unknown> {
      * @name CategoriesShow
      * @request GET:/categories/{category}
      */
-    categoriesShow: (category: string, params: RequestParams = {}) =>
+    categoriesShow: (category: number, params: RequestParams = {}) =>
       this.http.request<
         CategoryResource,
         {

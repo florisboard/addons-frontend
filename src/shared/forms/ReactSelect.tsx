@@ -9,6 +9,7 @@ type ReactSelectProps = React.ComponentProps<typeof ReactSelectMain> & {
 export default function ReactSelect({ className, menuClassName, ...props }: ReactSelectProps) {
   return (
     <ReactSelectMain
+      menuPlacement="auto"
       {...props}
       components={{ DropdownIndicator: () => null }}
       unstyled
@@ -33,7 +34,7 @@ export default function ReactSelect({ className, menuClassName, ...props }: Reac
         multiValue: () => 'm-1 rounded-btn bg-base-200 p-1 px-2 hover:bg-base-300',
         multiValueRemove: () => 'btn btn-circle btn-ghost btn-xs ml-1',
         option: ({ isFocused, isSelected }) =>
-          cn('my-2 rounded-btn px-2 py-3 text-base hover:cursor-pointer', {
+          cn('my-1 rounded-btn px-2 py-3 text-xs hover:cursor-pointer', {
             'bg-primary text-primary-content': isSelected,
             'bg-base-300 text-base-content': !isSelected && isFocused,
           }),

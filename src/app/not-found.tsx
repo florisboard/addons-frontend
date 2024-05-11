@@ -1,8 +1,6 @@
-import React, { memo } from 'react';
+import React from 'react';
 import Error404 from '@/components/errors/404';
 
-function NotFound() {
+export default function NotFound() {
   return <Error404 />;
 }
-
-export default memo(NotFound);

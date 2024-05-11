@@ -23,7 +23,7 @@ export default function ProjectInfiniteGridList({
         {projects?.pages.map((page) => (
           <Fragment key={page.meta.current_page}>
             {page.data.map((project) => (
-              <ProjectCard key={project.id} bodyClassName="w-auto" {...project} />
+              <ProjectCard key={project.id} bodyClassName="w-auto md:w-auto" {...project} />
             ))}
           </Fragment>
         ))}

@@ -1,34 +1,25 @@
-'use client';
+import React, { Suspense } from 'react';
+import { Metadata } from 'next';
+import CategoriesList from '@/components/categories/index/CategoriesList';
+import Search from '@/shared/forms/Search';
 
-import React, { Fragment } from 'react';
-import useCategories from '@/services/categories';
-import CategoryCard from '@/shared/cards/category/CategoryCard';
-import CategoryCardSkeleton from '@/shared/cards/category/CategoryCardSkeleton';
-import LoadMore from '@/shared/forms/LoadMore';
+export const metadata: Metadata = {
+  title: 'Categories',
+  description: 'Categories',
+};
 
 export default function Categories() {
-  const {
-    data: categories,
-    isLoading,
-    hasNextPage,
-    isFetchingNextPage,
-    fetchNextPage,
-  } = useCategories();
-
   return (
     <div className="px-container space-y-4">
-      <h1 className="font-display text-3xl font-bold">Categories</h1>
-      <section className="flex flex-wrap items-center gap-4">
-        {categories?.pages.map((page) => (
-          <Fragment key={page.meta.current_page}>
-            {page.data.map((category) => (
-              <CategoryCard key={category.id} {...category} />
-            ))}
-          </Fragment>
-        ))}
-        {isLoading && Array.from({ length: 16 }).map((_, i) => <CategoryCardSkeleton key={i} />)}
-      </section>
-      {hasNextPage && <LoadMore isLoading={isFetchingNextPage} onClick={fetchNextPage} />}
+      <div className="flex flex-col gap-4 md:flex-row md:justify-between">
+        <h1 className="h1">Categories</h1>
+        <Suspense>
+          <Search searchOnCurrentRoute placeholder="Search Categories ..." />
+        </Suspense>
+      </div>
+      <Suspense>
+        <CategoriesList />
+      </Suspense>
     </div>
   );
 }

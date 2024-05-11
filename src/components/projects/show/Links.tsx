@@ -8,21 +8,21 @@ type LinksProps = {
 };
 
 type TLink = {
-  name: string;
+  title: string;
   href: string;
 };
 
 export default function Links({ project }: LinksProps) {
   const links: TLink[] = compact([
-    project?.home_page && { name: 'Home Page', href: project?.home_page },
-    project?.donate_site && { name: 'Donate Site', href: project?.donate_site },
+    project?.home_page && { title: 'Home Page', href: project.home_page },
+    project?.donate_site && { title: 'Donate Site', href: project.donate_site },
     project?.support_email && {
-      name: 'Support Email',
-      href: project?.support_email,
+      title: 'Support Email',
+      href: `mailto:${project.support_email}`,
     },
     project?.support_site && {
-      name: 'Support Site',
-      href: project?.support_site,
+      title: 'Support Site',
+      href: project.support_site,
     },
   ]);
 
@@ -33,14 +33,14 @@ export default function Links({ project }: LinksProps) {
         <div className="divider" />
         <ul className="flex flex-wrap items-center gap-4">
           {links.map((link) => (
-            <li key={link.name}>
+            <li key={link.title}>
               <Link
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn btn-neutral"
                 href={link.href}
               >
-                {link.name}
+                {link.title}
               </Link>
             </li>
           ))}

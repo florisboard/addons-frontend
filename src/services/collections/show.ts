@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import api from '@/libs/api';
 
 async function getCollection(id: number) {
@@ -7,5 +7,5 @@ async function getCollection(id: number) {
 }
 
 export default function useCollection(id: number) {
-  return useQuery({ queryKey: ['collections', id], queryFn: () => getCollection(id) });
+  return useSuspenseQuery({ queryKey: ['collections', id], queryFn: () => getCollection(id) });
 }

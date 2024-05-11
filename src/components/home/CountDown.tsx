@@ -19,7 +19,7 @@ export default function CountDown({ targetDate }: CountDownProps) {
   }, [targetDate]);
 
   return (
-    <span className="countdown font-mono text-2xl">
+    <span className="countdown font-mono text-xl md:text-2xl">
       <span style={{ '--value': timeLeft.hours } as any}></span>:
       <span style={{ '--value': timeLeft.minutes } as any}></span>:
       <span style={{ '--value': timeLeft.seconds } as any}></span>

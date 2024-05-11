@@ -14,7 +14,7 @@ export default function TopCategories() {
   return (
     <Section
       Icon={HiMiniRectangleStack}
-      name="Top Categories"
+      title="Top Categories"
       viewMore={{ text: 'All', href: '/categories' }}
     >
       <Swiper
@@ -23,7 +23,7 @@ export default function TopCategories() {
         scrollbar={{ draggable: true, enabled: false, snapOnRelease: true }}
       >
         {data?.top_categories.map((category) => (
-          <SwiperSlide className="h-auto w-auto" key={category.name}>
+          <SwiperSlide className="!h-auto !w-auto" key={category.title}>
             <CategoryCard {...category} />
           </SwiperSlide>
         ))}

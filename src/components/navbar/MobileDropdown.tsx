@@ -1,18 +1,29 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useRef } from 'react';
 import { HiBars3BottomLeft } from 'react-icons/hi2';
 import Link from 'next/link';
 import { navbarLinks } from '@/fixtures/navbar';
-import Search from '../../shared/forms/Search';
+import Search from '@/shared/forms/Search';
 
 type MobileDropdownProps = {
   isSearchActive: boolean;
 };
 
 export default function MobileDropdown({ isSearchActive }: MobileDropdownProps) {
+  const isOpen = useRef(false);
+
   return (
     <div className="navbar-start md:w-auto lg:hidden">
       <div className="dropdown">
-        <label tabIndex={0} className="btn btn-circle btn-ghost">
+        <label
+          onClick={(e) => {
+            if (isOpen.current) {
+              e.currentTarget.blur();
+            }
+            isOpen.current = !isOpen.current;
+          }}
+          tabIndex={0}
+          className="btn btn-circle btn-ghost"
+        >
           <HiBars3BottomLeft className="h-6 w-6" />
         </label>
         <ul
@@ -20,8 +31,8 @@ export default function MobileDropdown({ isSearchActive }: MobileDropdownProps) 
           className="menu dropdown-content menu-sm z-[1] mt-3 w-[95vw] rounded-box bg-base-100 p-2 shadow md:menu-md"
         >
           {navbarLinks.map((link) => (
-            <li key={link.name}>
-              <Link href={link.href}>{link.name}</Link>
+            <li key={link.title}>
+              <Link href={link.href}>{link.title}</Link>
             </li>
           ))}
           {isSearchActive && (

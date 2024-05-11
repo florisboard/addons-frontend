@@ -21,7 +21,7 @@ export default function ProjectHorizontalList({ section, projects }: ProjectHori
         scrollbar={{ draggable: true, enabled: false }}
       >
         {projects?.map((project) => (
-          <SwiperSlide className="h-auto w-auto" key={project.name}>
+          <SwiperSlide className="!h-auto !w-auto" key={project.id}>
             <ProjectCard {...project} />
           </SwiperSlide>
         ))}

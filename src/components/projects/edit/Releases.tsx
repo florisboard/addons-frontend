@@ -5,7 +5,7 @@ import ReleaseCardSkeleton from '@/shared/cards/release/ReleaseCardSkeleton';
 import LoadMore from '@/shared/forms/LoadMore';
 
 type ReleasesProps = {
-  project: { id: number; slug: string };
+  project: { id: number; title: string };
 };
 
 export default function Releases({ project }: ReleasesProps) {
@@ -19,7 +19,7 @@ export default function Releases({ project }: ReleasesProps) {
       {data?.pages.map((page) => (
         <Fragment key={page.meta.current_page}>
           {page.data.map((release) => (
-            <ReleaseCard projectSlug={project.slug} key={release.id} {...release} />
+            <ReleaseCard projectTitle={project.title} key={release.id} {...release} />
           ))}
         </Fragment>
       ))}

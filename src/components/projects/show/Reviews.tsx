@@ -10,7 +10,7 @@ import ReviewCard from '@/shared/cards/review/ReviewCard';
 type ReviewsProps = {
   reviews: ReviewResource[];
   authUserReview: ReviewResource | undefined;
-  projectId: string;
+  projectId: number;
 };
 
 export default function Reviews({ reviews, projectId, authUserReview }: ReviewsProps) {

@@ -14,4 +14,8 @@
   .btn-link-auth {
     @apply btn btn-link btn-sm p-0 text-base font-medium text-gray-500 no-underline;
   }
+
+  .h1 {
+    @apply font-display text-2xl font-bold md:text-3xl;
+  }
 }

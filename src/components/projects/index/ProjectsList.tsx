@@ -8,7 +8,7 @@ import ProjectInfiniteGridList from '@/shared/projects/ProjectInfiniteGridList';
 export default function ProjectsList() {
   const [searchParams] = useSearchParams();
   const query = searchParams.get('query') ?? '';
-  const queryResult = useProjects({ filter: { name: query } });
+  const queryResult = useProjects({ filter: { title: query } });
 
   return <ProjectInfiniteGridList queryResult={queryResult} />;
 }

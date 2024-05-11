@@ -9,7 +9,7 @@ import ResourcesModal from '../projects/show/ResourcesModal';
 type ReleasesModal = {
   modalRef: Ref<HTMLDialogElement>;
   hasModalOpened: boolean;
-  projectId: string;
+  projectId: number;
 };
 
 type TSort = ReviewsIndexParams['sort'];

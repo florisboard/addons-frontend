@@ -16,13 +16,13 @@ export default function Profile() {
   const { data: user } = useMe();
 
   const guestLinks = [
-    { name: 'Login', href: login() },
-    { name: 'Register', href: register },
+    { title: 'Login', href: login() },
+    { title: 'Register', href: register },
   ];
   const authLinks = compact([
-    { name: 'Profile', href: `/users/${user?.username}` },
-    { name: 'New Project', href: `/projects/create` },
-    !user?.email_verified_at && { name: 'Verify your Email', href: emailVerification },
+    { title: 'Profile', href: `/users/${user?.username}` },
+    { title: 'New Project', href: `/projects/create` },
+    !user?.email_verified_at && { title: 'Verify your Email', href: emailVerification },
   ]);
   const links = user ? authLinks : guestLinks;
 
@@ -36,8 +36,8 @@ export default function Profile() {
         className="w-50 menu dropdown-content menu-sm z-[1] mt-3 gap-2 rounded-box bg-base-100 p-2 shadow"
       >
         {links.map((link) => (
-          <li key={link.name}>
-            <Link href={link.href}>{link.name}</Link>
+          <li key={link.title}>
+            <Link href={link.href}>{link.title}</Link>
           </li>
         ))}
         {user && (

@@ -29,7 +29,7 @@ export default function CreateProject() {
     <AuthMiddleware middleware="auth">
       <div className="px-container space-y-4">
         {!isLoading && !isVerified && <VerifyAlert />}
-        <h1 className="font-display text-3xl font-bold">Create new Project</h1>
+        <h1 className="h1">Create new Project</h1>
         <Form
           isOwner
           onSubmit={async (values, { setErrors }) => {

@@ -10,7 +10,7 @@ type ReleasesModal = {
   modalRef: Ref<HTMLDialogElement>;
   hasModalOpened: boolean;
   projectId: number | undefined;
-  projectSlug: string;
+  projectTitle: string;
 };
 
 type TSort = ReleasesIndexParams['sort'];
@@ -23,7 +23,7 @@ const sorts: IOption<TSort>[] = [
 export default function ReleasesModal({
   modalRef,
   hasModalOpened,
-  projectSlug,
+  projectTitle,
   projectId,
 }: ReleasesModal) {
   const [orderBy, setOrderBy] = useState<TSort>(sorts.at(0)?.value);
@@ -47,7 +47,7 @@ export default function ReleasesModal({
       {data?.pages.map((page) => (
         <Fragment key={page.meta.current_page}>
           {page.data.map((release) => (
-            <ReleaseCard projectSlug={projectSlug} key={release.id} {...release} />
+            <ReleaseCard projectTitle={projectTitle} key={release.id} {...release} />
           ))}
         </Fragment>
       ))}

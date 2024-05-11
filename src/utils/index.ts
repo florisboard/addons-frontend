@@ -1,6 +1,7 @@
 import axios, { AxiosError } from 'axios';
 import { ClassValue, clsx } from 'clsx';
 import { addDays, isBefore } from 'date-fns';
+import kebabCase from 'lodash/kebabCase';
 import { twMerge } from 'tailwind-merge';
 import { InfiniteData, UseInfiniteQueryResult } from '@tanstack/react-query';
 import axiosInstance from '@/libs/axios';
@@ -8,6 +9,16 @@ import { TApiMeta } from '@/types';
 
 export function cn(...values: ClassValue[]) {
   return twMerge(clsx(...values));
+}
+
+export function slugifyId(id: number, title: string) {
+  return `${kebabCase(title)}-${id}`;
+}
+
+export function extractIdFromSlug(slug: string) {
+  const matches = slug.match(/\d+$/);
+  if (matches) return parseInt(matches[0], 10);
+  return null;
 }
 
 export function calculateTimeLeft(targetDate: Date | number) {

@@ -9,6 +9,10 @@ const config: Config = {
         sans: ['var(--primary-font)', 'sans-serif'],
         display: ['var(--display-font)', 'sans-serif'],
       },
+      container: {
+        center: true,
+        padding: '1rem',
+      },
     },
   },
   daisyui: {
@@ -28,6 +32,7 @@ const config: Config = {
         },
       },
     ],
+    logs: false,
   },
   plugins: [require('tailwind-scrollbar'), require('daisyui'), require('@tailwindcss/typography')],
 };
