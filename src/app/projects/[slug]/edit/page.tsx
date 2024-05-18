@@ -2,27 +2,33 @@
 
 import React, { Fragment, useEffect } from 'react';
 import dynamic from 'next/dynamic';
-import { useParams, useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { useParams, usePathname, useRouter } from 'next/navigation';
 import Releases from '@/components/projects/edit/Releases';
 import Form from '@/components/projects/form/Form';
-import { useCanEditProject } from '@/hooks';
+import { useCanEditProject, useSearchParams } from '@/hooks';
 import { IUnprocessableEntity } from '@/interfaces';
 import useEditProject from '@/services/projects/edit';
 import useCreateProjectImage from '@/services/projects/image/create';
 import useCreateProjectScreenshots from '@/services/projects/screenshots/create';
 import useProject from '@/services/projects/show';
 import AuthMiddleware from '@/shared/AuthMiddleware';
-import { convertNullToEmptyString, isAxiosError } from '@/utils';
+import { cn, convertNullToEmptyString, extractIdFromSlug, isAxiosError } from '@/utils';
+
+export const TAB_PARAM_KEY = 'tab';
 
 function Edit() {
-  const { id } = useParams<{ id: string }>();
+  const { slug } = useParams<{ slug: string }>();
   const router = useRouter();
-  const { data: project, isLoading: isProjectLoading } = useProject(+id);
+  const pathname = usePathname();
+  const id = extractIdFromSlug(slug)!;
+  const [searchParams] = useSearchParams();
+  const { data: project, isLoading: isProjectLoading } = useProject(id);
   const { canEdit, isLoading: isMeLoading, isOwner } = useCanEditProject(project);
   const { mutate: createImage, isPending: isImagePending } = useCreateProjectImage();
   const { mutate: createScreenshots, isPending: isScreenshotsPending } =
     useCreateProjectScreenshots();
-  const { mutate: editProject, isPending: isProjectPending } = useEditProject(+id);
+  const { mutate: editProject, isPending: isProjectPending } = useEditProject(id);
 
   const isLoading = isProjectLoading || isMeLoading;
   const isPending = isImagePending || isScreenshotsPending || isProjectPending;
@@ -30,6 +36,7 @@ function Edit() {
   const tabs = [
     {
       title: 'Information',
+      name: 'information',
       children: (
         <Form
           isOwner={isOwner}
@@ -59,9 +66,12 @@ function Edit() {
     },
     {
       title: 'Releases',
+      name: 'releases',
       children: <Releases project={{ id: +id, title: project.title }} />,
     },
   ];
+
+  const activeTab = tabs.find((tab) => tab.name === searchParams.get(TAB_PARAM_KEY)) ?? tabs[0];
 
   useEffect(() => {
     if (isLoading) return;
@@ -73,24 +83,32 @@ function Edit() {
       <div className="px-container space-y-4">
         <h1 className="h1">Edit {project?.title}</h1>
         <div role="tablist" className="tabs tabs-lifted">
-          {tabs.map((tab, i) => (
-            <Fragment key={tab.title}>
-              <input
-                type="radio"
-                aria-label={tab.title}
-                name="tab"
-                role="tab"
-                className="tab"
-                defaultChecked={i === 1}
-              />
-              <div
-                role="tabpanel"
-                className="tab-content space-y-4 rounded-box border-base-300 bg-base-100 p-6"
-              >
-                {tab.children}
-              </div>
-            </Fragment>
-          ))}
+          {tabs.map((tab) => {
+            const isActive = activeTab.name === tab.name;
+
+            return (
+              <Fragment key={tab.name}>
+                <Link
+                  key={tab.title}
+                  href={`${pathname}?${TAB_PARAM_KEY}=${tab.name}`}
+                  role="tab"
+                  className={cn('tab h-14 min-w-fit gap-2 md:h-auto', {
+                    'tab-active': isActive,
+                  })}
+                >
+                  {tab.title}
+                </Link>
+                {isActive && (
+                  <div
+                    role="tabpanel"
+                    className="tab-content space-y-4 rounded-box border-base-300 bg-base-100 p-6"
+                  >
+                    {tab.children}
+                  </div>
+                )}
+              </Fragment>
+            );
+          })}
         </div>
       </div>
     </AuthMiddleware>

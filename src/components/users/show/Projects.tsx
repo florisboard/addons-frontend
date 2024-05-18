@@ -18,6 +18,7 @@ export default function Projects({ userId, isCurrentUser }: ProjectsProps) {
 
   return (
     <ProjectInfiniteGridList
+      projectCardClassName="bg-base-300"
       sectionChildren={!isLoading && isCurrentUser && <NewProjectCard />}
       queryResult={queryResult}
     />

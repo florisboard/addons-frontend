@@ -1,7 +1,12 @@
 import yup from '@/libs/yup';
 
 const validations = {
-  username: yup.string().required().min(3).max(30),
+  username: yup
+    .string()
+    .required()
+    .min(3)
+    .max(33)
+    .test(/^[a-zA-Z_](?!.*?\.{2})[\w.]{1,33}\w/),
   slug: yup
     .string()
     .required()

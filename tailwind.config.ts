@@ -20,6 +20,7 @@ const config: Config = {
       {
         light: {
           ...require('daisyui/src/theming/themes')['light'],
+          'primary-content': colors.white,
           primary: 'green',
           secondary: 'teal',
           'base-content': colors.gray['900'],
@@ -27,6 +28,7 @@ const config: Config = {
         dark: {
           ...require('daisyui/src/theming/themes')['dark'],
           primary: 'green',
+          'primary-content': colors.white,
           secondary: 'teal',
           'base-content': colors.gray['200'],
         },
