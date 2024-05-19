@@ -7,6 +7,10 @@
     @apply px-3 md:px-6;
   }
 
+  .form-control {
+    @apply space-y-2;
+  }
+
   .btn-submit-auth {
     @apply btn btn-primary btn-block text-base;
   }

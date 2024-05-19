@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react';
 import { HiArrowDownCircle, HiChatBubbleBottomCenter, HiStar } from 'react-icons/hi2';
-import Image from 'next/image';
 import Link from 'next/link';
 import { formatDistanceToNow } from 'date-fns';
 import compact from 'lodash/compact';
+import logo from '@/assets/svg/logo.svg';
 import { ProjectResource } from '@/generated';
 import BlurImage from '@/shared/BlurImage';
 import { cn, humanReadableFormatter, isBetweenDate, slugifyId } from '@/utils';
@@ -67,7 +67,7 @@ export default function ProjectCard({
           <BlurImage
             sizes="(max-width: 144px) 100vw, 144px"
             fill
-            src={image?.url ?? 'https://picsum.photos/250/150'}
+            src={image?.url ?? logo}
             alt="Shoes"
           />
         </figure>
