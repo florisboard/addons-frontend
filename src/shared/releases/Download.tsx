@@ -2,7 +2,7 @@ import React from 'react';
 import kebabCase from 'lodash/kebabCase';
 import useDownloadRelease from '@/services/releases/download';
 import { downloadFile } from '@/utils';
-import Button from '../Button';
+import Button from '../forms/Button';
 
 type DownloadProps = {
   release: { id: number; version_name: string };

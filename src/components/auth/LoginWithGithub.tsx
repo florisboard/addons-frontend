@@ -2,7 +2,7 @@ import React from 'react';
 import { FaGithub } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
 import useGithubRedirectUrl from '@/services/auth/github';
-import Button from '@/shared/Button';
+import Button from '@/shared/forms/Button';
 
 export default function LoginWithGithub() {
   const { mutate, isPending } = useGithubRedirectUrl();

@@ -2,7 +2,7 @@ import React from 'react';
 import { HiXMark } from 'react-icons/hi2';
 import { InfiniteData, UseInfiniteQueryResult } from '@tanstack/react-query';
 import { IOption } from '@/interfaces';
-import Button from '@/shared/Button';
+import Button from '@/shared/forms/Button';
 import LoadMore from '@/shared/forms/LoadMore';
 import DialogModal, { DialogModalProps } from '@/shared/modals/DialogModal';
 import { cn } from '@/utils';

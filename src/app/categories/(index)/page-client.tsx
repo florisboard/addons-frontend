@@ -28,9 +28,7 @@ export default function CategoriesList() {
         </Fragment>
       ))}
       {isLoading && Array.from({ length: 16 }).map((_, i) => <CategoryCardSkeleton key={i} />)}
+      {hasNextPage && <LoadMore isLoading={isFetchingNextPage} onClick={fetchNextPage} />}
     </section>
   );
-  {
-    hasNextPage && <LoadMore isLoading={isFetchingNextPage} onClick={fetchNextPage} />;
-  }
 }

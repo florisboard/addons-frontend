@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import config from '@/fixtures/config';
 import { useDialogModal, useSearchParams } from '@/hooks';
 import useMe from '@/services/users/me';
-import Button from '@/shared/Button';
+import Button from '@/shared/forms/Button';
 import DialogModal from '@/shared/modals/DialogModal';
 import { cn } from '@/utils';
 import EmailVerification from './EmailVerification';

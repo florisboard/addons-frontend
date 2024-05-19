@@ -1,12 +1,12 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import { Form, Formik } from 'formik';
-import validations from '@/fixtures/validations';
+import validations from '@/fixtures/forms/validations';
 import { useDialogModal } from '@/hooks';
 import { IUnprocessableEntity } from '@/interfaces';
 import yup from '@/libs/yup';
 import useDeleteAccount from '@/services/users/delete';
-import Button from '@/shared/Button';
+import Button from '@/shared/forms/Button';
 import PasswordField from '@/shared/forms/PasswordField';
 import DialogModal from '@/shared/modals/DialogModal';
 import { isAxiosError } from '@/utils';

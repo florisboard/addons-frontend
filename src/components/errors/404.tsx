@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import illustration from '@/assets/svg/errors/404.svg';
-import Button from '@/shared/Button';
+import Button from '@/shared/forms/Button';
 
 export default function Error404() {
   const router = useRouter();

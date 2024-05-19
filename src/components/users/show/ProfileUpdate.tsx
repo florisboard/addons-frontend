@@ -1,14 +1,14 @@
 import React, { useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { Field, Form, Formik } from 'formik';
-import errorMessages from '@/fixtures/errorMessages';
-import validations from '@/fixtures/validations';
+import errorMessages from '@/fixtures/forms/errorMessages';
+import validations from '@/fixtures/forms/validations';
 import { useDialogModal } from '@/hooks';
 import { IUnprocessableEntity } from '@/interfaces';
 import yup from '@/libs/yup';
 import useEditMe from '@/services/users/edit';
 import useMe from '@/services/users/me';
-import Button from '@/shared/Button';
+import Button from '@/shared/forms/Button';
 import FieldWrapper from '@/shared/forms/FieldWrapper';
 import PasswordField from '@/shared/forms/PasswordField';
 import DialogModal from '@/shared/modals/DialogModal';

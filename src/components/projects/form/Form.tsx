@@ -3,13 +3,13 @@
 import React from 'react';
 import { Field, Formik, Form as FormikForm, FormikHelpers } from 'formik';
 import compact from 'lodash/compact';
-import validations from '@/fixtures/validations';
+import validations from '@/fixtures/forms/validations';
 import { ProjectFullResource, ProjectTypeEnum, ProjectsStorePayload } from '@/generated';
 import yup from '@/libs/yup';
 import useDeleteProjectImage from '@/services/projects/image/delete';
 import useDeleteProjectScreenshots from '@/services/projects/screenshots/delete';
-import Button from '@/shared/Button';
 import Collapse from '@/shared/Collapse';
+import Button from '@/shared/forms/Button';
 import FieldWrapper from '@/shared/forms/FieldWrapper';
 import FileUpload from '@/shared/forms/FileUpload';
 import InputFields from '@/shared/forms/InputFields';

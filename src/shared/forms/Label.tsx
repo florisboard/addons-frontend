@@ -1,7 +1,7 @@
 import React from 'react';
 import { HiInformationCircle } from 'react-icons/hi2';
 import { cn } from '@/utils';
-import Button from '../Button';
+import Button from './Button';
 
 type LabelProps = {
   label: string;

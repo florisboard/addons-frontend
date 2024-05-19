@@ -1,9 +1,9 @@
 import React from 'react';
 import { Field, Formik, Form as FormikForm, FormikHelpers } from 'formik';
-import validations from '@/fixtures/validations';
+import validations from '@/fixtures/forms/validations';
 import { ProjectsReviewsStorePayload } from '@/generated';
 import yup from '@/libs/yup';
-import Button from '@/shared/Button';
+import Button from '@/shared/forms/Button';
 import FieldWrapper from '@/shared/forms/FieldWrapper';
 import InputFields from '@/shared/forms/InputFields';
 import { cn } from '@/utils';

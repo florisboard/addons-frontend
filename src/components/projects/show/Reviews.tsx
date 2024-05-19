@@ -3,9 +3,9 @@ import AuthUserReview from '@/components/reviews/AuthUserReview';
 import ReviewsModal from '@/components/reviews/ReviewsModal';
 import { ReviewResource } from '@/generated';
 import { useDialogModal } from '@/hooks';
-import Button from '@/shared/Button';
 import EmptyList from '@/shared/EmptyList';
 import ReviewCard from '@/shared/cards/review/ReviewCard';
+import Button from '@/shared/forms/Button';
 
 type ReviewsProps = {
   reviews: ReviewResource[];

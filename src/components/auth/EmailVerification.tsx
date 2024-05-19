@@ -1,6 +1,6 @@
 import React from 'react';
 import useSendEmailVerification from '@/services/auth/emailVerifiaction';
-import Button from '@/shared/Button';
+import Button from '@/shared/forms/Button';
 import EmailSent from './EmailSent';
 
 export default function EmailVerification() {

@@ -1,12 +1,12 @@
 import React from 'react';
 import Link from 'next/link';
 import { Form, Formik } from 'formik';
-import validations from '@/fixtures/validations';
+import validations from '@/fixtures/forms/validations';
 import { useAuthRoutes } from '@/hooks';
 import { IUnprocessableEntity } from '@/interfaces';
 import yup from '@/libs/yup';
 import useForgotPassword from '@/services/auth/forgotPassword';
-import Button from '@/shared/Button';
+import Button from '@/shared/forms/Button';
 import InputFields from '@/shared/forms/InputFields';
 import { isAxiosError } from '@/utils';
 import EmailSent from './EmailSent';

@@ -7,7 +7,7 @@ import compact from 'lodash/compact';
 import { useAuthRoutes } from '@/hooks';
 import useLogout from '@/services/auth/logout';
 import useMe from '@/services/users/me';
-import Button from '@/shared/Button';
+import Button from '@/shared/forms/Button';
 import ThemeSwitcher from './ThemeSwitcher';
 
 export default function Profile() {

@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify';
 import { MutationCache, QueryCache, QueryClient } from '@tanstack/react-query';
-import errorMessages from '@/fixtures/errorMessages';
+import errorMessages from '@/fixtures/forms/errorMessages';
 import { isAxiosError } from '@/utils';
 
 const queryClient = new QueryClient({

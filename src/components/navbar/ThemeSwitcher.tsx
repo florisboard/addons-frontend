@@ -1,7 +1,7 @@
 import React from 'react';
 import { HiOutlineComputerDesktop, HiOutlineMoon, HiOutlineSun } from 'react-icons/hi2';
 import { useStore } from '@/hooks';
-import Button from '@/shared/Button';
+import Button from '@/shared/forms/Button';
 import useThemeState, { TAvailableTheme } from '@/states/themeState';
 import { TIcon } from '@/types';
 import { cn } from '@/utils';

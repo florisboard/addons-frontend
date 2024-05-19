@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import MainMarkdown from 'react-markdown';
 import { cn } from '@/utils';
-import Button from '../Button';
+import Button from './Button';
 
 type MarkdownProps = {
   className?: string;

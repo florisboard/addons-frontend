@@ -9,7 +9,7 @@ import CategoryCardSkeleton from '@/shared/cards/category/CategoryCardSkeleton';
 import Section from '@/shared/home/Section';
 
 export default function TopCategories() {
-  const { data } = useHome();
+  const { data, isLoading } = useHome();
 
   return (
     <Section
@@ -27,7 +27,7 @@ export default function TopCategories() {
             <CategoryCard {...category} />
           </SwiperSlide>
         ))}
-        {!data?.top_categories && (
+        {isLoading && (
           <div className="flex gap-4">
             {Array.from({ length: 4 }).map((_, i) => (
               <CategoryCardSkeleton key={i} />

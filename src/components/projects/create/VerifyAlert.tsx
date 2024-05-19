@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { HiOutlineXCircle, HiXMark } from 'react-icons/hi2';
-import Button from '@/shared/Button';
+import Button from '@/shared/forms/Button';
 
 export default function VerifyAlert() {
   const [isOpen, setIsOpen] = useState(true);

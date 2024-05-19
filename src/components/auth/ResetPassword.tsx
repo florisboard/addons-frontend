@@ -2,13 +2,13 @@ import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Form, Formik } from 'formik';
-import errorMessages from '@/fixtures/errorMessages';
-import validations from '@/fixtures/validations';
+import errorMessages from '@/fixtures/forms/errorMessages';
+import validations from '@/fixtures/forms/validations';
 import { useAuthRoutes, useSearchParams } from '@/hooks';
 import { IUnprocessableEntity } from '@/interfaces';
 import yup from '@/libs/yup';
 import useResetPassword from '@/services/auth/resetPassword';
-import Button from '@/shared/Button';
+import Button from '@/shared/forms/Button';
 import PasswordField from '@/shared/forms/PasswordField';
 import { isAxiosError } from '@/utils';
 

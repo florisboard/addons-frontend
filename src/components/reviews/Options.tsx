@@ -8,7 +8,7 @@ import {
 import { useParams } from 'next/navigation';
 import compact from 'lodash/compact';
 import useDeleteReview from '@/services/reviews/delete';
-import Button from '@/shared/Button';
+import Button from '@/shared/forms/Button';
 import { cn } from '@/utils';
 
 type OptionsProps = {

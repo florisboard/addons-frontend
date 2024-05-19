@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { HiOutlineEye, HiOutlineEyeSlash } from 'react-icons/hi2';
 import { Field } from 'formik';
 import { cn } from '@/utils';
-import Button from '../Button';
+import Button from './Button';
 import FieldWrapper, { FieldProps } from './FieldWrapper';
 
 type PasswordFieldProps = Omit<FieldProps, 'children'>;

@@ -5,8 +5,8 @@ import { useAuthRoutes, useDialogModal } from '@/hooks';
 import useCreateReview from '@/services/reviews/create';
 import useEditReview from '@/services/reviews/edit';
 import useMe from '@/services/users/me';
-import Button from '@/shared/Button';
 import ReviewCard from '@/shared/cards/review/ReviewCard';
+import Button from '@/shared/forms/Button';
 import DialogModal from '@/shared/modals/DialogModal';
 import Form from './Form';
 

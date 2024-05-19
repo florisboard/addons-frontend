@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react';
 import { Metadata } from 'next';
-import CategoriesList from '@/components/categories/index/CategoriesList';
 import Search from '@/shared/forms/Search';
+import CategoriesList from './page-client';
 
 export const metadata: Metadata = {
   title: 'Categories',

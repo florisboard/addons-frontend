@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
 import { Metadata } from 'next';
-import ProjectsList from '@/components/projects/index/ProjectsList';
+import ProjectsList from './page-client';
 
 export const metadata: Metadata = {
   title: 'Projects',
