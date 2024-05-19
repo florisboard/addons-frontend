@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useParams, usePathname, useRouter } from 'next/navigation';
 import Releases from '@/components/projects/edit/Releases';
 import Form from '@/components/projects/form/Form';
+import config from '@/fixtures/config';
 import { useCanEditProject, useSearchParams } from '@/hooks';
 import { IUnprocessableEntity } from '@/interfaces';
 import useEditProject from '@/services/projects/edit';
@@ -14,8 +15,6 @@ import useCreateProjectScreenshots from '@/services/projects/screenshots/create'
 import useProject from '@/services/projects/show';
 import AuthMiddleware from '@/shared/AuthMiddleware';
 import { cn, convertNullToEmptyString, extractIdFromSlug, isAxiosError } from '@/utils';
-
-export const TAB_PARAM_KEY = 'tab';
 
 function Edit() {
   const { slug } = useParams<{ slug: string }>();
@@ -71,7 +70,8 @@ function Edit() {
     },
   ];
 
-  const activeTab = tabs.find((tab) => tab.name === searchParams.get(TAB_PARAM_KEY)) ?? tabs[0];
+  const activeTab =
+    tabs.find((tab) => tab.name === searchParams.get(config.tabParamsKey)) ?? tabs[0];
 
   useEffect(() => {
     if (isLoading) return;
@@ -90,7 +90,7 @@ function Edit() {
               <Fragment key={tab.name}>
                 <Link
                   key={tab.title}
-                  href={`${pathname}?${TAB_PARAM_KEY}=${tab.name}`}
+                  href={`${pathname}?${config.tabParamsKey}=${tab.name}`}
                   role="tab"
                   className={cn('tab h-14 min-w-fit gap-2 md:h-auto', {
                     'tab-active': isActive,

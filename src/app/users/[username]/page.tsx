@@ -16,7 +16,8 @@ import DeleteAccount from '@/components/users/show/DeleteAccount';
 import ProfileUpdate from '@/components/users/show/ProfileUpdate';
 import Projects from '@/components/users/show/Projects';
 import Reviews from '@/components/users/show/Reviews';
-import Tabs, { TAB_PARAM_KEY, TTab } from '@/components/users/show/Tabs';
+import Tabs, { TTab } from '@/components/users/show/Tabs';
+import config from '@/fixtures/config';
 import { useSearchParams } from '@/hooks';
 import useMe from '@/services/users/me';
 import useUser from '@/services/users/show';
@@ -51,7 +52,8 @@ export default function User() {
     ];
   }, [user, isCurrentUser]);
 
-  const activeTab = tabs.find((tab) => tab.name === searchParams.get(TAB_PARAM_KEY)) ?? tabs[0];
+  const activeTab =
+    tabs.find((tab) => tab.name === searchParams.get(config.tabParamsKey)) ?? tabs[0];
 
   return (
     <div className="px-container space-y-4">

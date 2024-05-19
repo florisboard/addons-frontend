@@ -1,10 +1,9 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import config from '@/fixtures/config';
 import { TIcon } from '@/types';
 import { cn } from '@/utils';
-
-export const TAB_PARAM_KEY = 'tab';
 
 export type TTab = {
   name: string;
@@ -30,7 +29,7 @@ export default function Tabs({ tabs, activeTab }: TabsProps) {
         return (
           <Link
             key={tab.name}
-            href={`${pathname}?${TAB_PARAM_KEY}=${tab.name}`}
+            href={`${pathname}?${config.tabParamsKey}=${tab.name}`}
             role="tab"
             className={cn('tab h-14 min-w-fit gap-2 md:h-auto', { 'tab-active': isActive })}
           >
