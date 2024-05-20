@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 };
 
 export default async function About() {
-  const { content } = await getAboutServer();
+  const resp = await getAboutServer();
 
-  return <Markdown className="px-container prose">{content}</Markdown>;
+  return <Markdown className="px-container prose">{resp.data.content}</Markdown>;
 }

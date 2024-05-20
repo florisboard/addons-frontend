@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Breadcrumb from '@/components/categories/show/Breadcrumb';
 import { useSearchParams } from '@/hooks';
@@ -19,7 +19,7 @@ export default function Category() {
 
   return (
     <div className="px-container space-y-4 overflow-y-hidden">
-      <Breadcrumb slug={slug} />
+      <Breadcrumb title={category.title} />
       <div className="flex flex-col gap-4 md:flex-row md:justify-between">
         <h1 className="h1">
           <span className="text-primary">{category.title}</span> Projects
