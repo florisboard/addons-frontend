@@ -15,7 +15,7 @@ import Stats from '@/components/projects/show/Stats';
 import { useCanEditProject } from '@/hooks';
 import useProject from '@/services/projects/show';
 import Markdown from '@/shared/forms/Markdown';
-import { extractIdFromSlug, slugifyId } from '@/utils';
+import { extractIdFromSlug, isOfficialProject, slugifyId } from '@/utils';
 
 export default function Project() {
   const { slug } = useParams<{ slug: string }>();
@@ -46,8 +46,11 @@ export default function Project() {
               >
                 {project.category.title}
               </Link>
+              {isOfficialProject(project.package_name) && (
+                <span className="badge badge-primary badge-lg min-w-max">Official</span>
+              )}
               {project.is_recommended && (
-                <span className="badge badge-primary badge-lg min-w-max">Recommended</span>
+                <span className="badge badge-secondary badge-lg min-w-max">Recommended</span>
               )}
               {!project.is_active && (
                 <span className="badge badge-warning badge-lg min-w-max">Not Approved</span>
