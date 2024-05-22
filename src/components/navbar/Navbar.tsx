@@ -38,7 +38,8 @@ export default function Navbar() {
       <MobileDropdown isSearchActive={isGlobalSearchActive} />
       <div className="navbar-center md:navbar-start md:flex-shrink">
         <Link href="/" className="btn btn-ghost text-xl">
-          FlorisBoard Addons
+          <span className="hidden md:block">FlorisBoard Addons</span>
+          <span className="md:hidden">Addons</span>
         </Link>
       </div>
       <Links />
