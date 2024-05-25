@@ -74,3 +74,7 @@ export function isInfiniteResultEmpty({
 }: UseInfiniteQueryResult<InfiniteData<TApiMeta>>) {
   return !isLoading && data?.pages.at(0)?.meta.total === 0;
 }
+
+export function isOfficialProject(packageName: string) {
+  return packageName.startsWith('org.florisboard');
+}

@@ -48,7 +48,7 @@ export default function Html({ children, className }: HtmlProps) {
         )}
       >
         <div id={MODAL_ROOT_ID} />
-        <ToastContainer toastClassName="font-sans" theme={finalTheme} />
+        <ToastContainer toastClassName="!font-sans" theme={finalTheme} />
         {children}
       </body>
     </html>

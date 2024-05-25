@@ -1,10 +1,8 @@
-import { Suspense } from 'react';
 import type { Metadata } from 'next';
 import NextTopLoader from 'nextjs-toploader';
 import 'swiper/css';
 import 'swiper/css/a11y';
 import 'swiper/css/navigation';
-import AuthModal from '@/components/auth/AuthModal';
 import Footer from '@/components/footer/Footer';
 import Bottom from '@/components/navbar/Bottom';
 import Navbar from '@/components/navbar/Navbar';
@@ -28,9 +26,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <NextTopLoader color="green" showSpinner={false} />
       <ReactQueryProvider>
         <Navbar />
-        <Suspense>
-          <AuthModal />
-        </Suspense>
         <main className="flex flex-1 flex-col space-y-4 md:space-y-8">{children}</main>
         <Bottom />
         <Footer />

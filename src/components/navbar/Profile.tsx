@@ -4,25 +4,22 @@ import React from 'react';
 import Avatar from 'react-avatar';
 import Link from 'next/link';
 import compact from 'lodash/compact';
-import { useAuthRoutes } from '@/hooks';
 import useLogout from '@/services/auth/logout';
 import useMe from '@/services/users/me';
 import Button from '@/shared/forms/Button';
 import ThemeSwitcher from './ThemeSwitcher';
 
 export default function Profile() {
-  const { login, register, emailVerification } = useAuthRoutes();
   const { mutate: logout } = useLogout();
   const { data: user } = useMe();
 
   const guestLinks = [
-    { title: 'Login', href: login() },
-    { title: 'Register', href: register },
+    { title: 'Login', href: '/login' },
+    { title: 'Register', href: '/register' },
   ];
   const authLinks = compact([
     { title: 'Profile', href: `/users/${user?.username}` },
     { title: 'New Project', href: `/projects/create` },
-    !user?.email_verified_at && { title: 'Verify your Email', href: emailVerification },
   ]);
   const links = user ? authLinks : guestLinks;
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import { ReviewResource } from '@/generated';
-import { useAuthRoutes, useDialogModal } from '@/hooks';
+import { useDialogModal } from '@/hooks';
 import useCreateReview from '@/services/reviews/create';
 import useEditReview from '@/services/reviews/edit';
 import useMe from '@/services/users/me';
@@ -21,7 +21,6 @@ export default function CommentAReview({ projectId, authUserReview }: CommentARe
   const { mutate: createReview, isPending: isCreating } = useCreateReview(+projectId);
   const { mutate: editReview, isPending: isUpdating } = useEditReview(+projectId);
   const { data: me } = useMe();
-  const { login } = useAuthRoutes();
   const isPending = isCreating || isUpdating;
 
   return (
@@ -60,7 +59,7 @@ export default function CommentAReview({ projectId, authUserReview }: CommentARe
           <Button
             onClick={() => {
               if (me) handleOpenModal();
-              else router.push(login(), { scroll: false });
+              else router.push('/login');
             }}
             className="btn btn-accent"
           >

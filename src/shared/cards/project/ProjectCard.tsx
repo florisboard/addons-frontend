@@ -6,7 +6,7 @@ import compact from 'lodash/compact';
 import logo from '@/assets/svg/logo.svg';
 import { ProjectResource } from '@/generated';
 import BlurImage from '@/shared/BlurImage';
-import { cn, humanReadableFormatter, isBetweenDate, slugifyId } from '@/utils';
+import { cn, humanReadableFormatter, isBetweenDate, isOfficialProject, slugifyId } from '@/utils';
 
 type ProjectCardProps = ProjectResource & {
   bodyClassName?: string;
@@ -18,6 +18,7 @@ export default function ProjectCard({
   short_description,
   reviews_avg_score,
   reviews_count,
+  package_name,
   image,
   releases_sum_downloads_count,
   is_recommended,
@@ -37,13 +38,18 @@ export default function ProjectCard({
   ];
 
   const badges = compact([
-    is_recommended && {
-      tooltip: 'Recommended By FlorisBoard',
-      text: 'Recommended',
+    isOfficialProject(package_name) && {
+      tooltip: 'Official Project by FlorisBoard',
+      text: 'Official',
       className: 'badge-primary',
     },
+    is_recommended && {
+      tooltip: 'Recommended by FlorisBoard',
+      text: 'Recommended',
+      className: 'badge-secondary',
+    },
     !is_active && {
-      tooltip: 'Not Approved By the Admins',
+      tooltip: 'Not Approved by the Admins',
       text: 'Not Approved',
       className: 'badge-warning',
     },
