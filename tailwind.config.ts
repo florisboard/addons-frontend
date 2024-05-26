@@ -30,6 +30,7 @@ const config: Config = {
           primary: 'green',
           'primary-content': colors.white,
           secondary: 'teal',
+          'secondary-content': colors.white,
           'base-content': colors.gray['200'],
         },
       },

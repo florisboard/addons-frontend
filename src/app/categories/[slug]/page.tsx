@@ -3,6 +3,7 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Breadcrumb from '@/components/categories/show/Breadcrumb';
+import config from '@/fixtures/config';
 import { useSearchParams } from '@/hooks';
 import useCategory from '@/services/categories/show';
 import useProjects from '@/services/projects';
@@ -14,7 +15,7 @@ export default function Category() {
   const { slug } = useParams<{ slug: string }>();
   const { data: category } = useCategory(extractIdFromSlug(slug)!);
   const [searchParams] = useSearchParams();
-  const query = searchParams.get('query') ?? '';
+  const query = searchParams.get(config.searchKey) ?? '';
   const queryResult = useProjects({ filter: { category_id: category.id, title: query } });
 
   return (
@@ -24,7 +25,7 @@ export default function Category() {
         <h1 className="h1">
           <span className="text-primary">{category.title}</span> Projects
         </h1>
-        <Search searchOnCurrentRoute placeholder="Search Projects ..." />
+        <Search searchOnCurrentRoute />
       </div>
       <ProjectInfiniteGridList queryResult={queryResult} />
     </div>

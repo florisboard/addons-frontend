@@ -1,13 +1,12 @@
 import React, { useMemo, useState } from 'react';
 import { formatDistanceToNow } from 'date-fns';
-import ReleasesModal from '@/components/releases/ReleasesModal';
+import ReleasesModal, { modalId } from '@/components/releases/ReleasesModal';
 import { ReleaseFullResource } from '@/generated';
-import { useDialogModal } from '@/hooks';
 import EmptyList from '@/shared/EmptyList';
 import Button from '@/shared/forms/Button';
 import Markdown from '@/shared/forms/Markdown';
 import Download from '@/shared/releases/Download';
-import { cn, humanReadableFormatter } from '@/utils';
+import { cn, humanReadableFormatter, openModal } from '@/utils';
 
 type LatestReleaseProps = {
   latestRelease: ReleaseFullResource | null;
@@ -15,11 +14,10 @@ type LatestReleaseProps = {
 };
 
 export default function LatestRelease({ latestRelease, projectTitle }: LatestReleaseProps) {
-  const { modalRef, handleOpenModal: handleOpenDialogModal } = useDialogModal();
   const [hasModalOpened, setHasModalOpened] = useState(false);
 
   const handleOpenModal = () => {
-    handleOpenDialogModal();
+    openModal(modalId);
     setHasModalOpened(true);
   };
 
@@ -52,7 +50,6 @@ export default function LatestRelease({ latestRelease, projectTitle }: LatestRel
         projectTitle={projectTitle}
         projectId={latestRelease?.project_id}
         hasModalOpened={hasModalOpened}
-        modalRef={modalRef}
       />
       <div className="card-body gap-4">
         <div className="flex flex-wrap items-center justify-between gap-4">

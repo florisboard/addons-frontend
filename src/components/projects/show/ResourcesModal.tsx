@@ -7,7 +7,7 @@ import LoadMore from '@/shared/forms/LoadMore';
 import DialogModal, { DialogModalProps } from '@/shared/modals/DialogModal';
 import { cn } from '@/utils';
 
-type ResourcesModalProps<OrderBy> = Pick<DialogModalProps, 'modalRef' | 'id' | 'children'> & {
+type ResourcesModalProps<OrderBy> = Pick<DialogModalProps, 'id' | 'children'> & {
   title: string;
   queryResult: UseInfiniteQueryResult<InfiniteData<unknown>>;
   Skeleton: React.FunctionComponent;
@@ -24,7 +24,6 @@ type ResourcesModalProps<OrderBy> = Pick<DialogModalProps, 'modalRef' | 'id' | '
 };
 
 export default function ResourcesModal<OrderBy>({
-  modalRef,
   id,
   children,
   title,
@@ -40,11 +39,10 @@ export default function ResourcesModal<OrderBy>({
       dialogClassName="modal-bottom"
       parentClassName="w-full h-full"
       closeOnClickOutside
-      modalRef={modalRef}
       id={id}
     >
       <div className="flex flex-wrap items-center justify-between gap-4">
-        <h4 className="font-display text-2xl font-bold md:text-3xl">{title}</h4>
+        <h3 className="font-display text-2xl font-bold md:text-3xl">{title}</h3>
         <Button className="btn btn-circle btn-sm md:btn-md" type="submit">
           <HiXMark className="h-6 w-6" />
         </Button>

@@ -4,9 +4,8 @@ import validations from '@/fixtures/forms/validations';
 import { ProjectsReviewsStorePayload } from '@/generated';
 import yup from '@/libs/yup';
 import Button from '@/shared/forms/Button';
-import FieldWrapper from '@/shared/forms/FieldWrapper';
-import InputFields from '@/shared/forms/InputFields';
-import { cn } from '@/utils';
+import { InputLists } from '@/shared/forms/Input';
+import Textarea from '@/shared/forms/Textarea';
 
 const validationSchema = yup.object<ProjectsReviewsStorePayload>({
   title: validations.title,
@@ -44,17 +43,12 @@ export default function Form({ onCancel, onSubmit, isPending, initialValues }: F
             />
           ))}
         </div>
-        <InputFields fields={[{ isRequired: true, name: 'title', label: 'Title' }]} />
-        <FieldWrapper name="description" isRequired={true} label="Description">
-          {({ hasError, ...props }) => (
-            <Field
-              {...props}
-              className={cn('textarea textarea-bordered w-full', { 'textarea-error': hasError })}
-              as="textarea"
-            />
-          )}
-        </FieldWrapper>
+        <InputLists fields={[{ isRequired: true, name: 'title', label: 'Title' }]} />
+        <Textarea name="description" isRequired label="Description" />
         <div className="flex gap-4">
+          <Button onClick={onCancel} type="button" className="btn">
+            Cancel
+          </Button>
           <Button
             isLoading={isPending}
             disabled={isPending}
@@ -62,9 +56,6 @@ export default function Form({ onCancel, onSubmit, isPending, initialValues }: F
             className="btn btn-primary"
           >
             Submit
-          </Button>
-          <Button onClick={onCancel} type="button" className="btn">
-            Cancel
           </Button>
         </div>
       </FormikForm>

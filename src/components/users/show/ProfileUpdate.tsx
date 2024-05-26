@@ -1,26 +1,29 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
-import { Field, Form, Formik } from 'formik';
+import { Form, Formik } from 'formik';
 import validations from '@/fixtures/forms/validations';
-import { useDialogModal } from '@/hooks';
 import { IUnprocessableEntity } from '@/interfaces';
 import yup from '@/libs/yup';
 import useEditMe from '@/services/users/edit';
 import useMe from '@/services/users/me';
 import Button from '@/shared/forms/Button';
-import FieldWrapper from '@/shared/forms/FieldWrapper';
+import Input from '@/shared/forms/Input';
 import DialogModal from '@/shared/modals/DialogModal';
-import { cn, isAxiosError } from '@/utils';
+import { closeModal, isAxiosError, openModal } from '@/utils';
 
 const validationSchema = yup.object({
   username: validations.username,
 });
 
+const modalId = 'profileUpdate';
+
 export default function ProfileUpdate() {
   const { data: me } = useMe();
-  const { modalRef, handleCloseModal, handleOpenModal } = useDialogModal();
   const { mutate: editMe, isPending } = useEditMe();
   const router = useRouter();
+
+  const handleCloseModal = () => closeModal(modalId);
+  const handleOpenModal = () => openModal(modalId);
 
   return (
     <>
@@ -28,8 +31,7 @@ export default function ProfileUpdate() {
         dialogClassName="modal-bottom md:modal-middle"
         parentClassName="h-full max-h-screen md:h-auto"
         parentElement="div"
-        id="profileUpdate"
-        modalRef={modalRef}
+        id={modalId}
       >
         <h3 className="text-2xl font-bold">
           Update your <span className="text-primary">Account</span>
@@ -53,14 +55,7 @@ export default function ProfileUpdate() {
           }}
         >
           <Form className="space-y-4">
-            <FieldWrapper label="Username" isRequired name="username">
-              {({ hasError, ...props }) => (
-                <Field
-                  {...props}
-                  className={cn('input input-bordered w-full', { 'input-error': hasError })}
-                />
-              )}
-            </FieldWrapper>
+            <Input label="Username" isRequired name="username" />
             <div className="flex gap-4">
               <Button onClick={handleCloseModal} className="btn">
                 Cancel

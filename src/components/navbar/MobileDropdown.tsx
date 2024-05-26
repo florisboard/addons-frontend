@@ -37,7 +37,7 @@ export default function MobileDropdown({ isSearchActive }: MobileDropdownProps) 
           ))}
           {isSearchActive && (
             <Suspense>
-              <Search placeholder="Search Projects ..." className="w-full md:hidden" />
+              <Search className="w-full md:hidden" />
             </Suspense>
           )}
         </ul>

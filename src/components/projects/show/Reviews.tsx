@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import AuthUserReview from '@/components/reviews/AuthUserReview';
-import ReviewsModal from '@/components/reviews/ReviewsModal';
+import ReviewsModal, { modalId } from '@/components/reviews/ReviewsModal';
 import { ReviewResource } from '@/generated';
-import { useDialogModal } from '@/hooks';
 import EmptyList from '@/shared/EmptyList';
 import ReviewCard from '@/shared/cards/review/ReviewCard';
 import Button from '@/shared/forms/Button';
+import { openModal } from '@/utils';
 
 type ReviewsProps = {
   reviews: ReviewResource[];
@@ -14,17 +14,16 @@ type ReviewsProps = {
 };
 
 export default function Reviews({ reviews, projectId, authUserReview }: ReviewsProps) {
-  const { modalRef, handleOpenModal: handleOpenDialogModal } = useDialogModal();
   const [hasModalOpened, setHasModalOpened] = useState(false);
 
   const handleOpenModal = () => {
-    handleOpenDialogModal();
+    openModal(modalId);
     setHasModalOpened(true);
   };
 
   return (
     <section className="card bg-base-200 md:col-span-4">
-      <ReviewsModal projectId={projectId} modalRef={modalRef} hasModalOpened={hasModalOpened} />
+      <ReviewsModal projectId={projectId} hasModalOpened={hasModalOpened} />
       <div className="card-body gap-4">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <h2 className="card-title font-display text-2xl">Reviews</h2>

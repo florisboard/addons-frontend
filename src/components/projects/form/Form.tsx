@@ -12,7 +12,7 @@ import Collapse from '@/shared/Collapse';
 import Button from '@/shared/forms/Button';
 import FieldWrapper from '@/shared/forms/FieldWrapper';
 import FileUpload from '@/shared/forms/FileUpload';
-import InputFields from '@/shared/forms/InputFields';
+import { InputLists } from '@/shared/forms/Input';
 import MarkdownInput from '@/shared/forms/MarkdownInput';
 import { cn } from '@/utils';
 import CategoriesSelect from './CategoriesSelect';
@@ -101,7 +101,7 @@ export default function Form({ submit, onSubmit, initialValues, project, isOwner
                 }))}
               />
             )}
-            <InputFields
+            <InputLists
               fields={[
                 { isRequired: true, name: 'name', label: 'Name' },
                 { isRequired: true, name: 'package_name', label: 'Package Name' },
@@ -125,7 +125,7 @@ export default function Form({ submit, onSubmit, initialValues, project, isOwner
             </FieldWrapper>
           </Collapse>
           <Collapse title="Links" contentClassName="grid grid-cols-1 gap-4 md:grid-cols-2">
-            <InputFields
+            <InputLists
               fields={[
                 { isRequired: false, name: 'home_page', label: 'Home Page' },
                 { isRequired: false, name: 'support_email', label: 'Support Email' },

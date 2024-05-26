@@ -78,3 +78,15 @@ export function isInfiniteResultEmpty({
 export function isOfficialProject(packageName: string) {
   return packageName.startsWith('org.florisboard');
 }
+
+export async function copyTextToClipboard(text: string) {
+  await navigator.clipboard.writeText(text);
+}
+
+export function openModal(id: string) {
+  (document.getElementById(id) as HTMLDialogElement).showModal();
+}
+
+export function closeModal(id: string) {
+  (document.getElementById(id) as HTMLDialogElement).close();
+}

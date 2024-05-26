@@ -24,6 +24,11 @@ const validations = {
   password: yup.string().required().min(8).max(50),
   title: yup.string().required().min(3).max(100),
   description: yup.string().required().min(3).max(1024),
+  domain: yup
+    .string()
+    .min(3)
+    .max(255)
+    .matches(/^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}$/),
   image: ['image/png', 'image/jpeg'],
 };
 

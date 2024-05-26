@@ -1,25 +1,21 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import { Field, Form, Formik } from 'formik';
-import validations from '@/fixtures/forms/validations';
-import { useDialogModal } from '@/hooks';
-import { IUnprocessableEntity } from '@/interfaces';
-import yup from '@/libs/yup';
 import useDeleteAccount from '@/services/users/delete';
 import Button from '@/shared/forms/Button';
 import FieldWrapper from '@/shared/forms/FieldWrapper';
-import PasswordField from '@/shared/forms/PasswordField';
 import DialogModal from '@/shared/modals/DialogModal';
-import { isAxiosError } from '@/utils';
+import { closeModal, openModal } from '@/utils';
+
+const modalId = 'deleteAccount';
 
 export default function DeleteAccount() {
   const router = useRouter();
   const { mutate: deleteAccount, isPending } = useDeleteAccount();
-  const { modalRef, handleCloseModal, handleOpenModal } = useDialogModal();
 
   return (
     <>
-      <DialogModal parentElement="div" closeOnClickOutside modalRef={modalRef} id="deleteAccount">
+      <DialogModal parentElement="div" id="deleteAccount" closeOnClickOutside>
         <h3 className="text-2xl font-bold">
           Delete your <span className="text-primary">Account</span>
         </h3>
@@ -46,7 +42,7 @@ export default function DeleteAccount() {
                 )}
               </FieldWrapper>
               <div className="flex gap-4">
-                <Button onClick={handleCloseModal} className="btn">
+                <Button onClick={() => closeModal(modalId)} className="btn">
                   Cancel
                 </Button>
                 <Button
@@ -70,7 +66,7 @@ export default function DeleteAccount() {
             forever!
           </p>
           <div className="card-actions">
-            <Button onClick={handleOpenModal} className="btn btn-error">
+            <Button onClick={() => openModal(modalId)} className="btn btn-error">
               Delete anyway
             </Button>
           </div>

@@ -10,9 +10,7 @@ import MobileDropdown from './MobileDropdown';
 import Profile from './Profile';
 
 function canShowGlobalSearch(pathname: string) {
-  if (pathname.startsWith('/projects')) return false;
-  if (pathname.startsWith('/categories')) return false;
-  return true;
+  return ['/projects', '/categories', '/domains'].every((path) => !pathname.startsWith(path));
 }
 
 export default function Navbar() {
@@ -46,7 +44,7 @@ export default function Navbar() {
       <div className="navbar-end items-center gap-2">
         {isGlobalSearchActive && (
           <Suspense>
-            <Search placeholder="Search Projects ..." className="hidden md:form-control" />
+            <Search className="hidden md:form-control" />
           </Suspense>
         )}
         <Profile />

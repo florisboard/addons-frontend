@@ -12,7 +12,7 @@ type AuthMiddlewareProps = THasChildren & {
   waitForAuthResult?: boolean;
 };
 
-function AuthMiddleware({
+function BaseMiddlewareAuth({
   middleware,
   navigateTo,
   children,
@@ -31,8 +31,8 @@ function AuthMiddleware({
   return children;
 }
 
-const ClientAuthMiddleware = dynamic(() => Promise.resolve(AuthMiddleware), {
+const AuthMiddleware = dynamic(() => Promise.resolve(BaseMiddlewareAuth), {
   ssr: false,
 });
 
-export default ClientAuthMiddleware;
+export default AuthMiddleware;

@@ -70,6 +70,31 @@ export type CollectionsStorePayload = object;
 
 export type CollectionsUpdatePayload = object;
 
+/** DomainResource */
+export interface DomainResource {
+  id: number;
+  is_reserved: boolean;
+  name: string;
+  verification_text: string;
+  verified_at: string | null;
+}
+
+export type DomainsDestroyPayload = object;
+
+export interface DomainsIndexParams {
+  filter?: {
+    name?: string | null;
+  };
+  page?: number | null;
+  sort?: 'name' | '-name';
+}
+
+export interface DomainsStorePayload {
+  name: string;
+}
+
+export type DomainsVerifyStorePayload = object;
+
 /** ImageResource */
 export interface ImageResource {
   id: string;
@@ -716,6 +741,153 @@ export class Api<SecurityDataType extends unknown> {
       >({
         path: `/collections/${collection}`,
         method: 'PUT',
+        body: data,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+  };
+  domains = {
+    /**
+     * No description
+     *
+     * @tags Domain
+     * @name DomainsDestroy
+     * @request DELETE:/domains/{domain}
+     */
+    domainsDestroy: (domain: number, data: DomainsDestroyPayload, params: RequestParams = {}) =>
+      this.http.request<
+        {
+          /** @example "Domain has been deleted successfully." */
+          message: string;
+        },
+        {
+          /** Error overview. */
+          message: string;
+        }
+      >({
+        path: `/domains/${domain}`,
+        method: 'DELETE',
+        body: data,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Domain
+     * @name DomainsIndex
+     * @request GET:/domains
+     */
+    domainsIndex: (query: DomainsIndexParams, params: RequestParams = {}) =>
+      this.http.request<
+        {
+          data: DomainResource[];
+          links: {
+            first: string | null;
+            last: string | null;
+            next: string | null;
+            prev: string | null;
+          };
+          meta: {
+            current_page: number;
+            from: number | null;
+            last_page: number;
+            /** Generated paginator links. */
+            links: {
+              active: boolean;
+              label: string;
+              url: string | null;
+            }[];
+            /** Base path for paginator generated URLs. */
+            path: string | null;
+            /** Number of items shown per page. */
+            per_page: number;
+            /** Number of the last item in the slice. */
+            to: number | null;
+            /** Total number of items being paginated. */
+            total: number;
+          };
+        },
+        | {
+            /** Error overview. */
+            message: string;
+          }
+        | {
+            /** A detailed description of each field that failed validation. */
+            errors: Record<string, string[]>;
+            /** Errors overview. */
+            message: string;
+          }
+      >({
+        path: `/domains`,
+        method: 'GET',
+        query: query,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Domain
+     * @name DomainsStore
+     * @request POST:/domains
+     */
+    domainsStore: (data: DomainsStorePayload, params: RequestParams = {}) =>
+      this.http.request<
+        DomainResource,
+        | {
+            /** Error overview. */
+            message: string;
+          }
+        | {
+            /** A detailed description of each field that failed validation. */
+            errors: Record<string, string[]>;
+            /** Errors overview. */
+            message: string;
+          }
+      >({
+        path: `/domains`,
+        method: 'POST',
+        body: data,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags DomainVerify
+     * @name DomainsVerifyStore
+     * @request POST:/domains/{domain}/verify
+     */
+    domainsVerifyStore: (
+      domain: number,
+      data: DomainsVerifyStorePayload,
+      params: RequestParams = {},
+    ) =>
+      this.http.request<
+        {
+          /** @example "Domain verified successfully." */
+          message: string;
+        },
+        | {
+            /** Error overview. */
+            message: string;
+          }
+        | {
+            /** A detailed description of each field that failed validation. */
+            errors: Record<string, string[]>;
+            /** Errors overview. */
+            message: string;
+          }
+      >({
+        path: `/domains/${domain}/verify`,
+        method: 'POST',
         body: data,
         type: ContentType.Json,
         format: 'json',

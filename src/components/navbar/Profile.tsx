@@ -19,6 +19,7 @@ export default function Profile() {
   ];
   const authLinks = compact([
     { title: 'Profile', href: `/users/${user?.username}` },
+    { title: 'Domains', href: `/domains` },
     { title: 'New Project', href: `/projects/create` },
   ]);
   const links = user ? authLinks : guestLinks;

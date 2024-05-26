@@ -1,6 +1,7 @@
 'use client';
 
 import React, { Fragment } from 'react';
+import config from '@/fixtures/config';
 import { useSearchParams } from '@/hooks';
 import useCategories from '@/services/categories';
 import CategoryCard from '@/shared/cards/category/CategoryCard';
@@ -9,7 +10,7 @@ import LoadMore from '@/shared/forms/LoadMore';
 
 export default function CategoriesList() {
   const [searchParams] = useSearchParams();
-  const query = searchParams.get('query') ?? '';
+  const query = searchParams.get(config.searchKey) ?? '';
   const {
     data: categories,
     isLoading,

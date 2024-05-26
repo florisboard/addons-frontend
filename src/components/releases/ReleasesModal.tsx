@@ -7,11 +7,12 @@ import ReleaseCardSkeleton from '@/shared/cards/release/ReleaseCardSkeleton';
 import ResourcesModal from '../projects/show/ResourcesModal';
 
 type ReleasesModal = {
-  modalRef: Ref<HTMLDialogElement>;
   hasModalOpened: boolean;
   projectId: number | undefined;
   projectTitle: string;
 };
+
+export const modalId = 'releases';
 
 type TSort = ReleasesIndexParams['sort'];
 
@@ -20,12 +21,7 @@ const sorts: IOption<TSort>[] = [
   { label: 'Oldest', value: 'id' },
 ];
 
-export default function ReleasesModal({
-  modalRef,
-  hasModalOpened,
-  projectTitle,
-  projectId,
-}: ReleasesModal) {
+export default function ReleasesModal({ hasModalOpened, projectTitle, projectId }: ReleasesModal) {
   const [orderBy, setOrderBy] = useState<TSort>(sorts.at(0)?.value);
   const queryResult = useReleases(
     { filter: { project_id: projectId }, sort: orderBy },
@@ -39,8 +35,7 @@ export default function ReleasesModal({
       Skeleton={ReleaseCardSkeleton}
       queryResult={queryResult}
       title="Project Releases"
-      modalRef={modalRef}
-      id="releases"
+      id={modalId}
       sorts={{ options: sorts, activeValue: orderBy, setActiveValue: setOrderBy }}
     >
       {isLoading && Array.from({ length: 5 }).map((_, i) => <ReleaseCardSkeleton key={i} />)}

@@ -2,11 +2,11 @@ import React from 'react';
 import Image from 'next/image';
 import logo from '@/assets/svg/logo.svg';
 import LoginWithGithub from '@/components/auth/LoginWithGithub';
-import ClientAuthMiddleware from '@/shared/AuthMiddleware';
+import AuthMiddleware from '@/shared/AuthMiddleware';
 
 export default function Auth() {
   return (
-    <ClientAuthMiddleware middleware="guest">
+    <AuthMiddleware middleware="guest">
       <div className="flex flex-1 flex-col items-center justify-center">
         <div className="card card-bordered w-full max-w-xl bg-base-100 shadow">
           <div className="card-body gap-4 text-center">
@@ -19,6 +19,6 @@ export default function Auth() {
           </div>
         </div>
       </div>
-    </ClientAuthMiddleware>
+    </AuthMiddleware>
   );
 }

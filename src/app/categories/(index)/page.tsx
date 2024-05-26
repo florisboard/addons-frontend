@@ -14,7 +14,7 @@ export default function Categories() {
       <div className="flex flex-col gap-4 md:flex-row md:justify-between">
         <h1 className="h1">Categories</h1>
         <Suspense>
-          <Search searchOnCurrentRoute placeholder="Search Categories ..." />
+          <Search searchOnCurrentRoute />
         </Suspense>
       </div>
       <Suspense>
