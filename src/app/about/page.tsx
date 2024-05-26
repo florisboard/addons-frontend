@@ -1,5 +1,4 @@
 import React from 'react';
-import Markdown from 'react-markdown';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -8,5 +7,9 @@ export const metadata: Metadata = {
 };
 
 export default async function About() {
-  return <Markdown className="px-container prose"># About</Markdown>;
+  return (
+    <div className="px-container prose">
+      <h1>About</h1>
+    </div>
+  );
 }

@@ -13,10 +13,10 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "@lottiefiles/react-lottie-player": "^3.5.3",
-    "@tanstack/react-query": "^5.36.2",
-    "@tanstack/react-query-devtools": "^5.36.2",
-    "axios": "^1.6.8",
+    "@lottiefiles/react-lottie-player": "^3.5.4",
+    "@tanstack/react-query": "^5.39.0",
+    "@tanstack/react-query-devtools": "^5.39.0",
+    "axios": "^1.7.2",
     "clsx": "^2.1.1",
     "date-fns": "^3.6.0",
     "filepond": "^4.31.1",
