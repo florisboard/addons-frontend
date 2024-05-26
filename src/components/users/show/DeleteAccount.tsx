@@ -2,6 +2,7 @@ import React from 'react';
 import { useRouter } from 'next/navigation';
 import { Field, Form, Formik } from 'formik';
 import useDeleteAccount from '@/services/users/delete';
+import useMe from '@/services/users/me';
 import Button from '@/shared/forms/Button';
 import FieldWrapper from '@/shared/forms/FieldWrapper';
 import DialogModal from '@/shared/modals/DialogModal';
@@ -11,6 +12,7 @@ const modalId = 'deleteAccount';
 
 export default function DeleteAccount() {
   const router = useRouter();
+  const { data: me } = useMe();
   const { mutate: deleteAccount, isPending } = useDeleteAccount();
 
   return (
@@ -27,16 +29,16 @@ export default function DeleteAccount() {
               },
             });
           }}
-          initialValues={{ text: '' }}
+          initialValues={{ username: '' }}
         >
           {({ values }) => (
             <Form className="space-y-4">
-              <FieldWrapper label="Confirmation Text" isRequired name="text">
+              <FieldWrapper label="Confirmation Text" isRequired name="username">
                 {({ hasError, ...props }) => (
                   <>
                     <Field {...props} className="input input-bordered w-full" />
                     <p className="text-sm text-base-content/80">
-                      Type <span className="font-bold">DELETE</span> to delete your Account.
+                      Type <span className="font-bold">{me?.username}</span> to delete your Account.
                     </p>
                   </>
                 )}
@@ -47,7 +49,7 @@ export default function DeleteAccount() {
                 </Button>
                 <Button
                   isLoading={isPending}
-                  disabled={isPending || values.text !== 'DELETE'}
+                  disabled={isPending || values.username !== me?.username}
                   type="submit"
                   className="btn btn-error"
                 >

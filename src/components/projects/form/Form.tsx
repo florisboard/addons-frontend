@@ -67,7 +67,7 @@ export default function Form({ submit, onSubmit, initialValues, project, isOwner
       initialValues={
         {
           category_id: 0,
-          name: '',
+          title: '',
           package_name: '',
           short_description: '',
           type: ProjectTypeEnum.EXTENSION,
@@ -103,7 +103,7 @@ export default function Form({ submit, onSubmit, initialValues, project, isOwner
             )}
             <InputLists
               fields={[
-                { isRequired: true, name: 'name', label: 'Name' },
+                { isRequired: true, name: 'title', label: 'Title' },
                 { isRequired: true, name: 'package_name', label: 'Package Name' },
                 { isRequired: true, name: 'short_description', label: 'Short Description' },
               ]}

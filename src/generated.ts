@@ -316,7 +316,9 @@ export interface UsersIndexParams {
   page?: number | null;
 }
 
-export type UsersMeDestroyPayload = object;
+export interface UsersMeDestroyPayload {
+  username: string;
+}
 
 export interface UsersMeUpdatePayload {
   username: string;
@@ -1625,7 +1627,12 @@ export class Api<SecurityDataType extends unknown> {
           /** @example "You've deleted your account successfully." */
           message: string;
         },
-        any
+        {
+          /** A detailed description of each field that failed validation. */
+          errors: Record<string, string[]>;
+          /** Errors overview. */
+          message: string;
+        }
       >({
         path: `/users/me/delete`,
         method: 'POST',
