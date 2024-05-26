@@ -23,9 +23,11 @@ const queryClient = new QueryClient({
       if (toastMeta) {
         toast.error(toastMeta.content, toastMeta);
       }
-
       if (isAxiosError(e, 500)) {
         toast.error(errorMessages.somethingWentWrong);
+      }
+      if (isAxiosError(e, 429)) {
+        toast.error(errorMessages.tooManyAttempts);
       }
     },
   }),

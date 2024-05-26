@@ -3,6 +3,7 @@ import { HiOutlineCheckCircle, HiOutlineClipboard, HiOutlineTrash } from 'react-
 import { toast } from 'react-toastify';
 import { DomainResource } from '@/generated';
 import useDeleteDomain from '@/services/domains/delete';
+import useVerifyDomain from '@/services/domains/verify';
 import Button from '@/shared/forms/Button';
 import DialogModal from '@/shared/modals/DialogModal';
 import { closeModal, copyTextToClipboard, openModal } from '@/utils';
@@ -14,6 +15,7 @@ type ActionsProps = {
 export default function Actions({ domain }: ActionsProps) {
   const deleteModalId = `domains/delete#${domain.id}`;
   const { mutate: deleteDomain, isPending: isDeleting } = useDeleteDomain();
+  const { mutateAsync: verifyDomain, isPending: isVerifying } = useVerifyDomain();
 
   const handleCopy = async () => {
     await copyTextToClipboard(domain.verification_text);
@@ -24,7 +26,13 @@ export default function Actions({ domain }: ActionsProps) {
     deleteDomain(domain.id, { onSuccess: () => closeModal(deleteModalId) });
   };
 
-  const handleVerify = () => {};
+  const handleVerify = () => {
+    toast.promise(verifyDomain(domain.id), {
+      pending: 'Verifying domain ...',
+      success: `${domain.name} has been verified successfully.`,
+      error: "Couldn't verify the domain please try again later.",
+    });
+  };
 
   const actions = [
     {
@@ -38,6 +46,7 @@ export default function Actions({ domain }: ActionsProps) {
       Icon: HiOutlineCheckCircle,
       isActive: !domain.verified_at,
       onClick: handleVerify,
+      isLoading: isVerifying,
     },
     {
       title: 'Delete Domain',
@@ -70,7 +79,12 @@ export default function Actions({ domain }: ActionsProps) {
       </DialogModal>
       {actions.map((action) => (
         <div key={action.title} data-tip={action.title} className="tooltip tooltip-secondary">
-          <Button onClick={action.onClick} className="btn btn-circle btn-ghost btn-sm ">
+          <Button
+            isLoading={action.isLoading}
+            disabled={action.isLoading}
+            onClick={action.onClick}
+            className="btn btn-circle btn-ghost btn-sm "
+          >
             <action.Icon className="h-6 w-6" />
           </Button>
         </div>
