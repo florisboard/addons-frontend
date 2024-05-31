@@ -13,7 +13,7 @@ export default function Auth() {
             <Image className="mx-auto rounded-full bg-base-200" alt="FlorisBoard Logo" src={logo} />
             <h1 className="text-2xl font-bold text-primary">Authentication</h1>
             <p className="text-base-content/80">
-              You can login / register your FlorisBoard account using these providers bellow.
+              You can Login / Register your FlorisBoard account using these providers bellow.
             </p>
             <LoginWithGithub />
           </div>

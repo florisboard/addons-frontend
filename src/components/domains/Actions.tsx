@@ -83,7 +83,7 @@ export default function Actions({ domain }: ActionsProps) {
             isLoading={action.isLoading}
             disabled={action.isLoading}
             onClick={action.onClick}
-            className="btn btn-circle btn-ghost btn-sm "
+            className="btn btn-circle btn-ghost btn-sm"
           >
             <action.Icon className="h-6 w-6" />
           </Button>

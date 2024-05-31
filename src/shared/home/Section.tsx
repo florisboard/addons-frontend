@@ -30,7 +30,7 @@ export default function Section({
             className="btn btn-link p-0 no-underline transition-transform delay-75 hover:translate-x-2"
           >
             <span>{viewMore.text}</span>
-            <HiChevronRight className="h-5 w-5 md:h-6 md:w-6 " />
+            <HiChevronRight className="h-5 w-5 md:h-6 md:w-6" />
           </Link>
         )}
         {headingChildren}
