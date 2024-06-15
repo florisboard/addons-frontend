@@ -9,6 +9,7 @@ export async function getProject(id: number) {
 
 export const getProjectServerCache = serverSideCache(getProject, ['projects'], {
   revalidate: 300,
+  throwNotFound: false,
 });
 
 export default function useProject(id: number) {

@@ -10,6 +10,7 @@ const errorMessages = {
       min: 'This field must be at least ${min} characters.',
       max: 'This field must be less than ${max} characters.',
       matches: 'This field is not valid.',
+      url: 'This field must be a valid url (like https://github.com).',
     },
     number: {
       max: 'This field must be less than ${max}.',

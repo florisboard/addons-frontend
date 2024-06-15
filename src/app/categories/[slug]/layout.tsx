@@ -15,8 +15,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const category = await getCategoryServerCache(id);
 
   return {
-    title: `Category ${category.title}`,
-    description: `Find useful projects from category ${category.title} for your FlorisBoard Keyboard`,
+    title: `Category ${category?.title}`,
+    description: `Find useful projects from category ${category?.title} for your FlorisBoard Keyboard`,
   };
 }
 

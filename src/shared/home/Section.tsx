@@ -18,7 +18,7 @@ export default function Section({
   headingChildren,
 }: SectionProps) {
   return (
-    <section className="px-container space-y-4">
+    <section className="px-container space-y-4 overflow-x-hidden">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-2 md:gap-4">
           <Icon className="h-5 w-5 md:h-6 md:w-6" />

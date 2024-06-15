@@ -1,7 +1,9 @@
 import React, { Fragment, useState } from 'react';
+import Link from 'next/link';
 import { Field, useFormikContext } from 'formik';
 import Markdown from '@/shared/forms/Markdown';
 import { cn } from '@/utils';
+import Button from './Button';
 
 type MarkdownInputProps = {
   name: string;
@@ -33,23 +35,21 @@ export default function MarkdownInput(props: MarkdownInputProps) {
   ];
 
   return (
-    <div role="tablist" className="tabs tabs-bordered">
-      {tabs.map((tab) => (
-        <Fragment key={tab.type}>
-          <input
-            checked={activeTab === tab.type}
-            onChange={() => setActiveTab(tab.type)}
-            type="radio"
-            name="markdown_tab"
-            role="tab"
-            className="tab"
-            aria-label={tab.label}
-          />
-          <div role="tabpanel" className="tab-content py-4">
-            {tab.content}
-          </div>
-        </Fragment>
-      ))}
+    <div className="space-y-4">
+      <div role="tablist" className="tabs tabs-bordered">
+        {tabs.map((tab) => (
+          <Fragment key={tab.type}>
+            <Button
+              onClick={() => setActiveTab(tab.type)}
+              role="tab"
+              className={cn('tab', { 'tab-active': activeTab === tab.type })}
+            >
+              {tab.label}
+            </Button>
+          </Fragment>
+        ))}
+      </div>
+      <div>{tabs.find((tab) => tab.type === activeTab)?.content}</div>
     </div>
   );
 }

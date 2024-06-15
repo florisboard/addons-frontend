@@ -38,6 +38,7 @@ function Edit() {
       name: 'information',
       children: (
         <Form
+          mode="edit"
           isOwner={isOwner}
           initialValues={{
             ...convertNullToEmptyString(project),

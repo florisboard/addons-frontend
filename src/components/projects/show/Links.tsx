@@ -13,18 +13,7 @@ type TLink = {
 };
 
 export default function Links({ project }: LinksProps) {
-  const links: TLink[] = compact([
-    project?.home_page && { title: 'Home Page', href: project.home_page },
-    project?.donate_site && { title: 'Donate Site', href: project.donate_site },
-    project?.support_email && {
-      title: 'Support Email',
-      href: `mailto:${project.support_email}`,
-    },
-    project?.support_site && {
-      title: 'Support Site',
-      href: project.support_site,
-    },
-  ]);
+  const links: TLink[] = compact([{ title: 'Source Code', href: project.links.source_code }]);
 
   return (
     <section className="card bg-base-200 md:col-span-2">

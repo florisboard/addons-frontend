@@ -36,7 +36,7 @@ export default function Bottom() {
         title: 'Profile',
         Icon: HiOutlineUser,
         ActiveIcon: HiUser,
-        href: me ? '/account' : '/login',
+        href: me ? `/users/${me.username}` : '/login',
       },
     ],
     [me],

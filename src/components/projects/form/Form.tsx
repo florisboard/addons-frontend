@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Field, Formik, Form as FormikForm, FormikHelpers } from 'formik';
+import { Formik, Form as FormikForm, FormikHelpers } from 'formik';
 import compact from 'lodash/compact';
 import validations from '@/fixtures/forms/validations';
 import { ProjectFullResource, ProjectTypeEnum, ProjectsStorePayload } from '@/generated';
@@ -12,15 +12,19 @@ import Collapse from '@/shared/Collapse';
 import Button from '@/shared/forms/Button';
 import FieldWrapper from '@/shared/forms/FieldWrapper';
 import FileUpload from '@/shared/forms/FileUpload';
-import { InputLists } from '@/shared/forms/Input';
+import Input, { InputLists } from '@/shared/forms/Input';
 import MarkdownInput from '@/shared/forms/MarkdownInput';
-import { cn } from '@/utils';
+import Select from '@/shared/forms/Select';
+import Textarea from '@/shared/forms/Textarea';
+import { createPackageName } from '@/utils';
 import CategoriesSelect from './CategoriesSelect';
+import DomainsSelect from './DomainsSelect';
 import MaintainersSelect from './MaintainersSelect';
 
 export type TProjectValues = ProjectsStorePayload & {
   image_path: string;
   screenshots_path: string[];
+  domain_name: string;
 };
 
 type FormProps = {
@@ -29,22 +33,33 @@ type FormProps = {
   initialValues?: Partial<TProjectValues>;
   project?: ProjectFullResource;
   isOwner: boolean;
+  mode: 'create' | 'edit';
 };
 
 const validationSchema = yup.object<ProjectsStorePayload>({
   category_id: yup.number().required().min(1),
-  name: yup.string().required().min(3).max(50),
-  package_name: validations.package_name,
+  title: yup.string().required().min(3).max(50),
+  package_name: validations.slug,
   short_description: yup.string().required().min(3).max(255),
   type: yup.string().required().oneOf([ProjectTypeEnum.EXTENSION]),
-  home_page: validations.url,
-  support_email: validations.email.notRequired(),
-  support_site: validations.url,
-  donate_site: validations.url,
+  links: yup.object({
+    source_code: validations.url.test(
+      'isGithubUrl',
+      'This field must start with https://github.com',
+      (value) => Boolean(value) && value?.startsWith('https://github.com'),
+    ),
+  }),
   description: yup.string().required().min(3).max(2024),
 });
 
-export default function Form({ submit, onSubmit, initialValues, project, isOwner }: FormProps) {
+export default function Form({
+  submit,
+  mode,
+  onSubmit,
+  initialValues,
+  project,
+  isOwner,
+}: FormProps) {
   const { mutate: deleteImage } = useDeleteProjectImage();
   const { mutate: deleteScreenshot } = useDeleteProjectScreenshots();
 
@@ -71,20 +86,18 @@ export default function Form({ submit, onSubmit, initialValues, project, isOwner
           package_name: '',
           short_description: '',
           type: ProjectTypeEnum.EXTENSION,
-          home_page: '',
-          support_email: '',
-          support_site: '',
-          donate_site: '',
           description: '',
+          links: { source_code: '' },
           image_path: '',
           screenshots_path: [],
           maintainers: [],
+          domain_name: '',
           ...initialValues,
         } as TProjectValues
       }
       onSubmit={onSubmit}
     >
-      {({ setFieldValue, values }) => (
+      {({ setFieldValue, values, errors }) => (
         <FormikForm className="space-y-4">
           <Collapse title="Main" contentClassName="grid grid-cols-1 gap-4 md:grid-cols-2">
             <CategoriesSelect
@@ -101,37 +114,35 @@ export default function Form({ submit, onSubmit, initialValues, project, isOwner
                 }))}
               />
             )}
-            <InputLists
-              fields={[
-                { isRequired: true, name: 'title', label: 'Title' },
-                { isRequired: true, name: 'package_name', label: 'Package Name' },
-                { isRequired: true, name: 'short_description', label: 'Short Description' },
-              ]}
+            <InputLists fields={[{ isRequired: true, name: 'title', label: 'Title' }]} />
+            <Select
+              label="Type"
+              name="type"
+              isRequired
+              options={Object.values(ProjectTypeEnum).map((option) => ({
+                label: option,
+                value: option,
+              }))}
             />
-            <FieldWrapper label="Type" isRequired name="type">
-              {({ hasError, ...props }) => (
-                <Field
-                  {...props}
-                  as="select"
-                  className={cn('select select-bordered w-full', { 'select-error': hasError })}
-                >
-                  {Object.values(ProjectTypeEnum).map((value) => (
-                    <option key={value} value={value}>
-                      {value}
-                    </option>
-                  ))}
-                </Field>
-              )}
-            </FieldWrapper>
+            <Textarea
+              className="col-span-full"
+              name="short_description"
+              label="Short Description"
+              isRequired
+            />
           </Collapse>
+          {mode === 'create' && (
+            <Collapse
+              title={'Package Name: ' + createPackageName(values.domain_name, values.package_name)}
+              contentClassName="grid grid-cols-1 gap-4 md:grid-cols-2"
+            >
+              <DomainsSelect />
+              <Input isRequired name="package_name" label="Package Name" />
+            </Collapse>
+          )}
           <Collapse title="Links" contentClassName="grid grid-cols-1 gap-4 md:grid-cols-2">
             <InputLists
-              fields={[
-                { isRequired: false, name: 'home_page', label: 'Home Page' },
-                { isRequired: false, name: 'support_email', label: 'Support Email' },
-                { isRequired: false, name: 'support_site', label: 'Support Site' },
-                { isRequired: false, name: 'donate_site', label: 'Donate Site' },
-              ]}
+              fields={[{ isRequired: true, name: 'links.source_code', label: 'Source Code' }]}
             />
           </Collapse>
           <Collapse title="Description">
@@ -141,7 +152,7 @@ export default function Form({ submit, onSubmit, initialValues, project, isOwner
           </Collapse>
           <Collapse title="Images" contentClassName="grid grid-cols-1 gap-4 md:grid-cols-2">
             <>
-              <FieldWrapper name="image_path" isRequired={false} label="Image">
+              <FieldWrapper name="image_path" isRequired label="Image">
                 <FileUpload
                   required
                   onremovefile={handleDeleteImage}
@@ -150,7 +161,7 @@ export default function Form({ submit, onSubmit, initialValues, project, isOwner
                   acceptedFileTypes={validations.image}
                 />
               </FieldWrapper>
-              <FieldWrapper name="screenshots" isRequired={false} label="Screenshots">
+              <FieldWrapper name="screenshots" isRequired label="Screenshots">
                 <FileUpload
                   onremovefile={(_, file) => handleDeleteScreenshot(file.getMetadata().id)}
                   uploadedFileLinks={compact(project?.screenshots)}

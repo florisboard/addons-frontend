@@ -109,15 +109,16 @@ export interface ProjectFullResource {
   category_id: number;
   created_at: string;
   description: string;
-  donate_site: string;
   five_reviews_count: number;
   four_reviews_count: number;
-  home_page: string;
   id: number;
   image: ImageResource | null;
   is_active: string;
   is_recommended: string;
   latest_release: ReleaseFullResource | null;
+  links: {
+    source_code: string;
+  };
   maintainers: UserResource[];
   one_reviews_count: number;
   package_name: string;
@@ -127,8 +128,6 @@ export interface ProjectFullResource {
   reviews_count: number;
   screenshots: ImageResource[];
   short_description: string;
-  support_email: string;
-  support_site: string;
   three_reviews_count: number;
   title: string;
   two_reviews_count: number;
@@ -207,14 +206,12 @@ export interface ProjectsScreenshotsStorePayload {
 export interface ProjectsStorePayload {
   category_id: number;
   description: string;
-  donate_site?: string | null;
-  home_page?: string | null;
+  links: {
+    source_code: string;
+  };
   maintainers?: number[];
   package_name: string;
   short_description: string;
-  /** @format email */
-  support_email?: string | null;
-  support_site?: string | null;
   title: string;
   type: ProjectTypeEnum;
 }
@@ -222,14 +219,12 @@ export interface ProjectsStorePayload {
 export interface ProjectsUpdatePayload {
   category_id: number;
   description: string;
-  donate_site?: string | null;
-  home_page?: string | null;
+  links: {
+    source_code: string;
+  };
   maintainers?: number[];
   package_name: string;
   short_description: string;
-  /** @format email */
-  support_email?: string | null;
-  support_site?: string | null;
   title: string;
   type: ProjectTypeEnum;
 }

@@ -34,7 +34,10 @@ export default function Project() {
             <div className="flex flex-wrap items-center justify-between gap-4">
               <h1 className="h1">{project.title}</h1>
               {canEdit && (
-                <Link href={`/projects/${id}/edit`} className="btn btn-accent">
+                <Link
+                  href={`/projects/${slugifyId(project.id, project.title)}/edit`}
+                  className="btn btn-accent"
+                >
                   Edit
                 </Link>
               )}
