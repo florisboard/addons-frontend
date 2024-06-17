@@ -186,7 +186,7 @@ export interface ProjectsIndexParams {
 
 export interface ProjectsReleasesStorePayload {
   description: string;
-  file: string;
+  file_path: string;
   version_name: string;
 }
 
@@ -295,7 +295,8 @@ export interface ReviewsUpdatePayload {
 }
 
 export interface UploadsProcessPayload {
-  file: string;
+  /** @format binary */
+  file: File;
 }
 
 /** UserResource */
@@ -912,7 +913,7 @@ export class Api<SecurityDataType extends unknown> {
         path: `/uploads/process`,
         method: 'POST',
         body: data,
-        type: ContentType.Json,
+        type: ContentType.FormData,
         format: 'json',
         ...params,
       }),

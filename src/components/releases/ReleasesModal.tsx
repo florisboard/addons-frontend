@@ -6,7 +6,7 @@ import ReleaseCard from '@/shared/cards/release/ReleaseCard';
 import ReleaseCardSkeleton from '@/shared/cards/release/ReleaseCardSkeleton';
 import ResourcesModal from '../projects/show/ResourcesModal';
 
-type ReleasesModal = {
+type ReleasesModalProps = {
   hasModalOpened: boolean;
   projectId: number | undefined;
   projectTitle: string;
@@ -21,7 +21,11 @@ const sorts: IOption<TSort>[] = [
   { label: 'Oldest', value: 'id' },
 ];
 
-export default function ReleasesModal({ hasModalOpened, projectTitle, projectId }: ReleasesModal) {
+export default function ReleasesModal({
+  hasModalOpened,
+  projectTitle,
+  projectId,
+}: ReleasesModalProps) {
   const [orderBy, setOrderBy] = useState<TSort>(sorts.at(0)?.value);
   const queryResult = useReleases(
     { filter: { project_id: projectId }, sort: orderBy },

@@ -11,7 +11,7 @@ type DownloadProps = {
 
 export default function Download({ release, project }: DownloadProps) {
   const { mutate: download, isPending } = useDownloadRelease();
-  const fileName = `${kebabCase(project.title)}-${release.version_name}.mp3`;
+  const fileName = `${kebabCase(project.title)}-${release.version_name}.flex`;
 
   const handleDownload = () => {
     download(release.id, {

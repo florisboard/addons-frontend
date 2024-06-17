@@ -14,7 +14,7 @@ import useCreateProjectImage from '@/services/projects/image/create';
 import useCreateProjectScreenshots from '@/services/projects/screenshots/create';
 import useProject from '@/services/projects/show';
 import AuthMiddleware from '@/shared/AuthMiddleware';
-import { cn, convertNullToEmptyString, extractIdFromSlug, isAxiosError } from '@/utils';
+import { cn, convertNullToEmptyString, extractIdFromSlug, isAxiosError, slugifyId } from '@/utils';
 
 function Edit() {
   const { slug } = useParams<{ slug: string }>();
@@ -82,7 +82,15 @@ function Edit() {
   return (
     <AuthMiddleware middleware="auth">
       <div className="px-container space-y-4">
-        <h1 className="h1">Edit {project?.title}</h1>
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <h1 className="h1">Edit {project?.title}</h1>
+          <Link
+            href={`/projects/${slugifyId(project.id, project.title)}`}
+            className="btn btn-primary"
+          >
+            Main Page
+          </Link>
+        </div>
         <div role="tablist" className="tabs tabs-lifted">
           {tabs.map((tab) => {
             const isActive = activeTab.name === tab.name;

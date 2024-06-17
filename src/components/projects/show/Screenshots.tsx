@@ -20,8 +20,9 @@ export default function Screenshots({ screenshots }: ScreenshotsProps) {
           <SwiperSlide className="!h-auto !w-auto" key={screenshot.id}>
             <BlurImage
               loading="lazy"
-              width={500}
-              height={300}
+              className="object-contain"
+              width={250}
+              height={250}
               src={screenshot.url}
               alt={`Screenshot ${i + 1}`}
             />
