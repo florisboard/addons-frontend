@@ -3,6 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { notFound, useParams } from 'next/navigation';
+import ReportModal, { TReportable, generateReportModalId } from '@/components/ReportModal';
 import Breadcrumb from '@/components/projects/show/Breadcrumb';
 import Information from '@/components/projects/show/Information';
 import LatestRelease from '@/components/projects/show/LatestRelease';
@@ -14,8 +15,9 @@ import Screenshots from '@/components/projects/show/Screenshots';
 import Stats from '@/components/projects/show/Stats';
 import { useCanEditProject } from '@/hooks';
 import useProject from '@/services/projects/show';
+import Button from '@/shared/forms/Button';
 import Markdown from '@/shared/forms/Markdown';
-import { extractIdFromSlug, isOfficialProject, slugifyId } from '@/utils';
+import { extractIdFromSlug, isOfficialProject, openModal, slugifyId } from '@/utils';
 
 export default function Project() {
   const { slug } = useParams<{ slug: string }>();
@@ -24,23 +26,33 @@ export default function Project() {
 
   const { data: project } = useProject(id);
   const { canEdit } = useCanEditProject(project);
+  const reportable: TReportable = { resource: 'projects', title: project.title, id };
 
   return (
     <div className="px-container space-y-4">
       <Breadcrumb title={project.title} />
+      <ReportModal reportable={reportable} />
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-6">
         <div className="card bg-base-200 md:col-span-4">
           <div className="card-body">
             <div className="flex flex-wrap items-center justify-between gap-4">
               <h1 className="h1">{project.title}</h1>
-              {canEdit && (
-                <Link
-                  href={`/projects/${slugifyId(project.id, project.title)}/edit`}
-                  className="btn btn-accent"
+              <div className="flex items-center gap-2">
+                {canEdit && (
+                  <Link
+                    href={`/projects/${slugifyId(project.id, project.title)}/edit`}
+                    className="btn btn-accent"
+                  >
+                    Edit
+                  </Link>
+                )}
+                <Button
+                  onClick={() => openModal(generateReportModalId(reportable))}
+                  className="btn btn-error"
                 >
-                  Edit
-                </Link>
-              )}
+                  Report
+                </Button>
+              </div>
             </div>
             <div className="flex gap-2 overflow-x-auto">
               <Link

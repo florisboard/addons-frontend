@@ -3,10 +3,11 @@ import Avatar from 'react-avatar';
 import { HiOutlineStar, HiStar } from 'react-icons/hi2';
 import Link from 'next/link';
 import { format, formatDistanceToNow } from 'date-fns';
+import ReportModal, { TReportable, generateReportModalId } from '@/components/ReportModal';
 import Options from '@/components/reviews/Options';
 import { ReviewResource } from '@/generated';
 import useMe from '@/services/users/me';
-import { cn } from '@/utils';
+import { cn, openModal } from '@/utils';
 
 type ReviewCardProps = ReviewResource & {
   onEdit?: () => void;
@@ -29,10 +30,17 @@ export default function ReviewCard({
 
   const username = user?.username;
   const userLink = `/users/${user?.username}`;
-  const optionsProps = { reviewId: id, isOwner: me?.username === user?.username, onEdit };
+  const reportable: TReportable = { resource: 'reviews', id, title };
+  const optionsProps = {
+    reviewId: id,
+    isOwner: me?.username === user?.username,
+    onEdit,
+    onReport: () => openModal(generateReportModalId(reportable)),
+  };
 
   return (
     <div className={cn('card bg-base-300', cardClassName)}>
+      <ReportModal reportable={reportable} />
       <div className="card-body">
         <div className="flex items-center gap-4">
           <Link href={userLink}>

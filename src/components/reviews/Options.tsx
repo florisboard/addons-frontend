@@ -12,13 +12,14 @@ import Button from '@/shared/forms/Button';
 import { cn } from '@/utils';
 
 type OptionsProps = {
-  className?: string;
   isOwner: boolean;
   reviewId: number;
+  onReport: () => void;
   onEdit?: () => void;
+  className?: string;
 };
 
-export default function Options({ className, isOwner, reviewId, onEdit }: OptionsProps) {
+export default function Options({ className, onReport, isOwner, reviewId, onEdit }: OptionsProps) {
   const { id } = useParams<{ id: string }>();
   const { mutate: deleteReview } = useDeleteReview(+id);
 
@@ -27,10 +28,12 @@ export default function Options({ className, isOwner, reviewId, onEdit }: Option
   };
 
   const options = compact([
-    { canShow: true, name: 'Report', Icon: HiOutlineFlag },
+    { canShow: !isOwner, onClick: onReport, name: 'Report', Icon: HiOutlineFlag },
     { canShow: isOwner, onClick: onEdit, name: 'Edit', Icon: HiOutlinePencil },
     { canShow: isOwner, onClick: handleDelete, name: 'Delete', Icon: HiOutlineTrash },
   ]);
+
+  if (options.length < 1) return null;
 
   return (
     <div className={cn('dropdown dropdown-left md:ml-auto', className)}>

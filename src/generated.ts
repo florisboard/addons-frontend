@@ -190,6 +190,11 @@ export interface ProjectsReleasesStorePayload {
   version_name: string;
 }
 
+export interface ProjectsReportsStorePayload {
+  description: string;
+  type: ReportTypeEnum;
+}
+
 export interface ProjectsReviewsStorePayload {
   description: string;
   score: number;
@@ -264,6 +269,14 @@ export interface ReleasesUpdatePayload {
   description: string;
 }
 
+/** ReportTypeEnum */
+export enum ReportTypeEnum {
+  SPAM = 'SPAM',
+  MISINFORMATION = 'MISINFORMATION',
+  HARASSMENT = 'HARASSMENT',
+  HATE_SPEECH = 'HATE_SPEECH',
+}
+
 /** ReviewResource */
 export interface ReviewResource {
   created_at: string;
@@ -286,6 +299,11 @@ export interface ReviewsIndexParams {
   };
   page?: number | null;
   sort?: 'id' | '-id';
+}
+
+export interface ReviewsReportsStorePayload {
+  description: string;
+  type: ReportTypeEnum;
 }
 
 export interface ReviewsUpdatePayload {
@@ -973,7 +991,7 @@ export class Api<SecurityDataType extends unknown> {
     /**
      * No description
      *
-     * @tags Image
+     * @tags ProjectImage
      * @name ProjectsImageDestroy
      * @request DELETE:/projects/{project}/image
      */
@@ -1003,7 +1021,7 @@ export class Api<SecurityDataType extends unknown> {
     /**
      * No description
      *
-     * @tags Image
+     * @tags ProjectImage
      * @name ProjectsImageStore
      * @request POST:/projects/{project}/image
      */
@@ -1117,6 +1135,41 @@ export class Api<SecurityDataType extends unknown> {
           }
       >({
         path: `/projects/${project}/releases`,
+        method: 'POST',
+        body: data,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags ProjectReport
+     * @name ProjectsReportsStore
+     * @request POST:/projects/{project}/reports
+     */
+    projectsReportsStore: (
+      project: number,
+      data: ProjectsReportsStorePayload,
+      params: RequestParams = {},
+    ) =>
+      this.http.request<
+        {
+          message: string;
+        },
+        | {
+            /** Error overview. */
+            message: string;
+          }
+        | {
+            /** A detailed description of each field that failed validation. */
+            errors: Record<string, string[]>;
+            /** Errors overview. */
+            message: string;
+          }
+      >({
+        path: `/projects/${project}/reports`,
         method: 'POST',
         body: data,
         type: ContentType.Json,
@@ -1489,6 +1542,41 @@ export class Api<SecurityDataType extends unknown> {
         path: `/reviews`,
         method: 'GET',
         query: query,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags ReviewReport
+     * @name ReviewsReportsStore
+     * @request POST:/reviews/{review}/reports
+     */
+    reviewsReportsStore: (
+      review: number,
+      data: ReviewsReportsStorePayload,
+      params: RequestParams = {},
+    ) =>
+      this.http.request<
+        {
+          message: string;
+        },
+        | {
+            /** Error overview. */
+            message: string;
+          }
+        | {
+            /** A detailed description of each field that failed validation. */
+            errors: Record<string, string[]>;
+            /** Errors overview. */
+            message: string;
+          }
+      >({
+        path: `/reviews/${review}/reports`,
+        method: 'POST',
+        body: data,
+        type: ContentType.Json,
         format: 'json',
         ...params,
       }),
