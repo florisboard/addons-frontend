@@ -3,7 +3,7 @@ import { DomainsStorePayload } from '@/generated';
 import api from '@/libs/api';
 
 async function createDomain(data: DomainsStorePayload) {
-  const resp = await api.domains.domainsStore(data);
+  const resp = await api.v1.domainsStore(data);
   return resp.data;
 }
 

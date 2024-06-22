@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import api from '@/libs/api';
 
 async function verifyDomain(id: number) {
-  const resp = await api.domains.domainsVerifyStore(id, {});
+  const resp = await api.v1.domainsVerifyStore(id, {});
   return resp.data;
 }
 

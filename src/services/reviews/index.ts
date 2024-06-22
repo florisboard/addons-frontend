@@ -4,7 +4,7 @@ import api from '@/libs/api';
 import { getNextPageParam } from '@/utils';
 
 async function getReviews(params: ReviewsIndexParams) {
-  const resp = await api.reviews.reviewsIndex(params);
+  const resp = await api.v1.reviewsIndex(params);
   return resp.data;
 }
 

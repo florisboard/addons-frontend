@@ -4,7 +4,7 @@ import api from '@/libs/api';
 import { getNextPageParam } from '@/utils';
 
 async function getCollections(params?: CollectionsIndexParams) {
-  const resp = await api.collections.collectionsIndex({ ...params });
+  const resp = await api.v1.collectionsIndex({ ...params });
   return resp.data;
 }
 

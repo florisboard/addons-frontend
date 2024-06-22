@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import api from '@/libs/api';
 
 async function getMe() {
-  const resp = await api.users.usersMe();
+  const resp = await api.v1.usersMe();
   return resp.data;
 }
 

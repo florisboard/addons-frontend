@@ -35,7 +35,7 @@ export default function ReportModal({ reportable }: ReportModalProps) {
   const modalId = generateReportModalId(reportable);
   const { mutate, isPending } = useMutation({
     mutationFn: async (values: ReviewsReportsStorePayload) => {
-      await api.http.instance.post(`${reportable.resource}/${reportable.id}/reports`, values);
+      await api.http.instance.post(`v1/${reportable.resource}/${reportable.id}/reports`, values);
     },
   });
 

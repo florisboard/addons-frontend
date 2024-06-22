@@ -7,7 +7,7 @@ type TProjectScreenshotsCreate = ProjectsScreenshotsStorePayload & {
 };
 
 export async function createScreenshots({ projectId, ...data }: TProjectScreenshotsCreate) {
-  const resp = await api.projects.projectsScreenshotsStore(projectId, data);
+  const resp = await api.v1.projectsScreenshotsStore(projectId, data);
   return resp.data;
 }
 

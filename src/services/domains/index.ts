@@ -3,7 +3,7 @@ import { DomainsIndexParams } from '@/generated';
 import api from '@/libs/api';
 
 export async function getDomains(params?: DomainsIndexParams) {
-  const resp = await api.domains.domainsIndex({ ...params });
+  const resp = await api.v1.domainsIndex({ ...params });
   return resp.data;
 }
 

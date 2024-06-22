@@ -4,7 +4,7 @@ import api from '@/libs/api';
 import { getNextPageParam } from '@/utils';
 
 export async function getProjects(params?: ProjectsIndexParams) {
-  const resp = await api.projects.projectsIndex({ ...params });
+  const resp = await api.v1.projectsIndex({ ...params });
   return resp.data;
 }
 

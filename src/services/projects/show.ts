@@ -3,7 +3,7 @@ import api from '@/libs/api';
 import { serverSideCache } from '..';
 
 export async function getProject(id: number) {
-  const resp = await api.projects.projectsShow(id);
+  const resp = await api.v1.projectsShow(id);
   return resp.data;
 }
 

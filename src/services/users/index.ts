@@ -4,7 +4,7 @@ import api from '@/libs/api';
 import { getNextPageParam } from '@/utils';
 
 async function getUsers(params?: UsersIndexParams) {
-  const resp = await api.users.usersIndex({ ...params });
+  const resp = await api.v1.usersIndex({ ...params });
   return resp.data;
 }
 

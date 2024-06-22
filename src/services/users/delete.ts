@@ -3,7 +3,7 @@ import { UsersMeDestroyPayload } from '@/generated';
 import api from '@/libs/api';
 
 async function deleteAccount(data: UsersMeDestroyPayload) {
-  const resp = await api.users.usersMeDestroy(data);
+  const resp = await api.v1.usersMeDestroy(data);
   return resp.data;
 }
 

@@ -2,7 +2,7 @@ import { useSuspenseQuery } from '@tanstack/react-query';
 import api from '@/libs/api';
 
 async function getCollection(id: number) {
-  const resp = await api.collections.collectionsShow(id);
+  const resp = await api.v1.collectionsShow(id);
   return resp.data;
 }
 

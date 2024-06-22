@@ -7,7 +7,7 @@ type TProjectUpdate = ProjectsUpdatePayload & {
 };
 
 export async function editProject({ projectId, ...data }: TProjectUpdate) {
-  const resp = await api.projects.projectsUpdate(projectId, data);
+  const resp = await api.v1.projectsUpdate(projectId, data);
   return resp.data;
 }
 

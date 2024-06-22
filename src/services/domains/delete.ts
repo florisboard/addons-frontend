@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import api from '@/libs/api';
 
 async function deleteDomain(id: number) {
-  const resp = await api.domains.domainsDestroy(id, {});
+  const resp = await api.v1.domainsDestroy(id, {});
   return resp.data;
 }
 

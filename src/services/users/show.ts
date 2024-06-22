@@ -2,7 +2,7 @@ import { useSuspenseQuery } from '@tanstack/react-query';
 import api from '@/libs/api';
 
 async function getUser(username: string) {
-  const resp = await api.users.usersShow(username);
+  const resp = await api.v1.usersShow(username);
   return resp.data;
 }
 

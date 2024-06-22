@@ -7,7 +7,7 @@ type TProjectScreenshotsDelete = {
 };
 
 export async function deleteScreenshot({ projectId, mediaId }: TProjectScreenshotsDelete) {
-  const resp = await api.projects.projectsScreenshotsDestroy(projectId, mediaId, {});
+  const resp = await api.v1.projectsScreenshotsDestroy(projectId, mediaId, {});
   return resp.data;
 }
 

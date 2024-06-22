@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 import api from '@/libs/api';
 
 async function getDownloadLink(releaseId: number) {
-  const resp = await api.releases.releasesDownload(releaseId);
+  const resp = await api.v1.releasesDownload(releaseId);
   return resp.data;
 }
 

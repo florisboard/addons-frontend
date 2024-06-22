@@ -7,7 +7,7 @@ type TReleaseCreate = ProjectsReleasesStorePayload & {
 };
 
 export async function createRelease({ projectId, ...data }: TReleaseCreate) {
-  const resp = await api.projects.projectsReleasesStore(projectId, data);
+  const resp = await api.v1.projectsReleasesStore(projectId, data);
   return resp.data;
 }
 

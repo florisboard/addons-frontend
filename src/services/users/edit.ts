@@ -3,7 +3,7 @@ import { UsersMeUpdatePayload } from '@/generated';
 import api from '@/libs/api';
 
 export async function editMe(data: UsersMeUpdatePayload) {
-  const resp = await api.users.usersMeUpdate(data);
+  const resp = await api.v1.usersMeUpdate(data);
   return resp.data;
 }
 

@@ -44,6 +44,12 @@ export interface CategoryResource {
   title: string;
 }
 
+/** CheckUpdateResource */
+export interface CheckUpdateResource {
+  latest_release: ReleaseFullResource | null;
+  project: ProjectSlimResource;
+}
+
 /** CollectionResource */
 export interface CollectionResource {
   created_at: string;
@@ -158,6 +164,15 @@ export interface ProjectResource {
   user_id: number | null;
 }
 
+/** ProjectSlimResource */
+export interface ProjectSlimResource {
+  id: string;
+  package_name: string;
+  short_description: string;
+  title: string;
+  type: string;
+}
+
 /** ProjectTypeEnum */
 export enum ProjectTypeEnum {
   EXTENSION = 'EXTENSION',
@@ -238,6 +253,7 @@ export interface ProjectsUpdatePayload {
 export interface ReleaseFullResource {
   created_at: string;
   description: string;
+  download_link: string;
   downloads_count: number;
   id: number;
   project_id: number;
@@ -310,6 +326,11 @@ export interface ReviewsUpdatePayload {
   description: string;
   score: number;
   title: string;
+}
+
+export interface UpdatesCheckParams {
+  projects: string[];
+  versions: string[];
 }
 
 export interface UploadsProcessPayload {
@@ -483,7 +504,7 @@ export class HttpClient<SecurityDataType = unknown> {
 
 /**
  * @title FlorisBoard Addons
- * @version 0.0.1
+ * @version 1.0.0
  * @baseUrl http://localhost/api
  */
 export class Api<SecurityDataType extends unknown> {
@@ -546,13 +567,13 @@ export class Api<SecurityDataType extends unknown> {
         ...params,
       }),
   };
-  categories = {
+  v1 = {
     /**
      * No description
      *
      * @tags Category
      * @name CategoriesIndex
-     * @request GET:/categories
+     * @request GET:/v1/categories
      */
     categoriesIndex: (query: CategoriesIndexParams, params: RequestParams = {}) =>
       this.http.request<
@@ -591,7 +612,7 @@ export class Api<SecurityDataType extends unknown> {
           message: string;
         }
       >({
-        path: `/categories`,
+        path: `/v1/categories`,
         method: 'GET',
         query: query,
         format: 'json',
@@ -603,7 +624,7 @@ export class Api<SecurityDataType extends unknown> {
      *
      * @tags Category
      * @name CategoriesShow
-     * @request GET:/categories/{category}
+     * @request GET:/v1/categories/{category}
      */
     categoriesShow: (category: number, params: RequestParams = {}) =>
       this.http.request<
@@ -613,19 +634,18 @@ export class Api<SecurityDataType extends unknown> {
           message: string;
         }
       >({
-        path: `/categories/${category}`,
+        path: `/v1/categories/${category}`,
         method: 'GET',
         format: 'json',
         ...params,
       }),
-  };
-  collections = {
+
     /**
      * No description
      *
      * @tags Collection
      * @name CollectionsDestroy
-     * @request DELETE:/collections/{collection}
+     * @request DELETE:/v1/collections/{collection}
      */
     collectionsDestroy: (
       collection: number,
@@ -639,7 +659,7 @@ export class Api<SecurityDataType extends unknown> {
           message: string;
         }
       >({
-        path: `/collections/${collection}`,
+        path: `/v1/collections/${collection}`,
         method: 'DELETE',
         body: data,
         type: ContentType.Json,
@@ -652,7 +672,7 @@ export class Api<SecurityDataType extends unknown> {
      *
      * @tags Collection
      * @name CollectionsIndex
-     * @request GET:/collections
+     * @request GET:/v1/collections
      */
     collectionsIndex: (query: CollectionsIndexParams, params: RequestParams = {}) =>
       this.http.request<
@@ -691,7 +711,7 @@ export class Api<SecurityDataType extends unknown> {
           message: string;
         }
       >({
-        path: `/collections`,
+        path: `/v1/collections`,
         method: 'GET',
         query: query,
         format: 'json',
@@ -703,7 +723,7 @@ export class Api<SecurityDataType extends unknown> {
      *
      * @tags Collection
      * @name CollectionsShow
-     * @request GET:/collections/{collection}
+     * @request GET:/v1/collections/{collection}
      */
     collectionsShow: (collection: number, params: RequestParams = {}) =>
       this.http.request<
@@ -713,7 +733,7 @@ export class Api<SecurityDataType extends unknown> {
           message: string;
         }
       >({
-        path: `/collections/${collection}`,
+        path: `/v1/collections/${collection}`,
         method: 'GET',
         format: 'json',
         ...params,
@@ -724,11 +744,11 @@ export class Api<SecurityDataType extends unknown> {
      *
      * @tags Collection
      * @name CollectionsStore
-     * @request POST:/collections
+     * @request POST:/v1/collections
      */
     collectionsStore: (data: CollectionsStorePayload, params: RequestParams = {}) =>
       this.http.request<object, any>({
-        path: `/collections`,
+        path: `/v1/collections`,
         method: 'POST',
         body: data,
         type: ContentType.Json,
@@ -741,7 +761,7 @@ export class Api<SecurityDataType extends unknown> {
      *
      * @tags Collection
      * @name CollectionsUpdate
-     * @request PUT:/collections/{collection}
+     * @request PUT:/v1/collections/{collection}
      */
     collectionsUpdate: (
       collection: number,
@@ -755,21 +775,20 @@ export class Api<SecurityDataType extends unknown> {
           message: string;
         }
       >({
-        path: `/collections/${collection}`,
+        path: `/v1/collections/${collection}`,
         method: 'PUT',
         body: data,
         type: ContentType.Json,
         format: 'json',
         ...params,
       }),
-  };
-  domains = {
+
     /**
      * No description
      *
      * @tags Domain
      * @name DomainsDestroy
-     * @request DELETE:/domains/{domain}
+     * @request DELETE:/v1/domains/{domain}
      */
     domainsDestroy: (domain: number, data: DomainsDestroyPayload, params: RequestParams = {}) =>
       this.http.request<
@@ -782,7 +801,7 @@ export class Api<SecurityDataType extends unknown> {
           message: string;
         }
       >({
-        path: `/domains/${domain}`,
+        path: `/v1/domains/${domain}`,
         method: 'DELETE',
         body: data,
         type: ContentType.Json,
@@ -795,7 +814,7 @@ export class Api<SecurityDataType extends unknown> {
      *
      * @tags Domain
      * @name DomainsIndex
-     * @request GET:/domains
+     * @request GET:/v1/domains
      */
     domainsIndex: (query: DomainsIndexParams, params: RequestParams = {}) =>
       this.http.request<
@@ -838,7 +857,7 @@ export class Api<SecurityDataType extends unknown> {
             message: string;
           }
       >({
-        path: `/domains`,
+        path: `/v1/domains`,
         method: 'GET',
         query: query,
         format: 'json',
@@ -850,7 +869,7 @@ export class Api<SecurityDataType extends unknown> {
      *
      * @tags Domain
      * @name DomainsStore
-     * @request POST:/domains
+     * @request POST:/v1/domains
      */
     domainsStore: (data: DomainsStorePayload, params: RequestParams = {}) =>
       this.http.request<
@@ -866,7 +885,7 @@ export class Api<SecurityDataType extends unknown> {
             message: string;
           }
       >({
-        path: `/domains`,
+        path: `/v1/domains`,
         method: 'POST',
         body: data,
         type: ContentType.Json,
@@ -879,7 +898,7 @@ export class Api<SecurityDataType extends unknown> {
      *
      * @tags DomainVerify
      * @name DomainsVerifyStore
-     * @request POST:/domains/{domain}/verify
+     * @request POST:/v1/domains/{domain}/verify
      */
     domainsVerifyStore: (
       domain: number,
@@ -902,47 +921,20 @@ export class Api<SecurityDataType extends unknown> {
             message: string;
           }
       >({
-        path: `/domains/${domain}/verify`,
+        path: `/v1/domains/${domain}/verify`,
         method: 'POST',
         body: data,
         type: ContentType.Json,
         format: 'json',
         ...params,
       }),
-  };
-  uploads = {
-    /**
-     * No description
-     *
-     * @tags FileUpload
-     * @name UploadsProcess
-     * @request POST:/uploads/process
-     */
-    uploadsProcess: (data: UploadsProcessPayload, params: RequestParams = {}) =>
-      this.http.request<
-        string,
-        {
-          /** A detailed description of each field that failed validation. */
-          errors: Record<string, string[]>;
-          /** Errors overview. */
-          message: string;
-        }
-      >({
-        path: `/uploads/process`,
-        method: 'POST',
-        body: data,
-        type: ContentType.FormData,
-        format: 'json',
-        ...params,
-      }),
-  };
-  home = {
+
     /**
      * No description
      *
      * @tags Home
      * @name Home
-     * @request GET:/home
+     * @request GET:/v1/home
      */
     home: (params: RequestParams = {}) =>
       this.http.request<
@@ -955,19 +947,18 @@ export class Api<SecurityDataType extends unknown> {
         },
         any
       >({
-        path: `/home`,
+        path: `/v1/home`,
         method: 'GET',
         format: 'json',
         ...params,
       }),
-  };
-  projects = {
+
     /**
      * No description
      *
      * @tags Project
      * @name ProjectsDestroy
-     * @request DELETE:/projects/{project}
+     * @request DELETE:/v1/projects/{project}
      */
     projectsDestroy: (project: number, data: ProjectsDestroyPayload, params: RequestParams = {}) =>
       this.http.request<
@@ -980,7 +971,7 @@ export class Api<SecurityDataType extends unknown> {
           message: string;
         }
       >({
-        path: `/projects/${project}`,
+        path: `/v1/projects/${project}`,
         method: 'DELETE',
         body: data,
         type: ContentType.Json,
@@ -993,7 +984,7 @@ export class Api<SecurityDataType extends unknown> {
      *
      * @tags ProjectImage
      * @name ProjectsImageDestroy
-     * @request DELETE:/projects/{project}/image
+     * @request DELETE:/v1/projects/{project}/image
      */
     projectsImageDestroy: (
       project: number,
@@ -1010,7 +1001,7 @@ export class Api<SecurityDataType extends unknown> {
           message: string;
         }
       >({
-        path: `/projects/${project}/image`,
+        path: `/v1/projects/${project}/image`,
         method: 'DELETE',
         body: data,
         type: ContentType.Json,
@@ -1023,7 +1014,7 @@ export class Api<SecurityDataType extends unknown> {
      *
      * @tags ProjectImage
      * @name ProjectsImageStore
-     * @request POST:/projects/{project}/image
+     * @request POST:/v1/projects/{project}/image
      */
     projectsImageStore: (
       project: number,
@@ -1046,7 +1037,7 @@ export class Api<SecurityDataType extends unknown> {
             message: string;
           }
       >({
-        path: `/projects/${project}/image`,
+        path: `/v1/projects/${project}/image`,
         method: 'POST',
         body: data,
         type: ContentType.Json,
@@ -1059,7 +1050,7 @@ export class Api<SecurityDataType extends unknown> {
      *
      * @tags Project
      * @name ProjectsIndex
-     * @request GET:/projects
+     * @request GET:/v1/projects
      */
     projectsIndex: (query: ProjectsIndexParams, params: RequestParams = {}) =>
       this.http.request<
@@ -1102,7 +1093,7 @@ export class Api<SecurityDataType extends unknown> {
             message: string;
           }
       >({
-        path: `/projects`,
+        path: `/v1/projects`,
         method: 'GET',
         query: query,
         format: 'json',
@@ -1114,7 +1105,7 @@ export class Api<SecurityDataType extends unknown> {
      *
      * @tags Release
      * @name ProjectsReleasesStore
-     * @request POST:/projects/{project}/releases
+     * @request POST:/v1/projects/{project}/releases
      */
     projectsReleasesStore: (
       project: number,
@@ -1134,7 +1125,7 @@ export class Api<SecurityDataType extends unknown> {
             message: string;
           }
       >({
-        path: `/projects/${project}/releases`,
+        path: `/v1/projects/${project}/releases`,
         method: 'POST',
         body: data,
         type: ContentType.Json,
@@ -1147,7 +1138,7 @@ export class Api<SecurityDataType extends unknown> {
      *
      * @tags ProjectReport
      * @name ProjectsReportsStore
-     * @request POST:/projects/{project}/reports
+     * @request POST:/v1/projects/{project}/reports
      */
     projectsReportsStore: (
       project: number,
@@ -1169,7 +1160,7 @@ export class Api<SecurityDataType extends unknown> {
             message: string;
           }
       >({
-        path: `/projects/${project}/reports`,
+        path: `/v1/projects/${project}/reports`,
         method: 'POST',
         body: data,
         type: ContentType.Json,
@@ -1182,7 +1173,7 @@ export class Api<SecurityDataType extends unknown> {
      *
      * @tags Review
      * @name ProjectsReviewsStore
-     * @request POST:/projects/{project}/reviews
+     * @request POST:/v1/projects/{project}/reviews
      */
     projectsReviewsStore: (
       project: number,
@@ -1202,7 +1193,7 @@ export class Api<SecurityDataType extends unknown> {
             message: string;
           }
       >({
-        path: `/projects/${project}/reviews`,
+        path: `/v1/projects/${project}/reviews`,
         method: 'POST',
         body: data,
         type: ContentType.Json,
@@ -1215,7 +1206,7 @@ export class Api<SecurityDataType extends unknown> {
      *
      * @tags Screenshot
      * @name ProjectsScreenshotsDestroy
-     * @request DELETE:/projects/{project}/screenshots/{media}
+     * @request DELETE:/v1/projects/{project}/screenshots/{media}
      */
     projectsScreenshotsDestroy: (
       project: number,
@@ -1233,7 +1224,7 @@ export class Api<SecurityDataType extends unknown> {
           message: string;
         }
       >({
-        path: `/projects/${project}/screenshots/${media}`,
+        path: `/v1/projects/${project}/screenshots/${media}`,
         method: 'DELETE',
         body: data,
         type: ContentType.Json,
@@ -1246,7 +1237,7 @@ export class Api<SecurityDataType extends unknown> {
      *
      * @tags Screenshot
      * @name ProjectsScreenshotsStore
-     * @request POST:/projects/{project}/screenshots
+     * @request POST:/v1/projects/{project}/screenshots
      */
     projectsScreenshotsStore: (
       project: number,
@@ -1269,7 +1260,7 @@ export class Api<SecurityDataType extends unknown> {
             message: string;
           }
       >({
-        path: `/projects/${project}/screenshots`,
+        path: `/v1/projects/${project}/screenshots`,
         method: 'POST',
         body: data,
         type: ContentType.Json,
@@ -1282,7 +1273,7 @@ export class Api<SecurityDataType extends unknown> {
      *
      * @tags Project
      * @name ProjectsShow
-     * @request GET:/projects/{project}
+     * @request GET:/v1/projects/{project}
      */
     projectsShow: (project: number, params: RequestParams = {}) =>
       this.http.request<
@@ -1292,7 +1283,7 @@ export class Api<SecurityDataType extends unknown> {
           message: string;
         }
       >({
-        path: `/projects/${project}`,
+        path: `/v1/projects/${project}`,
         method: 'GET',
         format: 'json',
         ...params,
@@ -1303,7 +1294,7 @@ export class Api<SecurityDataType extends unknown> {
      *
      * @tags Project
      * @name ProjectsStore
-     * @request POST:/projects
+     * @request POST:/v1/projects
      */
     projectsStore: (data: ProjectsStorePayload, params: RequestParams = {}) =>
       this.http.request<
@@ -1319,7 +1310,7 @@ export class Api<SecurityDataType extends unknown> {
             message: string;
           }
       >({
-        path: `/projects`,
+        path: `/v1/projects`,
         method: 'POST',
         body: data,
         type: ContentType.Json,
@@ -1332,7 +1323,7 @@ export class Api<SecurityDataType extends unknown> {
      *
      * @tags Project
      * @name ProjectsUpdate
-     * @request PUT:/projects/{project}
+     * @request PUT:/v1/projects/{project}
      */
     projectsUpdate: (project: number, data: ProjectsUpdatePayload, params: RequestParams = {}) =>
       this.http.request<
@@ -1348,21 +1339,20 @@ export class Api<SecurityDataType extends unknown> {
             message: string;
           }
       >({
-        path: `/projects/${project}`,
+        path: `/v1/projects/${project}`,
         method: 'PUT',
         body: data,
         type: ContentType.Json,
         format: 'json',
         ...params,
       }),
-  };
-  releases = {
+
     /**
      * No description
      *
      * @tags Release
      * @name ReleasesDownload
-     * @request GET:/releases/{release}/download
+     * @request GET:/v1/releases/{release}/download
      */
     releasesDownload: (release: number, params: RequestParams = {}) =>
       this.http.request<
@@ -1374,7 +1364,7 @@ export class Api<SecurityDataType extends unknown> {
           message: string;
         }
       >({
-        path: `/releases/${release}/download`,
+        path: `/v1/releases/${release}/download`,
         method: 'GET',
         format: 'json',
         ...params,
@@ -1385,7 +1375,7 @@ export class Api<SecurityDataType extends unknown> {
      *
      * @tags Release
      * @name ReleasesIndex
-     * @request GET:/releases
+     * @request GET:/v1/releases
      */
     releasesIndex: (query: ReleasesIndexParams, params: RequestParams = {}) =>
       this.http.request<
@@ -1428,7 +1418,7 @@ export class Api<SecurityDataType extends unknown> {
             message: string;
           }
       >({
-        path: `/releases`,
+        path: `/v1/releases`,
         method: 'GET',
         query: query,
         format: 'json',
@@ -1440,7 +1430,7 @@ export class Api<SecurityDataType extends unknown> {
      *
      * @tags Release
      * @name ReleasesUpdate
-     * @request PUT:/releases/{release}
+     * @request PUT:/v1/releases/{release}
      */
     releasesUpdate: (release: number, data: ReleasesUpdatePayload, params: RequestParams = {}) =>
       this.http.request<
@@ -1456,21 +1446,20 @@ export class Api<SecurityDataType extends unknown> {
             message: string;
           }
       >({
-        path: `/releases/${release}`,
+        path: `/v1/releases/${release}`,
         method: 'PUT',
         body: data,
         type: ContentType.Json,
         format: 'json',
         ...params,
       }),
-  };
-  reviews = {
+
     /**
      * No description
      *
      * @tags Review
      * @name ReviewsDestroy
-     * @request DELETE:/reviews/{review}
+     * @request DELETE:/v1/reviews/{review}
      */
     reviewsDestroy: (review: number, data: ReviewsDestroyPayload, params: RequestParams = {}) =>
       this.http.request<
@@ -1483,7 +1472,7 @@ export class Api<SecurityDataType extends unknown> {
           message: string;
         }
       >({
-        path: `/reviews/${review}`,
+        path: `/v1/reviews/${review}`,
         method: 'DELETE',
         body: data,
         type: ContentType.Json,
@@ -1496,7 +1485,7 @@ export class Api<SecurityDataType extends unknown> {
      *
      * @tags Review
      * @name ReviewsIndex
-     * @request GET:/reviews
+     * @request GET:/v1/reviews
      */
     reviewsIndex: (query: ReviewsIndexParams, params: RequestParams = {}) =>
       this.http.request<
@@ -1539,7 +1528,7 @@ export class Api<SecurityDataType extends unknown> {
             message: string;
           }
       >({
-        path: `/reviews`,
+        path: `/v1/reviews`,
         method: 'GET',
         query: query,
         format: 'json',
@@ -1551,7 +1540,7 @@ export class Api<SecurityDataType extends unknown> {
      *
      * @tags ReviewReport
      * @name ReviewsReportsStore
-     * @request POST:/reviews/{review}/reports
+     * @request POST:/v1/reviews/{review}/reports
      */
     reviewsReportsStore: (
       review: number,
@@ -1573,7 +1562,7 @@ export class Api<SecurityDataType extends unknown> {
             message: string;
           }
       >({
-        path: `/reviews/${review}/reports`,
+        path: `/v1/reviews/${review}/reports`,
         method: 'POST',
         body: data,
         type: ContentType.Json,
@@ -1586,7 +1575,7 @@ export class Api<SecurityDataType extends unknown> {
      *
      * @tags Review
      * @name ReviewsShow
-     * @request GET:/reviews/{review}
+     * @request GET:/v1/reviews/{review}
      */
     reviewsShow: (review: number, params: RequestParams = {}) =>
       this.http.request<
@@ -1596,7 +1585,7 @@ export class Api<SecurityDataType extends unknown> {
           message: string;
         }
       >({
-        path: `/reviews/${review}`,
+        path: `/v1/reviews/${review}`,
         method: 'GET',
         format: 'json',
         ...params,
@@ -1607,7 +1596,7 @@ export class Api<SecurityDataType extends unknown> {
      *
      * @tags Review
      * @name ReviewsUpdate
-     * @request PUT:/reviews/{review}
+     * @request PUT:/v1/reviews/{review}
      */
     reviewsUpdate: (review: number, data: ReviewsUpdatePayload, params: RequestParams = {}) =>
       this.http.request<
@@ -1623,21 +1612,71 @@ export class Api<SecurityDataType extends unknown> {
             message: string;
           }
       >({
-        path: `/reviews/${review}`,
+        path: `/v1/reviews/${review}`,
         method: 'PUT',
         body: data,
         type: ContentType.Json,
         format: 'json',
         ...params,
       }),
-  };
-  users = {
+
+    /**
+     * No description
+     *
+     * @tags CheckUpdates
+     * @name UpdatesCheck
+     * @request GET:/v1/check-updates
+     */
+    updatesCheck: (query: UpdatesCheckParams, params: RequestParams = {}) =>
+      this.http.request<
+        {
+          data: CheckUpdateResource[];
+        },
+        {
+          /** A detailed description of each field that failed validation. */
+          errors: Record<string, string[]>;
+          /** Errors overview. */
+          message: string;
+        }
+      >({
+        path: `/v1/check-updates`,
+        method: 'GET',
+        query: query,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags FileUpload
+     * @name UploadsProcess
+     * @request POST:/v1/uploads/process
+     */
+    uploadsProcess: (data: UploadsProcessPayload, params: RequestParams = {}) =>
+      this.http.request<
+        string,
+        {
+          /** A detailed description of each field that failed validation. */
+          errors: Record<string, string[]>;
+          /** Errors overview. */
+          message: string;
+        }
+      >({
+        path: `/v1/uploads/process`,
+        method: 'POST',
+        body: data,
+        type: ContentType.FormData,
+        format: 'json',
+        ...params,
+      }),
+
     /**
      * No description
      *
      * @tags User
      * @name UsersIndex
-     * @request GET:/users
+     * @request GET:/v1/users
      */
     usersIndex: (query: UsersIndexParams, params: RequestParams = {}) =>
       this.http.request<
@@ -1676,7 +1715,7 @@ export class Api<SecurityDataType extends unknown> {
           message: string;
         }
       >({
-        path: `/users`,
+        path: `/v1/users`,
         method: 'GET',
         query: query,
         format: 'json',
@@ -1688,11 +1727,11 @@ export class Api<SecurityDataType extends unknown> {
      *
      * @tags User
      * @name UsersMe
-     * @request GET:/users/me
+     * @request GET:/v1/users/me
      */
     usersMe: (params: RequestParams = {}) =>
       this.http.request<AuthResource, any>({
-        path: `/users/me`,
+        path: `/v1/users/me`,
         method: 'GET',
         format: 'json',
         ...params,
@@ -1703,7 +1742,7 @@ export class Api<SecurityDataType extends unknown> {
      *
      * @tags User
      * @name UsersMeDestroy
-     * @request POST:/users/me/delete
+     * @request POST:/v1/users/me/delete
      */
     usersMeDestroy: (data: UsersMeDestroyPayload, params: RequestParams = {}) =>
       this.http.request<
@@ -1718,7 +1757,7 @@ export class Api<SecurityDataType extends unknown> {
           message: string;
         }
       >({
-        path: `/users/me/delete`,
+        path: `/v1/users/me/delete`,
         method: 'POST',
         body: data,
         type: ContentType.Json,
@@ -1731,7 +1770,7 @@ export class Api<SecurityDataType extends unknown> {
      *
      * @tags User
      * @name UsersMeUpdate
-     * @request PUT:/users/me
+     * @request PUT:/v1/users/me
      */
     usersMeUpdate: (data: UsersMeUpdatePayload, params: RequestParams = {}) =>
       this.http.request<
@@ -1743,7 +1782,7 @@ export class Api<SecurityDataType extends unknown> {
           message: string;
         }
       >({
-        path: `/users/me`,
+        path: `/v1/users/me`,
         method: 'PUT',
         body: data,
         type: ContentType.Json,
@@ -1756,7 +1795,7 @@ export class Api<SecurityDataType extends unknown> {
      *
      * @tags User
      * @name UsersShow
-     * @request GET:/users/{user}
+     * @request GET:/v1/users/{user}
      */
     usersShow: (user: string, params: RequestParams = {}) =>
       this.http.request<
@@ -1766,7 +1805,7 @@ export class Api<SecurityDataType extends unknown> {
           message: string;
         }
       >({
-        path: `/users/${user}`,
+        path: `/v1/users/${user}`,
         method: 'GET',
         format: 'json',
         ...params,

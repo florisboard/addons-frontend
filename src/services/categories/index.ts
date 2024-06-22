@@ -4,7 +4,7 @@ import api from '@/libs/api';
 import { getNextPageParam } from '@/utils';
 
 async function categories(params?: CategoriesIndexParams) {
-  const resp = await api.categories.categoriesIndex({ ...params });
+  const resp = await api.v1.categoriesIndex({ ...params });
   return resp.data;
 }
 

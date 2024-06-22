@@ -7,7 +7,7 @@ type TProjectImageCreate = ProjectsImageStorePayload & {
 };
 
 export async function createImage({ projectId, ...data }: TProjectImageCreate) {
-  const resp = await api.projects.projectsImageStore(projectId, data);
+  const resp = await api.v1.projectsImageStore(projectId, data);
   return resp.data;
 }
 

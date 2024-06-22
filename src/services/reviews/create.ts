@@ -7,7 +7,7 @@ type TReviewCreate = ProjectsReviewsStorePayload & {
 };
 
 async function createReview({ projectId, ...data }: TReviewCreate) {
-  const resp = await api.projects.projectsReviewsStore(projectId, data);
+  const resp = await api.v1.projectsReviewsStore(projectId, data);
   return resp.data;
 }
 

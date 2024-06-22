@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import api from '@/libs/api';
 
 async function getHome() {
-  const resp = await api.home.home();
+  const resp = await api.v1.home();
   return resp.data;
 }
 

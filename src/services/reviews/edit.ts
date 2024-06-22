@@ -7,7 +7,7 @@ type TReviewEdit = ProjectsReviewsStorePayload & {
 };
 
 async function editReview({ reviewId, ...data }: TReviewEdit) {
-  const resp = await api.reviews.reviewsUpdate(reviewId, data);
+  const resp = await api.v1.reviewsUpdate(reviewId, data);
   return resp.data;
 }
 

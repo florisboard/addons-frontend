@@ -4,7 +4,7 @@ import api from '@/libs/api';
 import { getNextPageParam } from '@/utils';
 
 async function getReleases(params?: ReleasesIndexParams) {
-  const resp = await api.releases.releasesIndex({ ...params });
+  const resp = await api.v1.releasesIndex({ ...params });
   return resp.data;
 }
 

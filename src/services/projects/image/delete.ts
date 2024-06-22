@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 import api from '@/libs/api';
 
 export async function deleteImage(projectId: number) {
-  const resp = await api.projects.projectsImageDestroy(projectId, {});
+  const resp = await api.v1.projectsImageDestroy(projectId, {});
   return resp.data;
 }
 

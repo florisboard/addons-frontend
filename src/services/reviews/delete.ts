@@ -3,7 +3,7 @@ import { ProjectFullResource } from '@/generated';
 import api from '@/libs/api';
 
 async function deleteReview(reviewId: number) {
-  const resp = await api.reviews.reviewsDestroy(reviewId, {});
+  const resp = await api.v1.reviewsDestroy(reviewId, {});
   return resp.data;
 }
 

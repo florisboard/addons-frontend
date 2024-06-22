@@ -3,7 +3,7 @@ import api from '@/libs/api';
 import { serverSideCache } from '..';
 
 async function getCategory(id: number) {
-  const resp = await api.categories.categoriesShow(id);
+  const resp = await api.v1.categoriesShow(id);
   return resp.data;
 }
 

@@ -3,7 +3,7 @@ import { ProjectsStorePayload } from '@/generated';
 import api from '@/libs/api';
 
 export async function createProject(data: ProjectsStorePayload) {
-  const resp = await api.projects.projectsStore(data);
+  const resp = await api.v1.projectsStore(data);
   return resp.data;
 }
 
