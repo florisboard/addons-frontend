@@ -11,7 +11,7 @@ const nextConfig = {
     remotePatterns: [
       { hostname: 'picsum.photos' },
       { hostname: 'localhost' },
-      { hostname: 'api.addons.florisboard.org' },
+      { hostname: 's3.addons.florisboard.org' },
     ],
   },
 };
