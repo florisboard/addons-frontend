@@ -1,4 +1,5 @@
 import React from 'react';
+import { HiInformationCircle } from 'react-icons/hi2';
 import { toast } from 'react-toastify';
 import { Form, Formik } from 'formik';
 import capitalize from 'lodash/capitalize';
@@ -6,6 +7,7 @@ import { useMutation } from '@tanstack/react-query';
 import { ReportTypeEnum, ReviewsReportsStorePayload } from '@/generated';
 import api from '@/libs/api';
 import yup from '@/libs/yup';
+import useMe from '@/services/users/me';
 import Button from '@/shared/forms/Button';
 import Select from '@/shared/forms/Select';
 import Textarea from '@/shared/forms/Textarea';
@@ -32,6 +34,7 @@ const validationSchema = yup.object({
 });
 
 export default function ReportModal({ reportable }: ReportModalProps) {
+  const { data: me } = useMe();
   const modalId = generateReportModalId(reportable);
   const { mutate, isPending } = useMutation({
     mutationFn: async (values: ReviewsReportsStorePayload) => {
@@ -57,35 +60,37 @@ export default function ReportModal({ reportable }: ReportModalProps) {
           );
         }}
       >
-        {({ errors }) => (
-          <Form className="space-y-4">
-            <h3 className="text-2xl font-bold">
-              Report <span className="text-secondary">{reportable.title}</span>
-            </h3>
-            <Select
-              isRequired
-              name="type"
-              label="Type"
-              options={(Object.keys(ReportTypeEnum) as Array<keyof typeof ReportTypeEnum>).map(
-                (value) => ({ value, label: enumToTitle(value) }),
-              )}
-            />
-            <Textarea isRequired name="description" label="Description" />
-            <div className="flex items-center gap-4">
-              <Button className="btn" onClick={() => closeModal(modalId)}>
-                Cancel
-              </Button>
-              <Button
-                isLoading={isPending}
-                disabled={isPending}
-                type="submit"
-                className="btn btn-primary"
-              >
-                Report
-              </Button>
-            </div>
-          </Form>
-        )}
+        <Form className="space-y-4">
+          <h3 className="text-2xl font-bold">
+            Report <span className="text-secondary">{reportable.title}</span>
+          </h3>
+          <div role="alert" className="alert alert-info">
+            <HiInformationCircle className="h-6 w-6" />
+            <span>Please login to your account to report {reportable.title}</span>
+          </div>
+          <Select
+            isRequired
+            name="type"
+            label="Type"
+            options={(Object.keys(ReportTypeEnum) as Array<keyof typeof ReportTypeEnum>).map(
+              (value) => ({ value, label: enumToTitle(value) }),
+            )}
+          />
+          <Textarea isRequired name="description" label="Description" />
+          <div className="flex items-center gap-4">
+            <Button className="btn" onClick={() => closeModal(modalId)}>
+              Cancel
+            </Button>
+            <Button
+              isLoading={isPending}
+              disabled={isPending || !me}
+              type="submit"
+              className="btn btn-primary"
+            >
+              Report
+            </Button>
+          </div>
+        </Form>
       </Formik>
     </DialogModal>
   );
