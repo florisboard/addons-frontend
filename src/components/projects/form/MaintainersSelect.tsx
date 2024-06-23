@@ -32,7 +32,7 @@ export default function MaintainersSelect({ defaultValue, ownerId }: Maintainers
   if (me?.id === ownerId) return null;
 
   return (
-    <FieldWrapper name="maintainers" isRequired={false} label="Maintainers">
+    <FieldWrapper name="maintainers" isRequired={false} label="Additional Maintainers">
       <ReactSelect
         onChange={(values) => {
           setFieldValue(

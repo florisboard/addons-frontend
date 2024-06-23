@@ -46,7 +46,7 @@ const validationSchema = yup.object<ProjectsStorePayload>({
     source_code: validations.url.test(
       'isGithubUrl',
       'This field must start with https://github.com',
-      (value) => Boolean(value) && value?.startsWith('https://github.com'),
+      (value: any) => Boolean(value) && value?.startsWith('https://github.com'),
     ),
   }),
   description: yup.string().required().min(3).max(2024),
