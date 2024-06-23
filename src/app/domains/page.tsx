@@ -29,7 +29,7 @@ export default function Domains() {
           <ol className="list-decimal px-2">
             <li>Copy the verification code of the domain you want to verify.</li>
             <li>Go to your domain name provider management and go to DNS record management.</li>
-            <li>Create a new TXT record and paste the verification code there.</li>
+            <li>Create a new TXT record with host @ and paste the verification code there.</li>
             <li>Wait couple of seconds (or sometimes minutes) and click verify domain.</li>
           </ol>
         </Collapse>
