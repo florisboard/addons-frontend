@@ -13,10 +13,7 @@ export default function Profile() {
   const { mutate: logout } = useLogout();
   const { data: user } = useMe();
 
-  const guestLinks = [
-    { title: 'Login', href: '/login' },
-    { title: 'Register', href: '/register' },
-  ];
+  const guestLinks = [{ title: 'Login/Register', href: '/auth' }];
   const authLinks = compact([
     { title: 'Profile', href: `/users/${user?.username}` },
     { title: 'Domains', href: `/domains` },
