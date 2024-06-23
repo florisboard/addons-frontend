@@ -55,7 +55,7 @@ export default function FileUpload({
           const cancelToken = axios.CancelToken;
 
           axiosInstance
-            .postForm('api/uploads/process', formData, {
+            .postForm('api/v1/uploads/process', formData, {
               cancelToken: cancelToken.source().token,
               onUploadProgress: (e) => progress(true, e.loaded, e.total!),
             })

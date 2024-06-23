@@ -64,10 +64,12 @@ export default function ReportModal({ reportable }: ReportModalProps) {
           <h3 className="text-2xl font-bold">
             Report <span className="text-secondary">{reportable.title}</span>
           </h3>
-          <div role="alert" className="alert alert-info">
-            <HiInformationCircle className="h-6 w-6" />
-            <span>Please login to your account to report {reportable.title}</span>
-          </div>
+          {!me && (
+            <div role="alert" className="alert alert-info">
+              <HiInformationCircle className="h-6 w-6" />
+              <span>Please login to your account to report {reportable.title}</span>
+            </div>
+          )}
           <Select
             isRequired
             name="type"

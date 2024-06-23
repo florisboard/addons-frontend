@@ -8,6 +8,7 @@ import Label from './Label';
 export type FieldProps = {
   name: string;
   label: string;
+  bottomLabel?: { left?: string; right?: string };
   isRequired: boolean;
   children:
     | React.ReactNode
@@ -26,6 +27,7 @@ export default function FieldWrapper({
   label,
   info,
   isRequired,
+  bottomLabel,
   className,
   children,
 }: FieldProps) {
@@ -39,6 +41,12 @@ export default function FieldWrapper({
     <div className={cn('form-control', className)}>
       <Label info={info} isRequired={isRequired} htmlFor={name} label={label} />
       {typeof children === 'function' ? children({ hasError, name, id: name }) : children}
+      {bottomLabel && (
+        <div className="label font-medium">
+          {bottomLabel.left && <span className="label-text-alt">{bottomLabel.left}</span>}
+          {bottomLabel.right && <span className="label-text-alt">{bottomLabel.right}</span>}
+        </div>
+      )}
       <ErrorMessage name={name} />
     </div>
   );

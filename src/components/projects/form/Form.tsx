@@ -21,7 +21,7 @@ import CategoriesSelect from './CategoriesSelect';
 import DomainsSelect from './DomainsSelect';
 import MaintainersSelect from './MaintainersSelect';
 
-export type TProjectValues = ProjectsStorePayload & {
+export type TProjectValues = Omit<ProjectsStorePayload, 'verified_domain_id'> & {
   image_path: string;
   screenshots_path: string[];
   domain_name: string;
@@ -39,7 +39,12 @@ type FormProps = {
 const validationSchema = yup.object<ProjectsStorePayload>({
   category_id: yup.number().required().min(1),
   title: yup.string().required().min(3).max(50),
-  package_name: validations.slug,
+  package_name: yup
+    .string()
+    .min(2)
+    .max(255)
+    .matches(/^[a-z][a-z0-9_]*(\.[a-z0-9][a-z0-9_]*)*$/)
+    .required(),
   short_description: yup.string().required().min(3).max(255),
   type: yup.string().required().oneOf([ProjectTypeEnum.EXTENSION]),
   links: yup.object({
@@ -86,7 +91,7 @@ export default function Form({
           package_name: '',
           short_description: '',
           type: ProjectTypeEnum.EXTENSION,
-          description: '',
+          description: '# Title',
           links: { source_code: '' },
           image_path: '',
           screenshots_path: [],
@@ -97,7 +102,7 @@ export default function Form({
       }
       onSubmit={onSubmit}
     >
-      {({ setFieldValue, values, errors }) => (
+      {({ setFieldValue, values }) => (
         <FormikForm className="space-y-4">
           <Collapse title="Main" contentClassName="grid grid-cols-1 gap-4 md:grid-cols-2">
             <CategoriesSelect
@@ -132,12 +137,16 @@ export default function Form({
             />
           </Collapse>
           {mode === 'create' && (
-            <Collapse
-              title={'Package Name: ' + createPackageName(values.domain_name, values.package_name)}
-              contentClassName="grid grid-cols-1 gap-4 md:grid-cols-2"
-            >
+            <Collapse title="Package Name" contentClassName="grid grid-cols-1 gap-4 md:grid-cols-2">
               <DomainsSelect />
-              <Input isRequired name="package_name" label="Package Name" />
+              <Input
+                bottomLabel={{
+                  left: `Final Package Name : ${createPackageName(values.domain_name, values.package_name)}`,
+                }}
+                isRequired
+                name="package_name"
+                label="Package Name"
+              />
             </Collapse>
           )}
           <Collapse title="Links" contentClassName="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -161,7 +170,7 @@ export default function Form({
                   acceptedFileTypes={validations.image}
                 />
               </FieldWrapper>
-              <FieldWrapper name="screenshots" isRequired label="Screenshots">
+              <FieldWrapper name="screenshots" isRequired={false} label="Screenshots">
                 <FileUpload
                   onremovefile={(_, file) => handleDeleteScreenshot(file.getMetadata().id)}
                   uploadedFileLinks={compact(project?.screenshots)}

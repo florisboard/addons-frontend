@@ -4,6 +4,7 @@ import React from 'react';
 import { useRouter } from 'next/navigation';
 import Form from '@/components/projects/form/Form';
 import { IUnprocessableEntity } from '@/interfaces';
+import useDomains from '@/services/domains';
 import useCreateProject from '@/services/projects/create';
 import useCreateProjectImage from '@/services/projects/image/create';
 import useCreateProjectScreenshots from '@/services/projects/screenshots/create';
@@ -13,6 +14,7 @@ import { convertPackageName, isAxiosError, slugifyId } from '@/utils';
 export default function CreateProject() {
   const { isPending: isCreating, mutateAsync: createProject } = useCreateProject();
   const { isPending: isCreatingImage, mutateAsync: createImage } = useCreateProjectImage();
+  const { data: domains } = useDomains();
   const { mutate: createScreenshots, isPending: isScreenshotsPending } =
     useCreateProjectScreenshots();
   const isPending = isCreating || isCreatingImage;
@@ -27,10 +29,14 @@ export default function CreateProject() {
           mode="create"
           isOwner
           onSubmit={async (values, { setErrors }) => {
+            const verifiedDomainId = domains.data.find(
+              (domain) => domain.name === values.domain_name,
+            )!.id;
             const data = await createProject(
               {
                 ...values,
                 package_name: convertPackageName(values.package_name, values.domain_name),
+                verified_domain_id: verifiedDomainId,
               },
               {
                 onError: (e) => {

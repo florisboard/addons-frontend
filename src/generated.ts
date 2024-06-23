@@ -234,6 +234,7 @@ export interface ProjectsStorePayload {
   short_description: string;
   title: string;
   type: ProjectTypeEnum;
+  verified_domain_id: number;
 }
 
 export interface ProjectsUpdatePayload {
@@ -243,7 +244,6 @@ export interface ProjectsUpdatePayload {
     source_code: string;
   };
   maintainers?: number[];
-  package_name: string;
   short_description: string;
   title: string;
   type: ProjectTypeEnum;
@@ -1623,7 +1623,7 @@ export class Api<SecurityDataType extends unknown> {
     /**
      * No description
      *
-     * @tags CheckUpdates
+     * @tags CheckUpdate
      * @name UpdatesCheck
      * @request GET:/v1/check-updates
      */
