@@ -42,8 +42,10 @@ export default function Html({ children, className }: HtmlProps) {
       lang="en"
     >
       <body
+        // mb-14 is required because when using bottom navigation for phones so some of the contents
+        // gets below bottom navigation to fix this we add mb-14
         className={cn(
-          'relative flex min-h-screen flex-col overflow-x-hidden font-sans antialiased',
+          'relative mb-14 flex min-h-screen flex-col overflow-x-hidden font-sans antialiased md:mb-0',
           className,
         )}
       >
