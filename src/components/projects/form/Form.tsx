@@ -165,7 +165,7 @@ export default function Form({
                 <FileUpload
                   required
                   onremovefile={handleDeleteImage}
-                  onFileUploadedState={(paths) => setFieldValue('image_path', paths.at(0))}
+                  onFileUploadedState={(paths) => setFieldValue('image_path', paths.at(-1))}
                   uploadedFileLinks={compact([project?.image])}
                   acceptedFileTypes={validations.image}
                 />

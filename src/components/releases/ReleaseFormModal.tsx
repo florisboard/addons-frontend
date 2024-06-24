@@ -59,7 +59,7 @@ export default function ReleaseFormModal({ type, isPending, onSubmit }: ReleaseF
                   <FileUpload
                     required
                     uploadedFileLinks={[]}
-                    onFileUploadedState={(paths) => setFieldValue('file_path', paths.at(0))}
+                    onFileUploadedState={(paths) => setFieldValue('file_path', paths.at(-1))}
                   />
                 </FieldWrapper>
               </>

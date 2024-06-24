@@ -40,7 +40,6 @@ export default function FileUpload({
     })),
   );
   const [uploadedFiles, setUploadedFiles] = useState<string[]>([]);
-
   useEffect(() => {
     if (onFileUploadedState) onFileUploadedState(uploadedFiles);
     // eslint-disable-next-line
@@ -70,7 +69,10 @@ export default function FileUpload({
             });
 
           return {
-            abort: () => cancelToken.source().cancel('Operation canceled by the user.'),
+            abort: () => {
+              cancelToken.source().cancel('Operation canceled by the user.');
+              abort();
+            },
           };
         },
       }}
