@@ -46,14 +46,8 @@ const validationSchema = yup.object<ProjectsStorePayload>({
     .matches(/^[a-z][a-z0-9_]*(\.[a-z0-9][a-z0-9_]*)*$/)
     .required(),
   short_description: yup.string().required().min(3).max(255),
-  type: yup.string().required().oneOf([ProjectTypeEnum.EXTENSION]),
-  links: yup.object({
-    source_code: validations.url.test(
-      'isGithubUrl',
-      'This field must start with https://github.com',
-      (value: any) => Boolean(value) && value?.startsWith('https://github.com'),
-    ),
-  }),
+  type: yup.string().required().oneOf([ProjectTypeEnum.THEME]),
+  links: yup.object({ source_code: validations.url }),
   description: yup.string().required().min(3).max(2024),
 });
 
@@ -90,7 +84,7 @@ export default function Form({
           title: '',
           package_name: '',
           short_description: '',
-          type: ProjectTypeEnum.EXTENSION,
+          type: ProjectTypeEnum.THEME,
           description: '# Title',
           links: { source_code: '' },
           image_path: '',

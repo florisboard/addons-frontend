@@ -175,7 +175,7 @@ export interface ProjectSlimResource {
 
 /** ProjectTypeEnum */
 export enum ProjectTypeEnum {
-  EXTENSION = 'EXTENSION',
+  THEME = 'THEME',
 }
 
 export type ProjectsDestroyPayload = object;
