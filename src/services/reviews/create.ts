@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { ProjectFullResource, ProjectsReviewsStorePayload } from '@/generated';
+import { ProjectsReviewsStorePayload } from '@/generated';
 import api from '@/libs/api';
 
 type TReviewCreate = ProjectsReviewsStorePayload & {
@@ -13,16 +13,11 @@ async function createReview({ projectId, ...data }: TReviewCreate) {
 
 export default function useCreateReview(projectId: number) {
   const queryClient = useQueryClient();
-  const queryKey = ['projects', projectId];
 
   return useMutation({
     mutationFn: (data: ProjectsReviewsStorePayload) => createReview({ projectId, ...data }),
-    onSuccess: (createdReview) => {
-      const data = queryClient.getQueryData<ProjectFullResource>(queryKey);
-      queryClient.setQueryData<ProjectFullResource>(queryKey, {
-        ...data!,
-        user_review: createdReview,
-      });
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['projects', projectId] });
     },
     meta: {
       success: {

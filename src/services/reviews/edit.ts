@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { ProjectFullResource, ProjectsReviewsStorePayload } from '@/generated';
+import { ProjectsReviewsStorePayload } from '@/generated';
 import api from '@/libs/api';
 
 type TReviewEdit = ProjectsReviewsStorePayload & {
@@ -13,16 +13,11 @@ async function editReview({ reviewId, ...data }: TReviewEdit) {
 
 export default function useEditReview(projectId: number) {
   const queryClient = useQueryClient();
-  const queryKey = ['projects', projectId];
 
   return useMutation({
     mutationFn: editReview,
-    onSuccess: (createdReview) => {
-      const data = queryClient.getQueryData<ProjectFullResource>(queryKey);
-      queryClient.setQueryData<ProjectFullResource>(queryKey, {
-        ...data!,
-        user_review: createdReview,
-      });
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['projects', projectId] });
     },
     meta: {
       success: {

@@ -34,9 +34,11 @@ export default function Reviews({ reviews, projectId, authUserReview }: ReviewsP
         <div className="divider" />
         <AuthUserReview authUserReview={authUserReview} projectId={projectId} />
         {reviews.length <= 0 && <EmptyList />}
-        {reviews.map((review) => (
-          <ReviewCard key={review.id} {...review} />
-        ))}
+        {reviews
+          .filter((review) => review.id !== authUserReview?.id)
+          .map((review) => {
+            return <ReviewCard key={review.id} {...review} />;
+          })}
       </div>
     </section>
   );
