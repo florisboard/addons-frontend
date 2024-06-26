@@ -31,34 +31,36 @@ export default function Form({ onCancel, onSubmit, isPending, initialValues }: F
       initialValues={initialValues}
       onSubmit={onSubmit}
     >
-      <FormikForm className="space-y-4">
-        <div className="rating">
-          {Array.from({ length: 5 }).map((_, i) => (
-            <Field
-              key={i}
-              value={`${i + 1}`}
-              type="radio"
-              name="score"
-              className="mask mask-star-2 bg-orange-400"
-            />
-          ))}
-        </div>
-        <InputLists fields={[{ isRequired: true, name: 'title', label: 'Title' }]} />
-        <Textarea name="description" isRequired label="Description" />
-        <div className="flex gap-4">
-          <Button onClick={onCancel} type="button" className="btn">
-            Cancel
-          </Button>
-          <Button
-            isLoading={isPending}
-            disabled={isPending}
-            type="submit"
-            className="btn btn-primary"
-          >
-            Submit
-          </Button>
-        </div>
-      </FormikForm>
+      {({ values }) => (
+        <FormikForm className="space-y-4">
+          <div className="rating">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <Field
+                key={i}
+                value={i + 1}
+                type="radio"
+                name="score"
+                className="mask mask-star-2 bg-orange-400"
+              />
+            ))}
+          </div>
+          <InputLists fields={[{ isRequired: true, name: 'title', label: 'Title' }]} />
+          <Textarea name="description" isRequired label="Description" />
+          <div className="flex gap-4">
+            <Button onClick={onCancel} type="button" className="btn">
+              Cancel
+            </Button>
+            <Button
+              isLoading={isPending}
+              disabled={isPending}
+              type="submit"
+              className="btn btn-primary"
+            >
+              Submit
+            </Button>
+          </div>
+        </FormikForm>
+      )}
     </Formik>
   );
 }

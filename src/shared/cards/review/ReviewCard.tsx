@@ -53,7 +53,7 @@ export default function ReviewCard({
               </Link>
               <div className="flex">
                 {Array.from({ length: 5 }).map((_, i) => {
-                  const Icon = i <= score ? HiStar : HiOutlineStar;
+                  const Icon = i < score ? HiStar : HiOutlineStar;
                   return <Icon className="h-5 w-5" key={i} />;
                 })}
               </div>
