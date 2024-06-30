@@ -1,5 +1,5 @@
 import React from 'react';
-import { Field, Formik, Form as FormikForm, FormikHelpers } from 'formik';
+import { Formik, Form as FormikForm, FormikHelpers } from 'formik';
 import validations from '@/fixtures/forms/validations';
 import { ProjectsReviewsStorePayload } from '@/generated';
 import yup from '@/libs/yup';
@@ -31,13 +31,15 @@ export default function Form({ onCancel, onSubmit, isPending, initialValues }: F
       initialValues={initialValues}
       onSubmit={onSubmit}
     >
-      {({ values }) => (
+      {({ values, setFieldValue }) => (
         <FormikForm className="space-y-4">
           <div className="rating">
             {Array.from({ length: 5 }).map((_, i) => (
-              <Field
+              <input
+                onChange={(e) => setFieldValue('score', parseInt(e.target.value, 10))}
                 key={i}
                 value={i + 1}
+                defaultChecked={i + 1 === values.score}
                 type="radio"
                 name="score"
                 className="mask mask-star-2 bg-orange-400"
