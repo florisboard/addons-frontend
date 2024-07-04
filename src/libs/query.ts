@@ -26,8 +26,8 @@ const queryClient = new QueryClient({
       if (isAxiosError(e, 500)) {
         toast.error(errorMessages.somethingWentWrong);
       }
-      if (isAxiosError(e, 429)) {
-        toast.error(errorMessages.tooManyAttempts);
+      if (isAxiosError<any>(e, 429)) {
+        toast.error(e.response?.data?.message ?? errorMessages.tooManyAttempts);
       }
     },
   }),

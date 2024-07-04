@@ -52,7 +52,7 @@ export default function CommentAReview({ projectId, authUserReview }: CommentARe
           onCancel={handleCloseModal}
         />
       </DialogModal>
-      {authUserReview && <ReviewCard onEdit={handleOpenModal} {...authUserReview} />}
+      {authUserReview && <ReviewCard showStatus onEdit={handleOpenModal} {...authUserReview} />}
       {!authUserReview && (
         <div className="card-body flex-row flex-wrap justify-between gap-4">
           <h3 className="card-title lg:min-w-max">

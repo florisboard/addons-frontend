@@ -119,7 +119,6 @@ export interface ProjectFullResource {
   four_reviews_count: number;
   id: number;
   image: ImageResource | null;
-  is_active: string;
   is_recommended: string;
   latest_release: ReleaseFullResource | null;
   links: {
@@ -134,6 +133,7 @@ export interface ProjectFullResource {
   reviews_count: number;
   screenshots: ImageResource[];
   short_description: string;
+  status: StatusEnum;
   three_reviews_count: number;
   title: string;
   two_reviews_count: number;
@@ -150,7 +150,6 @@ export interface ProjectResource {
   created_at: string;
   id: number;
   image: ImageResource | null;
-  is_active: boolean;
   is_recommended: boolean;
   latest_release: ReleaseResource | null;
   package_name: string;
@@ -158,6 +157,7 @@ export interface ProjectResource {
   reviews_avg_score: number;
   reviews_count: number;
   short_description: string;
+  status: StatusEnum;
   title: string;
   type: ProjectTypeEnum;
   updated_at: string;
@@ -300,6 +300,7 @@ export interface ReviewResource {
   id: number;
   project_id: number;
   score: number;
+  status: StatusEnum;
   title: string;
   updated_at: string;
   user: UserResource;
@@ -326,6 +327,13 @@ export interface ReviewsUpdatePayload {
   description: string;
   score: number;
   title: string;
+}
+
+/** StatusEnum */
+export enum StatusEnum {
+  PENDING = 'PENDING',
+  APPROVED = 'APPROVED',
+  REJECTED = 'REJECTED',
 }
 
 export interface UpdatesCheckParams {
@@ -1159,6 +1167,10 @@ export class Api<SecurityDataType extends unknown> {
             /** Errors overview. */
             message: string;
           }
+        | {
+            /** @example "You cannot report this project again so soon. Please wait until 24 hours after your last report." */
+            message: string;
+          }
       >({
         path: `/v1/projects/${project}/reports`,
         method: 'POST',
@@ -1561,6 +1573,10 @@ export class Api<SecurityDataType extends unknown> {
             /** Errors overview. */
             message: string;
           }
+        | {
+            /** @example "You cannot report this review again so soon. Please wait until 24 hours after your last report." */
+            message: string;
+          }
       >({
         path: `/v1/reviews/${review}/reports`,
         method: 'POST',
@@ -1600,7 +1616,10 @@ export class Api<SecurityDataType extends unknown> {
      */
     reviewsUpdate: (review: number, data: ReviewsUpdatePayload, params: RequestParams = {}) =>
       this.http.request<
-        ReviewResource,
+        {
+          /** @example "Review updated successfully." */
+          message: string;
+        },
         | {
             /** Error overview. */
             message: string;

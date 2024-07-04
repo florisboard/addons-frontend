@@ -2,9 +2,10 @@ import React, { Fragment } from 'react';
 import { HiArrowDownCircle, HiChatBubbleBottomCenter, HiStar } from 'react-icons/hi2';
 import Link from 'next/link';
 import { formatDistanceToNow } from 'date-fns';
+import capitalize from 'lodash/capitalize';
 import compact from 'lodash/compact';
 import logo from '@/assets/svg/logo.svg';
-import { ProjectResource } from '@/generated';
+import { ProjectResource, StatusEnum } from '@/generated';
 import BlurImage from '@/shared/BlurImage';
 import { cn, humanReadableFormatter, isBetweenDate, isOfficialProject, slugifyId } from '@/utils';
 
@@ -22,7 +23,7 @@ export default function ProjectCard({
   image,
   releases_sum_downloads_count,
   is_recommended,
-  is_active,
+  status,
   latest_release,
   bodyClassName,
 }: ProjectCardProps) {
@@ -48,10 +49,12 @@ export default function ProjectCard({
       text: 'Recommended',
       className: 'badge-secondary',
     },
-    !is_active && {
-      tooltip: 'Not Approved by the Admins',
-      text: 'Not Approved',
-      className: 'badge-warning',
+    status !== StatusEnum.APPROVED && {
+      text: capitalize(status),
+      className: cn({
+        'badge-warning': status === StatusEnum.PENDING,
+        'badge-error': status === StatusEnum.REJECTED,
+      }),
     },
     latest_release &&
       isBetweenDate(new Date(latest_release.created_at), 14) && {
