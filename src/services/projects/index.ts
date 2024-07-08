@@ -1,4 +1,4 @@
-import { UndefinedInitialDataInfiniteOptions, useInfiniteQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { ProjectsIndexParams } from '@/generated';
 import api from '@/libs/api';
 import { getNextPageParam } from '@/utils';
@@ -8,10 +8,7 @@ export async function getProjects(params?: ProjectsIndexParams) {
   return resp.data;
 }
 
-export default function useProjects(
-  params?: ProjectsIndexParams,
-  options?: Pick<UndefinedInitialDataInfiniteOptions<any>, 'enabled'>,
-) {
+export default function useProjects(params?: ProjectsIndexParams, options?: { enabled?: boolean }) {
   return useInfiniteQuery({
     ...options,
     queryKey: ['projects', params],

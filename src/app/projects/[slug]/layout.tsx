@@ -12,20 +12,15 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const id = extractIdFromSlug(params.slug);
   if (!id) notFound();
-  const project = await getProjectServerCache(id);
 
-  // the project is not published the owner can see it so we create a simple metadata
-  if (!project) {
-    return {
-      title: 'Project',
-      description: 'Project',
-    };
+  try {
+    const project = await getProjectServerCache(id);
+
+    return { title: project.title, description: project.short_description };
+  } catch {
+    // the project is not published the owner can see it so we create a simple metadata
+    return { title: 'Project', description: 'Project' };
   }
-
-  return {
-    title: project.title,
-    description: project.short_description,
-  };
 }
 
 export default function Layout({ children }: THasChildren) {
