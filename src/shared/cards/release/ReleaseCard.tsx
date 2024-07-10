@@ -4,6 +4,7 @@ import { HiArrowDownCircle, HiClock } from 'react-icons/hi2';
 import Link from 'next/link';
 import { formatDistanceToNow } from 'date-fns';
 import { ReleaseFullResource } from '@/generated';
+import StatusBadge from '@/shared/badges/StatusBadge';
 import Markdown from '@/shared/forms/Markdown';
 import Download from '@/shared/releases/Download';
 import { humanReadableFormatter } from '@/utils';
@@ -18,6 +19,7 @@ export default function ReleaseCard({
   version_name,
   downloads_count,
   description,
+  status,
   created_at,
   projectTitle,
 }: ReleaseCardProps) {
@@ -51,6 +53,7 @@ export default function ReleaseCard({
           </div>
         </div>
         <div className="flex gap-4 overflow-x-auto scrollbar-none">
+          <StatusBadge showWhenApproved={false} status={status} />
           {badges.map((badge) => (
             <span key={badge.name} className="badge badge-lg min-w-fit gap-2 bg-base-300 p-3">
               <badge.Icon className="h-6 w-6" />

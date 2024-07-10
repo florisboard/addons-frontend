@@ -49,7 +49,7 @@ export default function MarkdownInput(props: MarkdownInputProps) {
           </Fragment>
         ))}
       </div>
-      <div>{tabs.find((tab) => tab.type === activeTab)?.content}</div>
+      <div className="w-full">{tabs.find((tab) => tab.type === activeTab)?.content}</div>
     </div>
   );
 }

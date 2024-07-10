@@ -44,6 +44,16 @@ export interface CategoryResource {
   title: string;
 }
 
+/** ChangeProposalResource */
+export interface ChangeProposalResource {
+  created_at: string;
+  data: string[];
+  id: number;
+  reviewer_description: string | null;
+  status: StatusEnum;
+  updated_at: string;
+}
+
 /** CheckUpdateResource */
 export interface CheckUpdateResource {
   latest_release: ReleaseFullResource | null;
@@ -120,6 +130,7 @@ export interface ProjectFullResource {
   id: number;
   image: ImageResource | null;
   is_recommended: string;
+  latest_change_proposal?: ChangeProposalResource;
   latest_release: ReleaseFullResource | null;
   links: {
     source_code: string;
@@ -243,7 +254,7 @@ export interface ProjectsUpdatePayload {
   links: {
     source_code: string;
   };
-  maintainers?: number[];
+  maintainers?: any[] | null;
   short_description: string;
   title: string;
   type: ProjectTypeEnum;
@@ -257,6 +268,7 @@ export interface ReleaseFullResource {
   downloads_count: number;
   id: number;
   project_id: number;
+  status: StatusEnum;
   updated_at: string;
   user: UserResource;
   user_id: string;
@@ -458,6 +470,9 @@ export class HttpClient<SecurityDataType = unknown> {
   }
 
   protected createFormData(input: Record<string, unknown>): FormData {
+    if (input instanceof FormData) {
+      return input;
+    }
     return Object.keys(input || {}).reduce((formData, key) => {
       const property = input[key];
       const propertyContent: any[] = property instanceof Array ? property : [property];

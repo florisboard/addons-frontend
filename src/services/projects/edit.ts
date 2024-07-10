@@ -20,7 +20,7 @@ export default function useEditProject(projectId: number) {
       queryClient.setQueryData(['projects', projectId], data);
     },
     meta: {
-      success: { toast: { content: 'Project updated successfully.' } },
+      success: { toast: { content: 'Change Proposal got created successfully.' } },
     },
   });
 }

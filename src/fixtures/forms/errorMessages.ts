@@ -21,6 +21,7 @@ const errorMessages = {
   invalidCredentials: 'These credentials do not match our records.',
   somethingWentWrong: 'Something went wrong Please try again later.',
   tooManyAttempts: 'Too many attempts please try again later.',
+  forbidden: "You don't have enough permission to perform this action.",
 } as const;
 
 export default errorMessages;

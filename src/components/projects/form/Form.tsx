@@ -1,10 +1,15 @@
 'use client';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Formik, Form as FormikForm, FormikHelpers } from 'formik';
 import compact from 'lodash/compact';
 import validations from '@/fixtures/forms/validations';
-import { ProjectFullResource, ProjectTypeEnum, ProjectsStorePayload } from '@/generated';
+import {
+  ProjectFullResource,
+  ProjectTypeEnum,
+  ProjectsStorePayload,
+  StatusEnum,
+} from '@/generated';
 import yup from '@/libs/yup';
 import useDeleteProjectImage from '@/services/projects/image/delete';
 import useDeleteProjectScreenshots from '@/services/projects/screenshots/delete';
@@ -17,6 +22,7 @@ import MarkdownInput from '@/shared/forms/MarkdownInput';
 import Select from '@/shared/forms/Select';
 import Textarea from '@/shared/forms/Textarea';
 import { createPackageName } from '@/utils';
+import Alerts from './Alerts';
 import CategoriesSelect from './CategoriesSelect';
 import DomainsSelect from './DomainsSelect';
 import MaintainersSelect from './MaintainersSelect';
@@ -62,6 +68,16 @@ export default function Form({
   const { mutate: deleteImage } = useDeleteProjectImage();
   const { mutate: deleteScreenshot } = useDeleteProjectScreenshots();
 
+  const infoText = useMemo(() => {
+    if (project?.status === StatusEnum.PENDING) {
+      return 'The current status of the project is "Pending". Any modifications or updates will require approval once the project reaches an "Accepted" status.';
+    }
+    if (project?.latest_change_proposal?.status === StatusEnum.PENDING) {
+      return 'Your most recent change proposal is currently in a "Pending" state. Further actions or revisions cannot proceed without prior review and acceptance.';
+    }
+    return null;
+  }, [project]);
+
   const handleDeleteImage = () => {
     if (project?.image) {
       deleteImage(project.id);
@@ -85,7 +101,7 @@ export default function Form({
           package_name: '',
           short_description: '',
           type: ProjectTypeEnum.THEME,
-          description: '# Title',
+          description: '',
           links: { source_code: '' },
           image_path: '',
           screenshots_path: [],
@@ -98,6 +114,7 @@ export default function Form({
     >
       {({ setFieldValue, values }) => (
         <FormikForm className="space-y-4">
+          <Alerts infoText={infoText} project={project} />
           <Collapse title="Main" contentClassName="grid grid-cols-1 gap-4 md:grid-cols-2">
             <CategoriesSelect
               defaultValue={
@@ -148,7 +165,7 @@ export default function Form({
               fields={[{ isRequired: true, name: 'links.source_code', label: 'Source Code' }]}
             />
           </Collapse>
-          <Collapse title="Description">
+          <Collapse title="Description (Supports Markdown)">
             <FieldWrapper name="description" isRequired={false} label="">
               {({ name }) => <MarkdownInput name={name} />}
             </FieldWrapper>
@@ -180,7 +197,7 @@ export default function Form({
           <Button
             type="submit"
             isLoading={submit.isPending}
-            disabled={submit.disabled || submit.isPending}
+            disabled={submit.disabled || Boolean(infoText) || submit.isPending}
             className="btn btn-primary"
           >
             {submit.text}

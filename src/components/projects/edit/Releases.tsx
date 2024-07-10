@@ -1,7 +1,8 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useMemo } from 'react';
+import { HiOutlineInformationCircle } from 'react-icons/hi2';
 import { FormikHelpers } from 'formik';
 import ReleaseFormModal, { modalId } from '@/components/releases/ReleaseFormModal';
-import { ProjectsReleasesStorePayload } from '@/generated';
+import { ProjectsReleasesStorePayload, StatusEnum } from '@/generated';
 import { IUnprocessableEntity } from '@/interfaces';
 import useReleases from '@/services/releases';
 import useCreateRelease from '@/services/releases/create';
@@ -20,6 +21,16 @@ export default function Releases({ project }: ReleasesProps) {
     filter: { project_id: project.id },
   });
   const { mutate: createRelease, isPending: isCreatingRelease } = useCreateRelease();
+  const hasPendingRelease = data?.pages
+    .flatMap((page) => page.data)
+    .some((release) => release.status === StatusEnum.PENDING);
+
+  const infoText = useMemo(() => {
+    if (hasPendingRelease) {
+      return 'A release for this project is currently in a "Pending" state. Additional releases may be initiated following the completion of the review process.';
+    }
+    return null;
+  }, [hasPendingRelease]);
 
   const handleSubmit = (
     values: ProjectsReleasesStorePayload,
@@ -43,10 +54,20 @@ export default function Releases({ project }: ReleasesProps) {
   return (
     <>
       <ReleaseFormModal onSubmit={handleSubmit} isPending={isCreatingRelease} type="create" />
+      {infoText && (
+        <div role="alert" className="alert alert-info">
+          <HiOutlineInformationCircle className="h-6 w-6" />
+          <span>{infoText}</span>
+        </div>
+      )}
       <div className="card bg-base-200">
         <div className="card-body flex-row flex-wrap items-center justify-between gap-4">
           <h4 className="card-title">Create a new Release</h4>
-          <Button onClick={() => openModal(modalId)} className="btn btn-primary">
+          <Button
+            disabled={Boolean(infoText)}
+            onClick={() => openModal(modalId)}
+            className="btn btn-primary"
+          >
             Create
           </Button>
         </div>
