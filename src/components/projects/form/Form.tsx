@@ -70,16 +70,6 @@ export default function Form({
   const { mutate: deleteScreenshot } = useDeleteProjectScreenshots();
   const { data: me } = useMe();
 
-  const infoText = useMemo(() => {
-    if (project?.status === StatusEnum.PENDING) {
-      return 'The current status of the project is "Pending". Any modifications or updates will require approval once the project reaches an "Accepted" status.';
-    }
-    if (project?.latest_change_proposal?.status === StatusEnum.PENDING) {
-      return 'Your most recent change proposal is currently in a "Pending" state. Further actions or revisions cannot proceed without prior review and acceptance.';
-    }
-    return null;
-  }, [project]);
-
   const handleDeleteImage = () => {
     if (project?.image) {
       deleteImage(project.id);
@@ -116,11 +106,14 @@ export default function Form({
     >
       {({ setFieldValue, values }) => (
         <FormikForm className="space-y-4">
-          <Alerts infoText={infoText} project={project} />
+          <Alerts project={project} />
           <Collapse title="Main" contentClassName="grid grid-cols-1 gap-4 md:grid-cols-2">
             <CategoriesSelect
               defaultValue={
-                project?.category && { label: project.category.title, value: project.category_id }
+                project?.category && {
+                  label: project.category.title,
+                  value: project.category_id,
+                }
               }
             />
             {isOwner && (
@@ -199,7 +192,7 @@ export default function Form({
           <Button
             type="submit"
             isLoading={submit.isPending}
-            disabled={submit.disabled || Boolean(infoText) || submit.isPending}
+            disabled={submit.disabled || submit.isPending}
             className="btn btn-primary"
           >
             {submit.text}
