@@ -13,6 +13,7 @@ import {
 import yup from '@/libs/yup';
 import useDeleteProjectImage from '@/services/projects/image/delete';
 import useDeleteProjectScreenshots from '@/services/projects/screenshots/delete';
+import useMe from '@/services/users/me';
 import Collapse from '@/shared/Collapse';
 import Button from '@/shared/forms/Button';
 import FieldWrapper from '@/shared/forms/FieldWrapper';
@@ -67,6 +68,7 @@ export default function Form({
 }: FormProps) {
   const { mutate: deleteImage } = useDeleteProjectImage();
   const { mutate: deleteScreenshot } = useDeleteProjectScreenshots();
+  const { data: me } = useMe();
 
   const infoText = useMemo(() => {
     if (project?.status === StatusEnum.PENDING) {
@@ -123,7 +125,7 @@ export default function Form({
             />
             {isOwner && (
               <MaintainersSelect
-                ownerId={project?.user_id}
+                ownerId={project?.user_id ?? me?.id}
                 defaultValue={project?.maintainers.map((user) => ({
                   label: user.username,
                   value: user.id,
