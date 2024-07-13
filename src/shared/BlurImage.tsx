@@ -10,9 +10,11 @@ export default function BlurImage({ className, ...props }: ImageProps) {
   return (
     <NextImage
       {...props}
-      className={cn('object-cover duration-700 ease-in-out', {
-        'scale-110 blur-2xl grayscale': isLoading,
-      })}
+      className={cn(
+        'object-cover duration-700 ease-in-out',
+        { 'scale-110 blur-2xl grayscale': isLoading },
+        className,
+      )}
       onLoad={() => setLoading(false)}
     />
   );
