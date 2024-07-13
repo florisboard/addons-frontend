@@ -9,7 +9,7 @@ type PublishProps = {
   project: ProjectFullResource;
 };
 
-const modalId = 'publishProject';
+const modalId = 'projects/publish';
 
 export default function Publish({ project }: PublishProps) {
   const { mutate: publish, isPending } = usePublishProject(project.id);
@@ -22,7 +22,7 @@ export default function Publish({ project }: PublishProps) {
 
   return (
     <>
-      <DialogModal id={modalId}>
+      <DialogModal parentElement="div" closeOnClickOutside id={modalId}>
         <h3 className="text-2xl font-bold">
           Publish <span className="text-secondary">{project.title}</span>
         </h3>

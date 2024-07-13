@@ -19,7 +19,7 @@ type ReleaseFormModalProps = {
   ) => void;
 };
 
-export const modalId = 'releaseFormModal';
+export const modalId = 'releases/create';
 
 const validationSchema = yup.object<ProjectsReleasesStorePayload>({
   version_name: yup

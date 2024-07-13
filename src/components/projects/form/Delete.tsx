@@ -10,7 +10,7 @@ type DeleteProps = {
   project: ProjectFullResource;
 };
 
-const modalId = 'deleteProject';
+const modalId = 'projects/delete';
 
 export default function Delete({ project }: DeleteProps) {
   const { mutate: deleteProject, isPending } = useDeleteProject(project.id);
@@ -28,7 +28,7 @@ export default function Delete({ project }: DeleteProps) {
 
   return (
     <>
-      <DialogModal id={modalId}>
+      <DialogModal parentElement="div" closeOnClickOutside id={modalId}>
         <h3 className="text-2xl font-bold">
           Delete <span className="text-error">{project.title}</span>
         </h3>
@@ -52,7 +52,7 @@ export default function Delete({ project }: DeleteProps) {
         type="button"
         disabled={isPending}
         isLoading={isPending}
-        className="btn btn-error"
+        className="btn btn-error ms-auto"
       >
         Delete
       </Button>

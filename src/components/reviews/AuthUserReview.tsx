@@ -15,7 +15,7 @@ type CommentAReviewProps = {
   authUserReview: ReviewResource | undefined;
 };
 
-const modalId = 'authReview';
+const modalId = 'reviews/auth';
 
 export default function CommentAReview({ projectId, authUserReview }: CommentAReviewProps) {
   const router = useRouter();

@@ -21,6 +21,7 @@ const config: Config = {
         light: {
           ...require('daisyui/src/theming/themes')['light'],
           'primary-content': colors.white,
+          error: colors.red['600'],
           primary: colors.green['700'],
           secondary: colors.orange['600'],
           'base-content': colors.gray['900'],
@@ -29,6 +30,7 @@ const config: Config = {
           ...require('daisyui/src/theming/themes')['dark'],
           primary: colors.green['700'],
           'primary-content': colors.white,
+          error: colors.red['600'],
           secondary: colors.orange['600'],
           'secondary-content': colors.white,
           'base-content': colors.gray['200'],

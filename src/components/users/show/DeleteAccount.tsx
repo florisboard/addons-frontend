@@ -8,7 +8,7 @@ import FieldWrapper from '@/shared/forms/FieldWrapper';
 import DialogModal from '@/shared/modals/DialogModal';
 import { closeModal, openModal } from '@/utils';
 
-const modalId = 'deleteAccount';
+const modalId = 'account/delete';
 
 export default function DeleteAccount() {
   const router = useRouter();
