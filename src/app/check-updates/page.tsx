@@ -4,7 +4,7 @@ import CheckUpdatesClient from './page-client';
 
 export const metadata: Metadata = {
   title: 'Check Updates',
-  description: "Check if the projects that you're using on florisbaord is up to date.",
+  description: "Check if the projects that you're using on FlorisBoard is up to date.",
 };
 
 export default function CheckUpdates() {

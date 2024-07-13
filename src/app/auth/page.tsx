@@ -1,8 +1,15 @@
 import React from 'react';
+import { Metadata } from 'next';
 import Image from 'next/image';
 import logo from '@/assets/svg/logo.svg';
 import LoginWithGithub from '@/components/auth/LoginWithGithub';
 import AuthMiddleware from '@/shared/AuthMiddleware';
+
+export const metadata: Metadata = {
+  title: 'Authentication',
+  description:
+    'Authenticate to unlock project creation, review capabilities, and more with FlorisBoard Addons.',
+};
 
 export default function Auth() {
   return (
