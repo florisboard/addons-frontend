@@ -1,6 +1,7 @@
 import React from 'react';
 import { Metadata } from 'next';
 import Image from 'next/image';
+import Link from 'next/link';
 import logo from '@/assets/svg/logo.svg';
 import LoginWithGithub from '@/components/auth/LoginWithGithub';
 import AuthMiddleware from '@/shared/AuthMiddleware';
@@ -20,7 +21,12 @@ export default function Auth() {
             <Image className="mx-auto rounded-full bg-base-200" alt="FlorisBoard Logo" src={logo} />
             <h1 className="text-2xl font-bold text-primary">Authentication</h1>
             <p className="text-base-content/80">
-              You can Login / Register your FlorisBoard account using these providers below.
+              Please proceed to authenticate for your FlorisBoard account using one of the providers
+              listed below. By doing so, you acknowledge and agree to our{' '}
+              <Link className="btn-link" href="/privacy-policy">
+                Privacy and Policy
+              </Link>
+              .
             </p>
             <LoginWithGithub />
           </div>
