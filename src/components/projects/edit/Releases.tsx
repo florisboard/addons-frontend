@@ -23,7 +23,7 @@ export default function Releases({ project }: ReleasesProps) {
   const { mutate: createRelease, isPending: isCreatingRelease } = useCreateRelease();
   const hasPendingRelease = data?.pages
     .flatMap((page) => page.data)
-    .some((release) => release.status === StatusEnum.PENDING);
+    .some((release) => release.status === StatusEnum.UNDER_REVIEW);
 
   const infoText = useMemo(() => {
     if (hasPendingRelease) {

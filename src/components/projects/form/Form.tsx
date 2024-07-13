@@ -25,8 +25,10 @@ import Textarea from '@/shared/forms/Textarea';
 import { createPackageName } from '@/utils';
 import Alerts from './Alerts';
 import CategoriesSelect from './CategoriesSelect';
+import Delete from './Delete';
 import DomainsSelect from './DomainsSelect';
 import MaintainersSelect from './MaintainersSelect';
+import Publish from './Publish';
 
 export type TProjectValues = Omit<ProjectsStorePayload, 'verified_domain_id'> & {
   image_path: string;
@@ -189,14 +191,20 @@ export default function Form({
               </FieldWrapper>
             </>
           </Collapse>
-          <Button
-            type="submit"
-            isLoading={submit.isPending}
-            disabled={submit.disabled || submit.isPending}
-            className="btn btn-primary"
-          >
-            {submit.text}
-          </Button>
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div className="flex items-center gap-4">
+              <Button
+                type="submit"
+                isLoading={submit.isPending}
+                disabled={submit.disabled || submit.isPending}
+                className="btn btn-primary"
+              >
+                {submit.text}
+              </Button>
+              {project && <Publish project={project} />}
+            </div>
+            {project && <Delete project={project} />}
+          </div>
         </FormikForm>
       )}
     </Formik>

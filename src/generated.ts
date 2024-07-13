@@ -210,6 +210,8 @@ export interface ProjectsIndexParams {
   sort?: 'package_name' | '-package_name' | 'name' | '-name' | 'id' | '-id';
 }
 
+export type ProjectsPublishPayload = object;
+
 export interface ProjectsReleasesStorePayload {
   description: string;
   file_path: string;
@@ -293,10 +295,6 @@ export interface ReleasesIndexParams {
   sort?: 'id' | '-id';
 }
 
-export interface ReleasesUpdatePayload {
-  description: string;
-}
-
 /** ReportTypeEnum */
 export enum ReportTypeEnum {
   SPAM = 'SPAM',
@@ -343,7 +341,8 @@ export interface ReviewsUpdatePayload {
 
 /** StatusEnum */
 export enum StatusEnum {
-  PENDING = 'PENDING',
+  DRAFT = 'DRAFT',
+  UNDER_REVIEW = 'UNDER_REVIEW',
   APPROVED = 'APPROVED',
   REJECTED = 'REJECTED',
 }
@@ -1126,6 +1125,32 @@ export class Api<SecurityDataType extends unknown> {
     /**
      * No description
      *
+     * @tags Project
+     * @name ProjectsPublish
+     * @request POST:/v1/projects/{project}/publish
+     */
+    projectsPublish: (project: number, data: ProjectsPublishPayload, params: RequestParams = {}) =>
+      this.http.request<
+        {
+          /** @example "You've published the project successfully to get reviewed." */
+          message: string;
+        },
+        {
+          /** Error overview. */
+          message: string;
+        }
+      >({
+        path: `/v1/projects/${project}/publish`,
+        method: 'POST',
+        body: data,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
      * @tags Release
      * @name ProjectsReleasesStore
      * @request POST:/v1/projects/{project}/releases
@@ -1448,35 +1473,6 @@ export class Api<SecurityDataType extends unknown> {
         path: `/v1/releases`,
         method: 'GET',
         query: query,
-        format: 'json',
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Release
-     * @name ReleasesUpdate
-     * @request PUT:/v1/releases/{release}
-     */
-    releasesUpdate: (release: number, data: ReleasesUpdatePayload, params: RequestParams = {}) =>
-      this.http.request<
-        ReleaseFullResource,
-        | {
-            /** Error overview. */
-            message: string;
-          }
-        | {
-            /** A detailed description of each field that failed validation. */
-            errors: Record<string, string[]>;
-            /** Errors overview. */
-            message: string;
-          }
-      >({
-        path: `/v1/releases/${release}`,
-        method: 'PUT',
-        body: data,
-        type: ContentType.Json,
         format: 'json',
         ...params,
       }),

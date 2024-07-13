@@ -2,12 +2,18 @@ import React, { Fragment } from 'react';
 import { HiArrowDownCircle, HiChatBubbleBottomCenter, HiStar } from 'react-icons/hi2';
 import Link from 'next/link';
 import { formatDistanceToNow } from 'date-fns';
-import capitalize from 'lodash/capitalize';
 import compact from 'lodash/compact';
 import logo from '@/assets/svg/logo.svg';
 import { ProjectResource, StatusEnum } from '@/generated';
 import BlurImage from '@/shared/BlurImage';
-import { cn, humanReadableFormatter, isBetweenDate, isOfficialProject, slugifyId } from '@/utils';
+import {
+  cn,
+  enumToTitle,
+  humanReadableFormatter,
+  isBetweenDate,
+  isOfficialProject,
+  slugifyId,
+} from '@/utils';
 
 type ProjectCardProps = ProjectResource & {
   bodyClassName?: string;
@@ -50,9 +56,9 @@ export default function ProjectCard({
       className: 'badge-secondary',
     },
     status !== StatusEnum.APPROVED && {
-      text: capitalize(status),
+      text: enumToTitle(status),
       className: cn({
-        'badge-warning': status === StatusEnum.PENDING,
+        'badge-warning': [StatusEnum.UNDER_REVIEW, StatusEnum.DRAFT].includes(status),
         'badge-error': status === StatusEnum.REJECTED,
       }),
     },

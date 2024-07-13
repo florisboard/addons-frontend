@@ -22,8 +22,8 @@ export default function Information({ project }: InformationProps) {
   const isPending = isImagePending || isScreenshotsPending || isProjectPending;
 
   const isInPendingState =
-    project?.status === StatusEnum.PENDING ||
-    project?.latest_change_proposal?.status === StatusEnum.PENDING;
+    project?.status === StatusEnum.UNDER_REVIEW ||
+    project?.latest_change_proposal?.status === StatusEnum.UNDER_REVIEW;
 
   if (isInPendingState) {
     return (
@@ -32,8 +32,8 @@ export default function Information({ project }: InformationProps) {
           <h2 className="card-title">Thank you for your contribution to Addon Stores</h2>
           <p>
             Now you just gotta wait until the reviewers review the{' '}
-            {project.status === StatusEnum.PENDING ? 'Project' : 'Change Proposal'} and hopefully
-            they will Approve it.
+            {project.status === StatusEnum.UNDER_REVIEW ? 'Project' : 'Change Proposal'} and
+            hopefully they will Approve it.
           </p>
         </div>
       </div>

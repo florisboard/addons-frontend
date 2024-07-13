@@ -1,5 +1,6 @@
+import { toast } from 'react-toastify';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { ProjectsUpdatePayload } from '@/generated';
+import { ProjectsUpdatePayload, StatusEnum } from '@/generated';
 import api from '@/libs/api';
 
 type TProjectUpdate = ProjectsUpdatePayload & {
@@ -18,9 +19,9 @@ export default function useEditProject(projectId: number) {
     mutationFn: (data: ProjectsUpdatePayload) => editProject({ projectId, ...data }),
     onSuccess: (data) => {
       queryClient.setQueryData(['projects', projectId], data);
-    },
-    meta: {
-      success: { toast: { content: 'Change Proposal got created successfully.' } },
+      toast.success(
+        `${data.status === StatusEnum.DRAFT ? 'Project' : 'Change Proposal'} got ${StatusEnum.DRAFT ? 'updated' : 'created'} successfully.`,
+      );
     },
   });
 }

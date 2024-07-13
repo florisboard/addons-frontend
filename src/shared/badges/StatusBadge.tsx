@@ -1,7 +1,6 @@
 import React from 'react';
-import capitalize from 'lodash/capitalize';
 import { StatusEnum } from '@/generated';
-import { cn } from '@/utils';
+import { cn, enumToTitle } from '@/utils';
 
 type StatusBadgeProps = {
   status: StatusEnum;
@@ -14,12 +13,12 @@ export default function StatusBadge({ status, showWhenApproved }: StatusBadgePro
   return (
     <span
       className={cn('badge badge-lg min-w-max', {
-        'badge-warning': status === StatusEnum.PENDING,
+        'badge-warning': [StatusEnum.UNDER_REVIEW, StatusEnum.DRAFT].includes(status),
         'badge-error': status === StatusEnum.REJECTED,
         'badge-success': status === StatusEnum.APPROVED,
       })}
     >
-      {capitalize(status)}
+      {enumToTitle(status)}
     </span>
   );
 }
