@@ -22,7 +22,7 @@ const validations = {
     .string()
     .min(3)
     .max(255)
-    .matches(/^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}$/),
+    .matches(/^[a-z0-9][a-z0-9]{1,61}[a-z0-9]\.[a-z]{2,}$/),
   image: ['image/png', 'image/jpeg'],
 };
 
