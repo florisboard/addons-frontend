@@ -44,6 +44,16 @@ export interface CategoryResource {
   title: string;
 }
 
+/** ChangeProposalResource */
+export interface ChangeProposalResource {
+  created_at: string;
+  data: string[];
+  id: number;
+  reviewer_description: string | null;
+  status: StatusEnum;
+  updated_at: string;
+}
+
 /** CheckUpdateResource */
 export interface CheckUpdateResource {
   latest_release: ReleaseFullResource | null;
@@ -119,8 +129,8 @@ export interface ProjectFullResource {
   four_reviews_count: number;
   id: number;
   image: ImageResource | null;
-  is_active: string;
   is_recommended: string;
+  latest_change_proposal?: ChangeProposalResource;
   latest_release: ReleaseFullResource | null;
   links: {
     source_code: string;
@@ -134,6 +144,7 @@ export interface ProjectFullResource {
   reviews_count: number;
   screenshots: ImageResource[];
   short_description: string;
+  status: StatusEnum;
   three_reviews_count: number;
   title: string;
   two_reviews_count: number;
@@ -150,7 +161,6 @@ export interface ProjectResource {
   created_at: string;
   id: number;
   image: ImageResource | null;
-  is_active: boolean;
   is_recommended: boolean;
   latest_release: ReleaseResource | null;
   package_name: string;
@@ -158,6 +168,7 @@ export interface ProjectResource {
   reviews_avg_score: number;
   reviews_count: number;
   short_description: string;
+  status: StatusEnum;
   title: string;
   type: ProjectTypeEnum;
   updated_at: string;
@@ -180,8 +191,6 @@ export enum ProjectTypeEnum {
 
 export type ProjectsDestroyPayload = object;
 
-export type ProjectsImageDestroyPayload = object;
-
 export interface ProjectsImageStorePayload {
   image_path: string;
 }
@@ -198,6 +207,8 @@ export interface ProjectsIndexParams {
   page?: number | null;
   sort?: 'package_name' | '-package_name' | 'name' | '-name' | 'id' | '-id';
 }
+
+export type ProjectsPublishPayload = object;
 
 export interface ProjectsReleasesStorePayload {
   description: string;
@@ -243,7 +254,7 @@ export interface ProjectsUpdatePayload {
   links: {
     source_code: string;
   };
-  maintainers?: number[];
+  maintainers?: any[] | null;
   short_description: string;
   title: string;
   type: ProjectTypeEnum;
@@ -257,6 +268,7 @@ export interface ReleaseFullResource {
   downloads_count: number;
   id: number;
   project_id: number;
+  status: StatusEnum;
   updated_at: string;
   user: UserResource;
   user_id: string;
@@ -281,10 +293,6 @@ export interface ReleasesIndexParams {
   sort?: 'id' | '-id';
 }
 
-export interface ReleasesUpdatePayload {
-  description: string;
-}
-
 /** ReportTypeEnum */
 export enum ReportTypeEnum {
   SPAM = 'SPAM',
@@ -300,6 +308,7 @@ export interface ReviewResource {
   id: number;
   project_id: number;
   score: number;
+  status: StatusEnum;
   title: string;
   updated_at: string;
   user: UserResource;
@@ -328,9 +337,20 @@ export interface ReviewsUpdatePayload {
   title: string;
 }
 
+/** StatusEnum */
+export enum StatusEnum {
+  DRAFT = 'DRAFT',
+  UNDER_REVIEW = 'UNDER_REVIEW',
+  APPROVED = 'APPROVED',
+  REJECTED = 'REJECTED',
+}
+
 export interface UpdatesCheckParams {
-  projects: string[];
-  versions: string[];
+  /** @minItems 1 */
+  projects: {
+    package_name: string;
+    version_name: string;
+  }[];
 }
 
 export interface UploadsProcessPayload {
@@ -450,6 +470,9 @@ export class HttpClient<SecurityDataType = unknown> {
   }
 
   protected createFormData(input: Record<string, unknown>): FormData {
+    if (input instanceof FormData) {
+      return input;
+    }
     return Object.keys(input || {}).reduce((formData, key) => {
       const property = input[key];
       const propertyContent: any[] = property instanceof Array ? property : [property];
@@ -983,36 +1006,6 @@ export class Api<SecurityDataType extends unknown> {
      * No description
      *
      * @tags ProjectImage
-     * @name ProjectsImageDestroy
-     * @request DELETE:/v1/projects/{project}/image
-     */
-    projectsImageDestroy: (
-      project: number,
-      data: ProjectsImageDestroyPayload,
-      params: RequestParams = {},
-    ) =>
-      this.http.request<
-        {
-          /** @example "Image has been deleted successfully." */
-          message: string;
-        },
-        {
-          /** Error overview. */
-          message: string;
-        }
-      >({
-        path: `/v1/projects/${project}/image`,
-        method: 'DELETE',
-        body: data,
-        type: ContentType.Json,
-        format: 'json',
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags ProjectImage
      * @name ProjectsImageStore
      * @request POST:/v1/projects/{project}/image
      */
@@ -1103,6 +1096,32 @@ export class Api<SecurityDataType extends unknown> {
     /**
      * No description
      *
+     * @tags Project
+     * @name ProjectsPublish
+     * @request POST:/v1/projects/{project}/publish
+     */
+    projectsPublish: (project: number, data: ProjectsPublishPayload, params: RequestParams = {}) =>
+      this.http.request<
+        {
+          /** @example "You've published the project successfully to get reviewed." */
+          message: string;
+        },
+        {
+          /** Error overview. */
+          message: string;
+        }
+      >({
+        path: `/v1/projects/${project}/publish`,
+        method: 'POST',
+        body: data,
+        type: ContentType.Json,
+        format: 'json',
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
      * @tags Release
      * @name ProjectsReleasesStore
      * @request POST:/v1/projects/{project}/releases
@@ -1157,6 +1176,10 @@ export class Api<SecurityDataType extends unknown> {
             /** A detailed description of each field that failed validation. */
             errors: Record<string, string[]>;
             /** Errors overview. */
+            message: string;
+          }
+        | {
+            /** @example "You cannot report this project again so soon. Please wait until 24 hours after your last report." */
             message: string;
           }
       >({
@@ -1428,35 +1451,6 @@ export class Api<SecurityDataType extends unknown> {
     /**
      * No description
      *
-     * @tags Release
-     * @name ReleasesUpdate
-     * @request PUT:/v1/releases/{release}
-     */
-    releasesUpdate: (release: number, data: ReleasesUpdatePayload, params: RequestParams = {}) =>
-      this.http.request<
-        ReleaseFullResource,
-        | {
-            /** Error overview. */
-            message: string;
-          }
-        | {
-            /** A detailed description of each field that failed validation. */
-            errors: Record<string, string[]>;
-            /** Errors overview. */
-            message: string;
-          }
-      >({
-        path: `/v1/releases/${release}`,
-        method: 'PUT',
-        body: data,
-        type: ContentType.Json,
-        format: 'json',
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
      * @tags Review
      * @name ReviewsDestroy
      * @request DELETE:/v1/reviews/{review}
@@ -1561,6 +1555,10 @@ export class Api<SecurityDataType extends unknown> {
             /** Errors overview. */
             message: string;
           }
+        | {
+            /** @example "You cannot report this review again so soon. Please wait until 24 hours after your last report." */
+            message: string;
+          }
       >({
         path: `/v1/reviews/${review}/reports`,
         method: 'POST',
@@ -1600,7 +1598,10 @@ export class Api<SecurityDataType extends unknown> {
      */
     reviewsUpdate: (review: number, data: ReviewsUpdatePayload, params: RequestParams = {}) =>
       this.http.request<
-        ReviewResource,
+        {
+          /** @example "Review updated successfully." */
+          message: string;
+        },
         | {
             /** Error overview. */
             message: string;

@@ -31,7 +31,7 @@ export default function Tabs({ tabs, activeTab }: TabsProps) {
             key={tab.name}
             href={`${pathname}?${config.tabParamsKey}=${tab.name}`}
             role="tab"
-            className={cn('tab h-14 min-w-fit gap-2 md:h-auto', { 'tab-active': isActive })}
+            className={cn('tab h-14 gap-2 md:h-auto', { 'tab-active': isActive })}
           >
             <Icon className="h-4 w-4" />
             {tab.label}

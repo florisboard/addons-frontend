@@ -4,9 +4,16 @@ import Link from 'next/link';
 import { formatDistanceToNow } from 'date-fns';
 import compact from 'lodash/compact';
 import logo from '@/assets/svg/logo.svg';
-import { ProjectResource } from '@/generated';
+import { ProjectResource, StatusEnum } from '@/generated';
 import BlurImage from '@/shared/BlurImage';
-import { cn, humanReadableFormatter, isBetweenDate, isOfficialProject, slugifyId } from '@/utils';
+import {
+  cn,
+  enumToTitle,
+  humanReadableFormatter,
+  isBetweenDate,
+  isOfficialProject,
+  slugifyId,
+} from '@/utils';
 
 type ProjectCardProps = ProjectResource & {
   bodyClassName?: string;
@@ -22,7 +29,7 @@ export default function ProjectCard({
   image,
   releases_sum_downloads_count,
   is_recommended,
-  is_active,
+  status,
   latest_release,
   bodyClassName,
 }: ProjectCardProps) {
@@ -48,10 +55,12 @@ export default function ProjectCard({
       text: 'Recommended',
       className: 'badge-secondary',
     },
-    !is_active && {
-      tooltip: 'Not Approved by the Admins',
-      text: 'Not Approved',
-      className: 'badge-warning',
+    status !== StatusEnum.APPROVED && {
+      text: enumToTitle(status),
+      className: cn({
+        'badge-warning': [StatusEnum.UNDER_REVIEW, StatusEnum.DRAFT].includes(status),
+        'badge-error': status === StatusEnum.REJECTED,
+      }),
     },
     latest_release &&
       isBetweenDate(new Date(latest_release.created_at), 14) && {

@@ -14,7 +14,7 @@ export default function OpenFlorisBoard() {
           using the latest version.
         </p>
         <div className="card-actions">
-          <Link href="/" className="btn btn-primary">
+          <Link href="ui://florisboard/ext/check-updates" className="btn btn-primary">
             Open FlorisBoard
           </Link>
         </div>

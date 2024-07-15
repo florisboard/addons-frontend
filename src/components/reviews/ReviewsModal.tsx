@@ -13,7 +13,7 @@ type ReleasesModal = {
 
 type TSort = ReviewsIndexParams['sort'];
 
-export const modalId = 'reviews';
+export const modalId = 'reviews/index';
 
 const sorts: IOption<TSort>[] = [
   { label: 'Latest', value: '-id' },

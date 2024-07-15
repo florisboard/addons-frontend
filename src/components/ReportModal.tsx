@@ -2,7 +2,6 @@ import React from 'react';
 import { HiInformationCircle } from 'react-icons/hi2';
 import { toast } from 'react-toastify';
 import { Form, Formik } from 'formik';
-import capitalize from 'lodash/capitalize';
 import { useMutation } from '@tanstack/react-query';
 import { ReportTypeEnum, ReviewsReportsStorePayload } from '@/generated';
 import api from '@/libs/api';
@@ -12,17 +11,13 @@ import Button from '@/shared/forms/Button';
 import Select from '@/shared/forms/Select';
 import Textarea from '@/shared/forms/Textarea';
 import DialogModal from '@/shared/modals/DialogModal';
-import { closeModal } from '@/utils';
+import { closeModal, enumToTitle } from '@/utils';
 
 export type TReportable = { id: number; title: string; resource: 'projects' | 'reviews' };
 
 type ReportModalProps = {
   reportable: TReportable;
 };
-
-function enumToTitle(key: string) {
-  return capitalize(key).replaceAll('_', ' ');
-}
 
 export function generateReportModalId({ resource, id }: TReportable) {
   return `report-${resource}#${id}`;

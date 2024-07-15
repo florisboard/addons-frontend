@@ -15,7 +15,7 @@ const validationSchema = yup.object({
   username: validations.username,
 });
 
-const modalId = 'profileUpdate';
+const modalId = 'profile/edit';
 
 export default function ProfileUpdate() {
   const { data: me } = useMe();

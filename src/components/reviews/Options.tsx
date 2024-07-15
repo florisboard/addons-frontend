@@ -9,7 +9,7 @@ import { useParams } from 'next/navigation';
 import compact from 'lodash/compact';
 import useDeleteReview from '@/services/reviews/delete';
 import Button from '@/shared/forms/Button';
-import { cn } from '@/utils';
+import { cn, extractIdFromSlug } from '@/utils';
 
 type OptionsProps = {
   isOwner: boolean;
@@ -20,8 +20,8 @@ type OptionsProps = {
 };
 
 export default function Options({ className, onReport, isOwner, reviewId, onEdit }: OptionsProps) {
-  const { id } = useParams<{ id: string }>();
-  const { mutate: deleteReview } = useDeleteReview(+id);
+  const { slug } = useParams<{ slug: string }>();
+  const { mutate: deleteReview } = useDeleteReview(extractIdFromSlug(slug)!);
 
   const handleDelete = () => {
     deleteReview(+reviewId);

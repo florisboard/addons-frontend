@@ -1,5 +1,4 @@
 import React, { Fragment, useState } from 'react';
-import Link from 'next/link';
 import { Field, useFormikContext } from 'formik';
 import Markdown from '@/shared/forms/Markdown';
 import { cn } from '@/utils';
@@ -49,7 +48,7 @@ export default function MarkdownInput(props: MarkdownInputProps) {
           </Fragment>
         ))}
       </div>
-      <div>{tabs.find((tab) => tab.type === activeTab)?.content}</div>
+      <div className="w-full">{tabs.find((tab) => tab.type === activeTab)?.content}</div>
     </div>
   );
 }

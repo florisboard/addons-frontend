@@ -15,7 +15,7 @@ export default function ReactSelect({ className, menuClassName, ...props }: Reac
       unstyled
       menuPosition="fixed"
       classNames={{
-        container: () => cn(className, 'font-sans'),
+        container: () => cn(className, 'z-10 font-sans'),
         control: ({ isFocused, hasValue }) =>
           cn('select select-bordered', {
             'border-2 border-primary': isFocused,

@@ -6,6 +6,7 @@ export const footerLinks = [
   // { title: 'Check Updates', href: '/check-updates' },
   { title: 'Collections', href: '/collections' },
   { title: 'About', href: '/about' },
+  { title: 'Privacy & Policy', href: '/privacy-policy' },
 ];
 
 export const footerSocialMedias = [

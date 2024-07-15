@@ -7,11 +7,13 @@ import ReportModal, { TReportable, generateReportModalId } from '@/components/Re
 import Options from '@/components/reviews/Options';
 import { ReviewResource } from '@/generated';
 import useMe from '@/services/users/me';
+import StatusBadge from '@/shared/badges/StatusBadge';
 import { cn, openModal } from '@/utils';
 
 type ReviewCardProps = ReviewResource & {
   onEdit?: () => void;
   hasOptions?: boolean;
+  showStatus?: boolean;
   cardClassName?: string;
 };
 
@@ -21,10 +23,12 @@ export default function ReviewCard({
   score,
   updated_at,
   title,
+  status,
   description,
   onEdit,
   hasOptions = true,
   cardClassName,
+  showStatus,
 }: ReviewCardProps) {
   const { data: me } = useMe();
 
@@ -63,13 +67,19 @@ export default function ReviewCard({
               >
                 <span className="md:ml-2">{format(updated_at, 'MMM d, yyyy')}</span>
               </div>
-              {hasOptions && <Options {...optionsProps} className="hidden md:flex" />}
+              <div className="hidden items-center gap-2 md:ml-auto md:flex">
+                {showStatus && <StatusBadge showWhenApproved status={status} />}
+                {hasOptions && <Options {...optionsProps} />}
+              </div>
             </div>
             <h4 className="card-title hidden md:block">{title}</h4>
           </div>
           {hasOptions && <Options {...optionsProps} className="md:hidden" />}
         </div>
-        <h4 className="card-title md:hidden">{title}</h4>
+        <div className="space-y-2 md:hidden">
+          {showStatus && <StatusBadge showWhenApproved status={status} />}
+          <h4 className="card-title">{title}</h4>
+        </div>
         <p>{description}</p>
       </div>
     </div>

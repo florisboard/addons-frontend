@@ -12,7 +12,7 @@ type ReleasesModalProps = {
   projectTitle: string;
 };
 
-export const modalId = 'releases';
+export const modalId = 'releases/index';
 
 type TSort = ReleasesIndexParams['sort'];
 

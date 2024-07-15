@@ -15,6 +15,7 @@ import Screenshots from '@/components/projects/show/Screenshots';
 import Stats from '@/components/projects/show/Stats';
 import { useCanEditProject } from '@/hooks';
 import useProject from '@/services/projects/show';
+import StatusBadge from '@/shared/badges/StatusBadge';
 import Button from '@/shared/forms/Button';
 import Markdown from '@/shared/forms/Markdown';
 import { extractIdFromSlug, isOfficialProject, openModal, slugifyId } from '@/utils';
@@ -67,9 +68,7 @@ export default function Project() {
               {project.is_recommended && (
                 <span className="badge badge-secondary badge-lg min-w-max">Recommended</span>
               )}
-              {!project.is_active && (
-                <span className="badge badge-warning badge-lg min-w-max">Not Approved</span>
-              )}
+              <StatusBadge status={project.status} showWhenApproved={false} />
             </div>
             <div className="divider" />
             <Markdown className="prose-sm">{project.description}</Markdown>

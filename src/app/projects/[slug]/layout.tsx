@@ -9,24 +9,19 @@ type Props = {
   params: { slug: string };
 };
 
-// export async function generateMetadata({ params }: Props): Promise<Metadata> {
-//   const id = extractIdFromSlug(params.slug);
-//   if (!id) notFound();
-//   const project = await getProjectServerCache(id);
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const id = extractIdFromSlug(params.slug);
+  if (!id) notFound();
 
-//   // the project is not published the owner can see it so we create a simple metadata
-//   if (!project) {
-//     return {
-//       title: 'Project',
-//       description: 'Project',
-//     };
-//   }
+  try {
+    const project = await getProjectServerCache(id);
 
-//   return {
-//     title: project.title,
-//     description: project.short_description,
-//   };
-// }
+    return { title: project.title, description: project.short_description };
+  } catch {
+    // the project is not published the owner can see it so we create a simple metadata
+    return { title: 'Project', description: 'Project' };
+  }
+}
 
 export default function Layout({ children }: THasChildren) {
   return children;

@@ -1,6 +1,7 @@
 import axios, { AxiosError } from 'axios';
 import { ClassValue, clsx } from 'clsx';
 import { addDays, isBefore } from 'date-fns';
+import capitalize from 'lodash/capitalize';
 import kebabCase from 'lodash/kebabCase';
 import { twMerge } from 'tailwind-merge';
 import { InfiniteData, UseInfiniteQueryResult } from '@tanstack/react-query';
@@ -19,6 +20,10 @@ export function extractIdFromSlug(slug: string) {
   const matches = slug.match(/\d+$/);
   if (matches) return parseInt(matches[0], 10);
   return null;
+}
+
+export function enumToTitle(key: string) {
+  return capitalize(key).replaceAll('_', ' ');
 }
 
 export function calculateTimeLeft(targetDate: Date | number) {
@@ -93,11 +98,5 @@ export function closeModal(id: string) {
 
 export function createPackageName(domain: string, name: string) {
   if (!domain) return '';
-  return domain.split('.').reverse().join('.') + `.${name}`;
-}
-
-export function convertPackageName(name: string, domain: string): string {
-  const values = domain.split('.').reverse();
-  values.push(name);
-  return values.join('.');
+  return domain.replaceAll('-', '_').split('.').reverse().join('.') + `.${name}`;
 }

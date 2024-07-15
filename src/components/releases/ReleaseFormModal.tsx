@@ -1,6 +1,5 @@
 import React from 'react';
 import { Form, Formik, FormikHelpers } from 'formik';
-import capitalize from 'lodash/capitalize';
 import { ProjectsReleasesStorePayload } from '@/generated';
 import yup from '@/libs/yup';
 import Button from '@/shared/forms/Button';
@@ -9,7 +8,7 @@ import FileUpload from '@/shared/forms/FileUpload';
 import Input from '@/shared/forms/Input';
 import Textarea from '@/shared/forms/Textarea';
 import DialogModal from '@/shared/modals/DialogModal';
-import { closeModal } from '@/utils';
+import { closeModal, enumToTitle } from '@/utils';
 
 type ReleaseFormModalProps = {
   type: 'create' | 'edit';
@@ -20,7 +19,7 @@ type ReleaseFormModalProps = {
   ) => void;
 };
 
-export const modalId = 'releaseFormModal';
+export const modalId = 'releases/create';
 
 const validationSchema = yup.object<ProjectsReleasesStorePayload>({
   version_name: yup
@@ -38,7 +37,7 @@ export default function ReleaseFormModal({ type, isPending, onSubmit }: ReleaseF
       dialogClassName="modal-bottom md:modal-middle"
       id={modalId}
     >
-      <h3 className="font-display text-2xl font-bold md:text-3xl">{capitalize(type)} Release</h3>
+      <h3 className="font-display text-2xl font-bold md:text-3xl">{enumToTitle(type)} Release</h3>
       <Formik
         validationSchema={validationSchema}
         onSubmit={onSubmit}

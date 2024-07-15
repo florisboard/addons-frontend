@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useEffect, useRef, useState } from 'react';
 import MainMarkdown from 'react-markdown';
 import { cn } from '@/utils';
@@ -30,7 +32,11 @@ export default function Markdown({ className, children, hasViewMore = false }: M
     <>
       <div
         ref={contentRef}
-        className={cn('prose w-full', { 'line-clamp-5': hasViewMore && !isMaximized }, className)}
+        className={cn(
+          'prose w-full max-w-none',
+          { 'line-clamp-5': hasViewMore && !isMaximized },
+          className,
+        )}
       >
         <MainMarkdown>{children}</MainMarkdown>
       </div>
