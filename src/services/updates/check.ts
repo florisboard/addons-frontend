@@ -1,4 +1,4 @@
-import { useSuspenseQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { UpdatesCheckParams } from '@/generated';
 import api from '@/libs/api';
 
@@ -8,5 +8,9 @@ async function checkUpdates(params: UpdatesCheckParams) {
 }
 
 export default function useCheckUpdates(params: UpdatesCheckParams) {
-  return useSuspenseQuery({ queryKey: ['updates', params], queryFn: () => checkUpdates(params) });
+  return useQuery({
+    queryKey: ['updates', params],
+    queryFn: () => checkUpdates(params),
+    enabled: params.projects.length > 0,
+  });
 }

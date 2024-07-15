@@ -1,13 +1,21 @@
 'use client';
 
-import React, { useEffect } from 'react';
-import { toast } from 'react-toastify';
-import { useRouter } from 'next/navigation';
+import React from 'react';
 import OpenFlorisBoard from '@/components/updates/OpenFlorisBoard';
-import { useSearchParams } from '@/hooks';
 import useCheckUpdates from '@/services/updates/check';
+import CenterSpinner from '@/shared/CenterSpinner';
 import Download from '@/shared/releases/Download';
 import { hasNewVersion } from '@/utils/updates';
+
+function getProjectsFromHash(): { [packageName: string]: string } {
+  try {
+    const hash = window.location.hash;
+    if (!hash || !hash.startsWith('#data=')) return {};
+    return JSON.parse(decodeURIComponent(hash.substring(6)));
+  } catch (error) {
+    return {};
+  }
+}
 
 const tableHeads = [
   '#',
@@ -18,35 +26,15 @@ const tableHeads = [
   'Actions',
 ];
 
-type TParsedProject = {
-  versionName: string;
-  packageName: string;
-};
-
 export default function CheckUpdatesClient() {
-  const [searchParams] = useSearchParams();
-  const router = useRouter();
+  const parsedProjects = Object.entries(getProjectsFromHash()).map(([packageName, version]) => ({
+    package_name: packageName,
+    version_name: version,
+  }));
 
-  const projects = searchParams.getAll('projects[]');
-  const versions = searchParams.getAll('versions[]');
-  const isUrlSearchParamsValid = projects.length === versions.length;
-  const { data, isError } = useCheckUpdates({ projects, versions });
-  const parsedProjects: TParsedProject[] = [];
-
-  useEffect(() => {
-    if (isError) {
-      toast.warning('The URL parameters for each updates is invalid.');
-      router.replace('/check-updates');
-    }
-  }, [isError, router]);
-
-  if (isUrlSearchParamsValid) {
-    for (let i = 0; i < projects.length; i++) {
-      parsedProjects.push({ packageName: projects[i], versionName: versions[i] });
-    }
-  }
-
-  if (data && data.data.length < 1) return <OpenFlorisBoard />;
+  const { data, isLoading } = useCheckUpdates({ projects: parsedProjects });
+  if (isLoading) return <CenterSpinner />;
+  if ((data?.data.length ?? 0) < 1) return <OpenFlorisBoard />;
 
   return (
     <div className="overflow-x-auto">
@@ -61,7 +49,7 @@ export default function CheckUpdatesClient() {
         <tbody>
           {data?.data.map((value, i) => {
             const parsedProject = parsedProjects.find(
-              (project) => project.packageName === value.project.package_name,
+              (project) => project.package_name === value.project.package_name,
             );
 
             return (
@@ -69,11 +57,11 @@ export default function CheckUpdatesClient() {
                 <th>{i + 1}</th>
                 <td>{value.project.package_name}</td>
                 <td>{value.project.title}</td>
-                <td>{parsedProject?.versionName}</td>
+                <td>{parsedProject?.version_name}</td>
                 <td>{value.latest_release?.version_name ?? '-'}</td>
                 <td>
                   {hasNewVersion(
-                    parsedProject?.versionName,
+                    parsedProject?.version_name,
                     value.latest_release?.version_name,
                   ) && (
                     <Download

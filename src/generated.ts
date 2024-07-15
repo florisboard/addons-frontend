@@ -191,8 +191,6 @@ export enum ProjectTypeEnum {
 
 export type ProjectsDestroyPayload = object;
 
-export type ProjectsImageDestroyPayload = object;
-
 export interface ProjectsImageStorePayload {
   image_path: string;
 }
@@ -348,8 +346,11 @@ export enum StatusEnum {
 }
 
 export interface UpdatesCheckParams {
-  projects: string[];
-  versions: string[];
+  /** @minItems 1 */
+  projects: {
+    package_name: string;
+    version_name: string;
+  }[];
 }
 
 export interface UploadsProcessPayload {
@@ -994,36 +995,6 @@ export class Api<SecurityDataType extends unknown> {
         }
       >({
         path: `/v1/projects/${project}`,
-        method: 'DELETE',
-        body: data,
-        type: ContentType.Json,
-        format: 'json',
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags ProjectImage
-     * @name ProjectsImageDestroy
-     * @request DELETE:/v1/projects/{project}/image
-     */
-    projectsImageDestroy: (
-      project: number,
-      data: ProjectsImageDestroyPayload,
-      params: RequestParams = {},
-    ) =>
-      this.http.request<
-        {
-          /** @example "Image has been deleted successfully." */
-          message: string;
-        },
-        {
-          /** Error overview. */
-          message: string;
-        }
-      >({
-        path: `/v1/projects/${project}/image`,
         method: 'DELETE',
         body: data,
         type: ContentType.Json,
