@@ -98,11 +98,5 @@ export function closeModal(id: string) {
 
 export function createPackageName(domain: string, name: string) {
   if (!domain) return '';
-  return domain.split('.').reverse().join('.') + `.${name}`;
-}
-
-export function convertPackageName(name: string, domain: string): string {
-  const values = domain.split('.').reverse();
-  values.push(name);
-  return values.join('.');
+  return domain.replaceAll('-', '_').split('.').reverse().join('.') + `.${name}`;
 }

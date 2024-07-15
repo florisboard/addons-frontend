@@ -8,7 +8,7 @@ import useDomains from '@/services/domains';
 import useCreateProject from '@/services/projects/create';
 import useCreateProjectImage from '@/services/projects/image/create';
 import useCreateProjectScreenshots from '@/services/projects/screenshots/create';
-import { convertPackageName, isAxiosError, slugifyId } from '@/utils';
+import { createPackageName, isAxiosError, slugifyId } from '@/utils';
 
 export default function ProjectsCreateClient() {
   const { isPending: isCreating, mutateAsync: createProject } = useCreateProject();
@@ -29,7 +29,7 @@ export default function ProjectsCreateClient() {
         const data = await createProject(
           {
             ...values,
-            package_name: convertPackageName(values.package_name, values.domain_name),
+            package_name: createPackageName(values.domain_name, values.package_name),
             verified_domain_id: verifiedDomainId,
           },
           {

@@ -10,6 +10,7 @@ import config from '@/fixtures/config';
 import { useCanEditProject, useSearchParams } from '@/hooks';
 import useProject from '@/services/projects/show';
 import AuthMiddleware from '@/shared/AuthMiddleware';
+import StatusBadge from '@/shared/badges/StatusBadge';
 import { cn, extractIdFromSlug, slugifyId } from '@/utils';
 
 function Edit() {
@@ -48,9 +49,12 @@ function Edit() {
     <AuthMiddleware middleware="auth">
       <div className="px-container space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-4">
-          <h1 className="h1">
-            Edit <span className="text-primary">{project?.title}</span>
-          </h1>
+          <div className="flex items-center gap-4">
+            <h1 className="h1">
+              Edit <span className="text-primary">{project?.title}</span>
+            </h1>
+            <StatusBadge showWhenApproved={false} status={project.status} />
+          </div>
           <Link
             href={`/projects/${slugifyId(project.id, project.title)}`}
             className="btn btn-primary"

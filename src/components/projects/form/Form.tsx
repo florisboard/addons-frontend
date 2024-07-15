@@ -97,7 +97,7 @@ export default function Form({
       }
       onSubmit={onSubmit}
     >
-      {({ setFieldValue, values, errors }) => (
+      {({ setFieldValue, values }) => (
         <FormikForm id={formId} className="space-y-4">
           <Alerts project={project} />
           <Collapse title="Main" contentClassName="grid grid-cols-1 gap-4 md:grid-cols-2">
