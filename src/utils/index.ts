@@ -67,6 +67,16 @@ export async function downloadFile(url: string, fileName: string) {
   link.remove();
 }
 
+export async function openLink(url: string) {
+  const link = document.createElement('a');
+  link.target = '_blank';
+  link.href = url;
+
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+}
+
 export function convertNullToEmptyString(obj: object) {
   return Object.fromEntries(
     Object.entries(obj).map(([key, value]) => [key, value === null ? '' : value]),

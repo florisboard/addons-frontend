@@ -1,7 +1,7 @@
 import React from 'react';
 import kebabCase from 'lodash/kebabCase';
 import useDownloadRelease from '@/services/releases/download';
-import { cn, downloadFile } from '@/utils';
+import { cn, openLink } from '@/utils';
 import Button from '../forms/Button';
 
 type DownloadProps = {
@@ -17,7 +17,7 @@ export default function Download({ release, project, className }: DownloadProps)
   const handleDownload = () => {
     download(release.id, {
       onSuccess: (result) => {
-        downloadFile(result.link, fileName);
+        openLink(result.link);
       },
     });
   };
