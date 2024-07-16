@@ -39,6 +39,7 @@ export interface CategoriesIndexParams {
 export interface CategoryResource {
   circle_bg: string;
   circle_fg: string;
+  icon_name: string;
   id: number;
   is_top: boolean;
   title: string;
