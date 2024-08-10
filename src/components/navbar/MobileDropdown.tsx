@@ -32,7 +32,9 @@ export default function MobileDropdown({ isSearchActive }: MobileDropdownProps) 
         >
           {navbarLinks.map((link) => (
             <li key={link.title}>
-              <Link href={link.href}>{link.title}</Link>
+              <Link onClick={(e) => e.currentTarget.blur()} href={link.href}>
+                {link.title}
+              </Link>
             </li>
           ))}
           {isSearchActive && (
