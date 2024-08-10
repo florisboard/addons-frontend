@@ -2,6 +2,7 @@
 
 import React, { useMemo } from 'react';
 import { HiArrowUp, HiCalendar, HiFire, HiStar } from 'react-icons/hi2';
+import compact from 'lodash/compact';
 import CountDown from '@/components/home/CountDown';
 import TopCategories from '@/components/home/TopCategories';
 import useHome from '@/services/home';
@@ -15,32 +16,40 @@ export default function Home() {
     targetDate.setUTCDate(targetDate.getUTCDate() + 1);
     targetDate.setUTCHours(0, 0, 0, 0);
 
-    return [
-      <ProjectHorizontalList
-        key="picksOfTheDay"
-        section={{
-          headingChildren: <CountDown targetDate={targetDate} />,
-          Icon: HiCalendar,
-          title: 'Picks of the Day',
-        }}
-        projects={data?.picks_of_the_day}
-      />,
-      <ProjectHorizontalList
-        key="recommended"
-        section={{ Icon: HiStar, title: 'Recommended' }}
-        projects={data?.recommended}
-      />,
-      <ProjectHorizontalList
-        key="latestReleases"
-        section={{ Icon: HiArrowUp, title: 'Latest Releases' }}
-        projects={data?.latest_releases}
-      />,
-      <ProjectHorizontalList
-        key="latestProjects"
-        section={{ Icon: HiFire, title: 'Latest Projects' }}
-        projects={data?.latest_projects}
-      />,
-    ];
+    return compact([
+      data?.picks_of_the_day && (
+        <ProjectHorizontalList
+          key="picksOfTheDay"
+          section={{
+            headingChildren: <CountDown targetDate={targetDate} />,
+            Icon: HiCalendar,
+            title: 'Picks of the Day',
+          }}
+          projects={data?.picks_of_the_day}
+        />
+      ),
+      data?.recommended && (
+        <ProjectHorizontalList
+          key="recommended"
+          section={{ Icon: HiStar, title: 'Recommended' }}
+          projects={data?.recommended}
+        />
+      ),
+      data?.latest_releases && (
+        <ProjectHorizontalList
+          key="latestReleases"
+          section={{ Icon: HiArrowUp, title: 'Latest Releases' }}
+          projects={data?.latest_releases}
+        />
+      ),
+      data?.latest_projects && (
+        <ProjectHorizontalList
+          key="latestProjects"
+          section={{ Icon: HiFire, title: 'Latest Projects' }}
+          projects={data?.latest_projects}
+        />
+      ),
+    ]);
   }, [data]);
 
   return (

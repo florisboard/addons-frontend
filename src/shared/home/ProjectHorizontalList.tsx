@@ -7,7 +7,7 @@ import ProjectCard from '@/shared/cards/project/ProjectCard';
 import ProjectCardSkeleton from '@/shared/cards/project/ProjectCardSkeleton';
 import Section, { SectionProps } from '@/shared/home/Section';
 
-type ProjectHorizontalListProps = {
+export type ProjectHorizontalListProps = {
   section: Omit<SectionProps, 'children'>;
   projects: ProjectResource[] | undefined;
 };
