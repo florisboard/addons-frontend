@@ -16,20 +16,20 @@ export default function Home() {
     targetDate.setUTCHours(0, 0, 0, 0);
 
     return [
-      <ProjectHorizontalList
-        key="picksOfTheDay"
-        section={{
-          headingChildren: <CountDown targetDate={targetDate} />,
-          Icon: HiCalendar,
-          title: 'Picks of the Day',
-        }}
-        projects={data?.picks_of_the_day}
-      />,
-      <ProjectHorizontalList
-        key="recommended"
-        section={{ Icon: HiStar, title: 'Recommended' }}
-        projects={data?.recommended}
-      />,
+      // <ProjectHorizontalList
+      //   key="picksOfTheDay"
+      //   section={{
+      //     headingChildren: <CountDown targetDate={targetDate} />,
+      //     Icon: HiCalendar,
+      //     title: 'Picks of the Day',
+      //   }}
+      //   projects={data?.picks_of_the_day}
+      // />,
+      // <ProjectHorizontalList
+      //   key="recommended"
+      //   section={{ Icon: HiStar, title: 'Recommended' }}
+      //   projects={data?.recommended}
+      // />,
       <ProjectHorizontalList
         key="latestReleases"
         section={{ Icon: HiArrowUp, title: 'Latest Releases' }}
