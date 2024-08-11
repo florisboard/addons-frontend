@@ -5,6 +5,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Poppins, Righteous } from 'next/font/google';
 import '@/assets/css/tailwind.css';
+import CookieBanner from '@/components/CookieBanner';
 import { useStore } from '@/hooks';
 import useThemeState from '@/states/themeState';
 import { THasChildren } from '@/types';
@@ -51,6 +52,7 @@ export default function Html({ children, className }: HtmlProps) {
       >
         <div id={MODAL_ROOT_ID} />
         <ToastContainer toastClassName="!font-sans" theme={finalTheme} />
+        <CookieBanner />
         {children}
       </body>
     </html>
