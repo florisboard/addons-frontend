@@ -9,6 +9,7 @@ export interface DialogModalProps extends React.DialogHTMLAttributes<HTMLDialogE
   dialogClassName?: string;
   parentElement?: 'div' | 'form';
   closeOnClickOutside?: boolean;
+  onCloseOutside?: () => void;
 }
 
 export default function DialogModal({
@@ -17,6 +18,7 @@ export default function DialogModal({
   dialogClassName,
   parentClassName,
   parentElement = 'form',
+  onCloseOutside,
   ...props
 }: DialogModalProps) {
   const parentProps = { className: cn('modal-box space-y-4', parentClassName) };
@@ -32,7 +34,7 @@ export default function DialogModal({
           <div {...parentProps}>{children}</div>
         )}
         {closeOnClickOutside && (
-          <form method="dialog" className="modal-backdrop">
+          <form onSubmit={onCloseOutside} method="dialog" className="modal-backdrop">
             <button type="submit">close</button>
           </form>
         )}
