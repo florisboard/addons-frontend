@@ -25,11 +25,11 @@ export default function Home() {
       //   }}
       //   projects={data?.picks_of_the_day}
       // />,
-      // <ProjectHorizontalList
-      //   key="recommended"
-      //   section={{ Icon: HiStar, title: 'Recommended' }}
-      //   projects={data?.recommended}
-      // />,
+      <ProjectHorizontalList
+        key="recommended"
+        section={{ Icon: HiStar, title: 'Recommended' }}
+        projects={data?.recommended}
+      />,
       <ProjectHorizontalList
         key="latestReleases"
         section={{ Icon: HiArrowUp, title: 'Latest Releases' }}
