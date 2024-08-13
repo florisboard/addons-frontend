@@ -23,6 +23,7 @@ export default function CategoriesSelect({ defaultValue }: CategoriesSelectProps
   return (
     <FieldWrapper name="category_id" isRequired label="Category">
       <ReactSelect
+        menuPosition="fixed"
         onChange={(value) => {
           setFieldValue('category_id', (value as IOption<number>).value);
         }}

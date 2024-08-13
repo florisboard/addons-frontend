@@ -39,6 +39,7 @@ export default function MaintainersSelect({ defaultValue, ownerId }: Maintainers
       label="Additional Maintainers"
     >
       <ReactSelect
+        menuPosition="fixed"
         onChange={(values) => {
           setFieldValue(
             'maintainers',
