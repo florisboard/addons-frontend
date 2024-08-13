@@ -1,5 +1,5 @@
 import React from 'react';
-import { HiInformationCircle } from 'react-icons/hi2';
+import { HiOutlineInformationCircle } from 'react-icons/hi2';
 import { cn } from '@/utils';
 import Button from './Button';
 
@@ -16,8 +16,8 @@ export default function Label({ label, htmlFor, info, isRequired = false, classN
     <label htmlFor={htmlFor} className={cn('label-text w-full font-medium', className)}>
       {label} {isRequired && <span className="text-error">*</span>}{' '}
       {info && (
-        <Button data-tip={info} className="group tooltip tooltip-secondary z-40">
-          <HiInformationCircle strokeWidth={2} className="inline-block h-5 w-5" />
+        <Button data-tip={info} className="tooltip">
+          <HiOutlineInformationCircle strokeWidth={2} className="inline-block size-5" />
         </Button>
       )}
     </label>

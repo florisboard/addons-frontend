@@ -101,6 +101,16 @@ export default function Form({
         <FormikForm id={formId} className="space-y-4">
           <Alerts project={project} />
           <Collapse title="Main" contentClassName="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <InputLists fields={[{ isRequired: true, name: 'title', label: 'Title' }]} />
+            <Select
+              label="Type"
+              name="type"
+              isRequired
+              options={Object.values(ProjectTypeEnum).map((option) => ({
+                label: option,
+                value: option,
+              }))}
+            />
             <CategoriesSelect
               defaultValue={
                 project?.category && {
@@ -118,16 +128,6 @@ export default function Form({
                 }))}
               />
             )}
-            <InputLists fields={[{ isRequired: true, name: 'title', label: 'Title' }]} />
-            <Select
-              label="Type"
-              name="type"
-              isRequired
-              options={Object.values(ProjectTypeEnum).map((option) => ({
-                label: option,
-                value: option,
-              }))}
-            />
             <Textarea
               className="col-span-full"
               name="short_description"

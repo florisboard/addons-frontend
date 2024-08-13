@@ -32,7 +32,12 @@ export default function MaintainersSelect({ defaultValue, ownerId }: Maintainers
   if (me?.id !== ownerId) return null;
 
   return (
-    <FieldWrapper name="maintainers" isRequired={false} label="Additional Maintainers">
+    <FieldWrapper
+      info="After the project got approved by the admins the maintainers have full access to Edit Project/Releases"
+      name="maintainers"
+      isRequired={false}
+      label="Additional Maintainers"
+    >
       <ReactSelect
         onChange={(values) => {
           setFieldValue(
