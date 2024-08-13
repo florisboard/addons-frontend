@@ -4,6 +4,7 @@ import React from 'react';
 import Avatar from 'react-avatar';
 import Link from 'next/link';
 import compact from 'lodash/compact';
+import config from '@/fixtures/config';
 import useLogout from '@/services/auth/logout';
 import useMe from '@/services/users/me';
 import Button from '@/shared/forms/Button';
@@ -17,6 +18,7 @@ export default function Profile() {
   const authLinks = compact([
     { title: 'Profile', href: `/users/${user?.username}` },
     { title: 'Domains', href: `/domains` },
+    user?.can_view_admin && { title: 'Admin Panel', href: `${config.backendUrl}/admin` },
     { title: 'New Project', href: `/projects/create` },
   ]);
   const links = user ? authLinks : guestLinks;

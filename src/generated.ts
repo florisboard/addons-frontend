@@ -21,6 +21,7 @@ import axios from 'axios';
 
 /** AuthResource */
 export interface AuthResource {
+  can_view_admin: boolean;
   created_at: string;
   id: number;
   updated_at: string;
