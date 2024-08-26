@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import MainMarkdown from 'react-markdown';
 import { cn } from '@/utils';
 import Button from './Button';
@@ -16,17 +16,18 @@ export default function Markdown({ className, children, hasViewMore = false }: M
   const [isClamped, setIsClamped] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
 
+  const handleResize = useCallback(() => {
+    if (contentRef.current) {
+      setIsClamped(contentRef.current.scrollHeight > contentRef.current.clientHeight);
+    }
+  }, []);
+
   // dynamically calculate if we should show button show more/less
   useEffect(() => {
-    const handleResize = () => {
-      if (contentRef && contentRef.current) {
-        setIsClamped(contentRef.current.scrollHeight > contentRef.current.clientHeight);
-      }
-    };
-
+    setTimeout(handleResize, 50);
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  }, [handleResize]);
 
   return (
     <>
