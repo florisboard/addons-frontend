@@ -1,6 +1,7 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
+import { FilePondFile } from 'filepond';
 import { Formik, Form as FormikForm, FormikHelpers } from 'formik';
 import compact from 'lodash/compact';
 import validations from '@/fixtures/forms/validations';
@@ -10,7 +11,7 @@ import useDeleteProjectScreenshots from '@/services/projects/screenshots/delete'
 import useMe from '@/services/users/me';
 import Collapse from '@/shared/Collapse';
 import FieldWrapper from '@/shared/forms/FieldWrapper';
-import FileUpload from '@/shared/forms/FileUpload';
+import FileUpload, { TFiles } from '@/shared/forms/FileUpload';
 import Input, { InputLists } from '@/shared/forms/Input';
 import MarkdownInput from '@/shared/forms/MarkdownInput';
 import Select from '@/shared/forms/Select';
@@ -67,12 +68,21 @@ export default function Form({
   isOwner,
 }: FormProps) {
   const { mutate: deleteScreenshot } = useDeleteProjectScreenshots();
+  const [screenshots, setScreenshots] = useState<TFiles>(
+    compact(
+      project?.screenshots.map((link) => ({
+        source: link.url,
+        options: { type: 'local', metadata: { poster: link.url, id: link.id } },
+      })),
+    ),
+  );
   const { data: me } = useMe();
 
   const handleDeleteScreenshot = (mediaId: number) => {
-    if (project?.screenshots) {
-      deleteScreenshot({ projectId: project.id, mediaId });
-    }
+    console.log(mediaId);
+    // if (project?.screenshots) {
+    //   deleteScreenshot({ projectId: project.id, mediaId });
+    // }
   };
 
   return (
@@ -95,7 +105,13 @@ export default function Form({
           ...initialValues,
         } as TProjectValues
       }
-      onSubmit={onSubmit}
+      onSubmit={(values, helpers) => {
+        const newScreenshots = (screenshots as (FilePondFile | undefined)[])
+          .map((screenshot) => screenshot?.serverId)
+          .filter((value) => value && value.startsWith('tmp/'));
+
+        onSubmit({ ...values, screenshots_path: newScreenshots as string[] }, helpers);
+      }}
     >
       {({ setFieldValue, values }) => (
         <FormikForm id={formId} className="space-y-4">
@@ -160,24 +176,32 @@ export default function Form({
           </Collapse>
           <Collapse title="Images" contentClassName="grid grid-cols-1 gap-4 md:grid-cols-2">
             <>
-              <FieldWrapper name="image_path" isRequired label="Image">
+              {/* <FieldWrapper name="image_path" isRequired label="Image">
                 <FileUpload
                   required
                   name="image_path"
-                  onFileUploadedState={(paths) => setFieldValue('image_path', paths.at(-1))}
-                  uploadedFileLinks={compact([project?.image])}
+                  onUploaded={(paths) => setFieldValue('image_path', paths.at(-1))}
+                  uploadedFiles={compact([project?.image])}
                   acceptedFileTypes={validations.image}
                 />
-              </FieldWrapper>
+              </FieldWrapper> */}
               <FieldWrapper name="screenshots" isRequired={false} label="Screenshots">
                 <FileUpload
                   name="screenshots"
-                  onremovefile={(_, file) => handleDeleteScreenshot(file.getMetadata().id)}
-                  uploadedFileLinks={compact(project?.screenshots)}
+                  initialFiles={screenshots}
+                  setFiles={setScreenshots}
                   allowMultiple
                   allowReorder
                   maxFiles={5}
-                  onFileUploadedState={(paths) => setFieldValue('screenshots_path', paths)}
+                  // onFilesChange={(files) => {
+                  //   const tmpPaths = files
+                  //     .map((file) => file?.serverId)
+                  //     .filter((value) => value && value.startsWith('tmp/'));
+
+                  //   console.log(files, tmpPaths);
+                  //   setFieldValue('screenshots_path', tmpPaths);
+                  // }}
+                  // onUploaded={(paths) => setFieldValue('screenshots_path', paths)}
                   acceptedFileTypes={validations.image}
                 />
               </FieldWrapper>

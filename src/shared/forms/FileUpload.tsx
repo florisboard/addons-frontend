@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { FilePond, FilePondProps, registerPlugin } from 'react-filepond';
 import axios from 'axios';
 import { FilePondFile, FilePondInitialFile } from 'filepond';
@@ -10,7 +10,6 @@ import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orien
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
 import 'filepond/dist/filepond.min.css';
-import { ImageResource } from '@/generated';
 import axiosInstance from '@/libs/axios';
 
 registerPlugin(
@@ -21,32 +20,18 @@ registerPlugin(
   FilePondPluginFilePoster,
 );
 
+export type TFiles = (FilePondInitialFile | FilePondFile)[];
+
 interface FileUploadProps extends FilePondProps {
-  onFileUploaded?: (path: string) => void;
-  onFileUploadedState?: (paths: string[]) => void;
-  uploadedFileLinks: ImageResource[];
+  initialFiles: TFiles;
+  setFiles: React.Dispatch<React.SetStateAction<TFiles>>;
 }
 
-export default function FileUpload({
-  onFileUploaded,
-  onFileUploadedState,
-  uploadedFileLinks = [],
-  ...rest
-}: FileUploadProps) {
-  const [files, setFiles] = useState<(string | FilePondInitialFile | Blob | FilePondFile)[]>(
-    uploadedFileLinks.map((link) => ({
-      source: link.url,
-      options: { type: 'local', metadata: { poster: link.url, id: link.id } },
-    })),
-  );
-  const [uploadedFiles, setUploadedFiles] = useState<string[]>([]);
-  useEffect(() => {
-    if (onFileUploadedState) onFileUploadedState(uploadedFiles);
-    // eslint-disable-next-line
-  }, [uploadedFiles]);
-
+export default function FileUpload({ initialFiles, setFiles, ...rest }: FileUploadProps) {
   return (
     <FilePond
+      files={initialFiles as any}
+      onupdatefiles={setFiles}
       server={{
         process: (fieldName, file, metadata, load, error, progress, abort) => {
           const formData = new FormData();
@@ -58,11 +43,7 @@ export default function FileUpload({
               cancelToken: cancelToken.source().token,
               onUploadProgress: (e) => progress(true, e.loaded, e.total!),
             })
-            .then((resp) => {
-              if (onFileUploaded) onFileUploaded(resp.data);
-              setUploadedFiles((prev) => [...prev, resp.data]);
-              load(resp.data);
-            })
+            .then((resp) => load(resp.data))
             .catch((e) => {
               if (axios.isCancel(e)) error(e.message ?? 'Request canceled');
               if (axios.isAxiosError(e)) error(e.response?.data.message);
@@ -76,8 +57,6 @@ export default function FileUpload({
           };
         },
       }}
-      files={files as any}
-      onupdatefiles={setFiles}
       maxFileSize="512KB"
       className="input input-bordered h-auto w-auto cursor-pointer"
       allowRevert={true}

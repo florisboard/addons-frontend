@@ -54,13 +54,13 @@ export default function ReleaseFormModal({ type, isPending, onSubmit }: ReleaseF
                   name="version_name"
                   label="Version"
                 />
-                <FieldWrapper name="file_path" isRequired label="File">
+                {/* <FieldWrapper name="file_path" isRequired label="File">
                   <FileUpload
                     required
                     uploadedFileLinks={[]}
                     onFileUploadedState={(paths) => setFieldValue('file_path', paths.at(-1))}
                   />
-                </FieldWrapper>
+                </FieldWrapper> */}
               </>
             )}
             <div className="flex items-center gap-4">
