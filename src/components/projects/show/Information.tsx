@@ -14,7 +14,7 @@ type TInfoList = {
 
 export default function Information({ project }: InformationProps) {
   const lists: TInfoList[] = compact([
-    { title: 'Package Name', value: 'io.github.itsmartashub.floristyle' },
+    { title: 'Package Name', value: project?.package_name },
     { title: 'Creator', value: project?.user.username },
     { title: 'Version', value: project?.latest_release?.version_name ?? '0' },
     { title: 'Created', value: formatDistanceToNow(project?.created_at, { addSuffix: true }) },
