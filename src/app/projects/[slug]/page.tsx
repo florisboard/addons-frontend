@@ -56,18 +56,18 @@ export default function Project() {
               </div>
             </div>
             <div className="flex gap-2 overflow-x-auto">
-              <Link
-                className="badge badge-accent badge-lg min-w-max"
-                href={`/categories/${slugifyId(project.category.id, project.category.title)}`}
-              >
-                {project.category.title}
-              </Link>
               {isOfficialProject(project.package_name) && (
                 <span className="badge badge-primary badge-lg min-w-max">Official</span>
               )}
               {project.is_recommended && (
                 <span className="badge badge-secondary badge-lg min-w-max">Recommended</span>
               )}
+              <Link
+                className="badge badge-accent badge-lg min-w-max"
+                href={`/categories/${slugifyId(project.category.id, project.category.title)}`}
+              >
+                {project.category.title}
+              </Link>
               <StatusBadge status={project.status} showWhenApproved={false} />
             </div>
             <div className="divider" />

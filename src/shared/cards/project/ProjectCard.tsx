@@ -6,7 +6,7 @@ import compact from 'lodash/compact';
 import logo from '@/assets/svg/logo.svg';
 import { ProjectResource, StatusEnum } from '@/generated';
 import BlurImage from '@/shared/BlurImage';
-import { cn, enumToTitle, humanReadableFormatter, isOfficialProject, slugifyId } from '@/utils';
+import { cn, enumToTitle, formatNumber, isOfficialProject, slugifyId } from '@/utils';
 
 type ProjectCardProps = ProjectResource & {
   bodyClassName?: string;
@@ -98,7 +98,7 @@ export default function ProjectCard({
             <Fragment key={stat.tooltip}>
               <div data-tip={stat.tooltip} className="tooltip flex items-center gap-2">
                 <span className="font-display font-medium">
-                  {stat.format ? humanReadableFormatter.format(stat.value) : stat.value}
+                  {stat.format ? formatNumber(stat.value) : stat.value}
                 </span>
                 <stat.Icon className="h-5 w-5" />
               </div>

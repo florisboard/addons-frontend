@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { HiStar } from 'react-icons/hi2';
-import { cn, humanReadableFormatter } from '@/utils';
+import { cn, formatNumber } from '@/utils';
 
 type ReviewsPerStarsProps = {
   one: number;
@@ -35,7 +35,7 @@ export default function ReviewsPerStars({
               ))}
             </div>
             <div className="join-item w-12 bg-neutral p-4 font-display text-white">
-              {humanReadableFormatter.format(review)}
+              {formatNumber(review)}
             </div>
           </div>
           <progress

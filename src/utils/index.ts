@@ -43,6 +43,11 @@ export function isBetweenDate(date: Date, days: number) {
 
 export const humanReadableFormatter = Intl.NumberFormat('en', { notation: 'compact' });
 
+export function formatNumber(value: number): string {
+  if (value < 10_000) return value.toString();
+  return humanReadableFormatter.format(value);
+}
+
 export function isAxiosError<ResponseType>(
   error: unknown,
   statusCode?: number,

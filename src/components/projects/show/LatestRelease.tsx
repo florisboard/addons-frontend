@@ -6,7 +6,7 @@ import EmptyList from '@/shared/EmptyList';
 import Button from '@/shared/forms/Button';
 import Markdown from '@/shared/forms/Markdown';
 import Download from '@/shared/releases/Download';
-import { cn, humanReadableFormatter, openModal } from '@/utils';
+import { cn, formatNumber, openModal } from '@/utils';
 
 type LatestReleaseProps = {
   latestRelease: ReleaseFullResource | null;
@@ -27,7 +27,7 @@ export default function LatestRelease({ latestRelease, projectTitle }: LatestRel
       {
         name: 'downloadsCount',
         className: 'badge-accent',
-        value: `Downloads : ${humanReadableFormatter.format(latestRelease.downloads_count)}`,
+        value: `Downloads : ${formatNumber(latestRelease.downloads_count)}`,
       },
       {
         name: 'releasedAt',

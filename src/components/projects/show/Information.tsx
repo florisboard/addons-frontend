@@ -14,7 +14,7 @@ type TInfoList = {
 
 export default function Information({ project }: InformationProps) {
   const lists: TInfoList[] = compact([
-    { title: 'Package Name', value: project?.package_name },
+    { title: 'Package Name', value: 'io.github.itsmartashub.floristyle' },
     { title: 'Creator', value: project?.user.username },
     { title: 'Version', value: project?.latest_release?.version_name ?? '0' },
     { title: 'Created', value: formatDistanceToNow(project?.created_at, { addSuffix: true }) },
@@ -32,8 +32,8 @@ export default function Information({ project }: InformationProps) {
         <div className="divider" />
         <ul>
           {lists.map((list) => (
-            <li key={list.title} className="flex items-center gap-2 overflow-x-hidden">
-              <span className="font-display text-lg font-medium">{list.title} :</span>
+            <li key={list.title} className="flex flex-wrap items-center gap-2">
+              <span className="min-w-max font-display text-lg font-medium">{list.title} :</span>
               <span className="select-all font-medium">{list.value}</span>
             </li>
           ))}

@@ -7,7 +7,7 @@ import { ReleaseFullResource } from '@/generated';
 import StatusBadge from '@/shared/badges/StatusBadge';
 import Markdown from '@/shared/forms/Markdown';
 import Download from '@/shared/releases/Download';
-import { humanReadableFormatter } from '@/utils';
+import { formatNumber } from '@/utils';
 
 type ReleaseCardProps = ReleaseFullResource & {
   projectTitle: string;
@@ -34,7 +34,7 @@ export default function ReleaseCard({
     {
       name: 'downloadsCount',
       Icon: HiArrowDownCircle,
-      value: humanReadableFormatter.format(downloads_count),
+      value: formatNumber(downloads_count),
     },
   ];
 
