@@ -45,7 +45,7 @@ export default function CookieBanner() {
     <DialogModal
       parentClassName="h-4/5 md:h-auto"
       dialogClassName="modal-open modal-bottom md:modal-middle"
-      id="cookies"
+      id="cModal"
     >
       <h2 className="text-lg font-bold md:text-2xl">
         We only use <span className="text-primary">Necessary Cookies</span>
