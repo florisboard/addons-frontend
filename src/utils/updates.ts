@@ -14,6 +14,10 @@ function isProvidedVersionNewer(providedVersion: string, previousVersion: string
       return false;
     }
 
+    if (part > prevPart) {
+      return true;
+    }
+
     if (part < prevPart) {
       return false;
     }
