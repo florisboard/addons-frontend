@@ -15,12 +15,21 @@ export default function Alerts({ project }: AlertsProps) {
   return (
     <>
       {project?.latest_change_proposal?.status === StatusEnum.REJECTED && isBefore2Days && (
-        <div role="alert" className="alert alert-error">
+        <div role="alert" className="alert alert-warning">
           <HiOutlineXCircle className="h-6 w-6" />
           <span>
             Your previous Change Proposal got rejected.{' '}
             {project.latest_change_proposal.reviewer_description &&
               `Here's the Reviewer Description : ${project.latest_change_proposal.reviewer_description}`}
+          </span>
+        </div>
+      )}
+      {project?.reviewer_description && project?.status === StatusEnum.DRAFT && (
+        <div role="alert" className="alert alert-warning">
+          <HiOutlineXCircle className="h-6 w-6" />
+          <span>
+            Your project got rejected. Here&apos;s the Reviewer Description :{' '}
+            {project.reviewer_description}
           </span>
         </div>
       )}

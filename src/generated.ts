@@ -141,6 +141,7 @@ export interface ProjectFullResource {
   one_reviews_count: number;
   package_name: string;
   releases_sum_downloads_count: number;
+  reviewer_description?: string;
   reviews: ReviewResource[];
   reviews_avg_score: number;
   reviews_count: number;
@@ -517,7 +518,7 @@ export class HttpClient<SecurityDataType = unknown> {
       ...requestParams,
       headers: {
         ...(requestParams.headers || {}),
-        ...(type && type !== ContentType.FormData ? { 'Content-Type': type } : {}),
+        ...(type ? { 'Content-Type': type } : {}),
       },
       params: query,
       responseType: responseFormat,

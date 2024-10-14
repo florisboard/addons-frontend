@@ -76,6 +76,7 @@ export default function FileUpload({
           };
         },
       }}
+      filePosterMaxHeight={256}
       files={files as any}
       onupdatefiles={setFiles}
       maxFileSize="512KB"
